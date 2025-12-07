@@ -17,8 +17,8 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-primary-foreground/80 text-sm leading-relaxed mb-4">
-              Providing natural, holistic healing through classical homeopathy. 
-              Serving patients across Rajasthan with personalized care.
+              Classical homeopathy के ज़रिए प्राकृतिक और समग्र उपचार। 
+              राजस्थान भर में मरीज़ों को personalized care।
             </p>
             <div className="flex gap-3">
               <a href="#" className="w-10 h-10 bg-primary/20 hover:bg-primary rounded-full flex items-center justify-center transition-colors">
@@ -37,7 +37,7 @@ const Footer = () => {
           <div>
             <h4 className="font-heading font-semibold text-lg mb-4">Quick Links</h4>
             <ul className="space-y-3">
-              {["Home", "Services", "About Doctor", "Book Appointment", "Contact"].map((link) => (
+              {["Home", "Services", "Doctor के बारे में", "Appointment Book करें", "संपर्क करें"].map((link) => (
                 <li key={link}>
                   <a href="#" className="text-primary-foreground/80 hover:text-primary transition-colors text-sm">
                     {link}
@@ -49,7 +49,7 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h4 className="font-heading font-semibold text-lg mb-4">Our Services</h4>
+            <h4 className="font-heading font-semibold text-lg mb-4">हमारी Services</h4>
             <ul className="space-y-3">
               {["Chronic Diseases", "Skin & Allergies", "Mental Wellness", "Child Health", "Women's Health"].map((service) => (
                 <li key={service}>
@@ -63,7 +63,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-heading font-semibold text-lg mb-4">Contact Us</h4>
+            <h4 className="font-heading font-semibold text-lg mb-4">संपर्क करें</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
@@ -86,8 +86,8 @@ const Footer = () => {
               <li className="flex items-start gap-3">
                 <Clock className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                 <div className="text-primary-foreground/80 text-sm">
-                  <p>Mon - Sat: 10 AM - 7 PM</p>
-                  <p>Sunday: By Appointment</p>
+                  <p>सोमवार - शनिवार: 10 AM - 7 PM</p>
+                  <p>रविवार: Appointment पर</p>
                 </div>
               </li>
             </ul>

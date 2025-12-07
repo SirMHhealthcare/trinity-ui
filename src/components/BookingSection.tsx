@@ -79,13 +79,13 @@ const BookingSection = () => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4">
-            Book Appointment
+            Appointment Book करें
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
-            Start Your Healing Journey
+            अपनी सेहत की यात्रा शुरू करें
           </h2>
           <p className="text-muted-foreground text-lg">
-            Consultation Fee: <strong className="text-primary">₹500</strong> (Follow-ups free for 1 month)
+            Consultation Fee: <strong className="text-primary">₹500</strong> (1 महीने तक Follow-ups free)
           </p>
         </div>
 
@@ -129,7 +129,7 @@ const BookingSection = () => {
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-xl text-foreground">
-                      Your Details
+                      आपकी जानकारी
                     </h3>
                     <p className="text-muted-foreground text-sm">Step 1 of 3</p>
                   </div>
@@ -138,25 +138,25 @@ const BookingSection = () => {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Full Name *
+                      पूरा नाम *
                     </label>
                     <Input
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      placeholder="Enter your name"
+                      placeholder="अपना नाम लिखें"
                       className="h-12"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Age
+                      उम्र
                     </label>
                     <Input
                       name="age"
                       value={formData.age}
                       onChange={handleInputChange}
-                      placeholder="Your age"
+                      placeholder="आपकी उम्र"
                       className="h-12"
                     />
                   </div>
@@ -197,13 +197,13 @@ const BookingSection = () => {
                     name="concern"
                     value={formData.concern}
                     onChange={handleInputChange}
-                    placeholder="Briefly describe your health issue..."
+                    placeholder="अपनी health problem संक्षेप में बताएँ..."
                     rows={3}
                   />
                 </div>
 
                 <Button variant="hero" size="lg" className="w-full" onClick={nextStep}>
-                  Continue
+                  आगे बढ़ें
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </div>
@@ -218,7 +218,7 @@ const BookingSection = () => {
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-xl text-foreground">
-                      Select Date & Time
+                      तारीख़ और समय चुनें
                     </h3>
                     <p className="text-muted-foreground text-sm">Step 2 of 3</p>
                   </div>
@@ -227,7 +227,7 @@ const BookingSection = () => {
                 {/* Date Selection */}
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-3">
-                    Choose Date
+                    तारीख़ चुनें
                   </label>
                   <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
                     {getNextDays().map((day) => (
@@ -252,7 +252,7 @@ const BookingSection = () => {
                 {/* Time Selection */}
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-3">
-                    Choose Time
+                    समय चुनें
                   </label>
                   <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                     {timeSlots.map((time) => (
@@ -275,10 +275,10 @@ const BookingSection = () => {
                 <div className="flex gap-4">
                   <Button variant="outline" size="lg" className="flex-1" onClick={prevStep}>
                     <ArrowLeft className="w-5 h-5" />
-                    Back
+                    वापस
                   </Button>
                   <Button variant="hero" size="lg" className="flex-1" onClick={nextStep}>
-                    Continue
+                    आगे बढ़ें
                     <ArrowRight className="w-5 h-5" />
                   </Button>
                 </div>
@@ -294,7 +294,7 @@ const BookingSection = () => {
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-xl text-foreground">
-                      Confirm & Pay
+                      Confirm करें और Pay करें
                     </h3>
                     <p className="text-muted-foreground text-sm">Step 3 of 3</p>
                   </div>
@@ -303,13 +303,13 @@ const BookingSection = () => {
                 {/* Booking Summary */}
                 <div className="bg-secondary/50 rounded-xl p-4 space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Name</span>
+                    <span className="text-muted-foreground">नाम</span>
                     <span className="font-medium text-foreground">{formData.name}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Date</span>
+                    <span className="text-muted-foreground">तारीख़</span>
                     <span className="font-medium text-foreground">
-                      {formData.date && new Date(formData.date).toLocaleDateString("en-IN", {
+                      {formData.date && new Date(formData.date).toLocaleDateString("hi-IN", {
                         weekday: "long",
                         day: "numeric",
                         month: "long",
@@ -317,7 +317,7 @@ const BookingSection = () => {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Time</span>
+                    <span className="text-muted-foreground">समय</span>
                     <span className="font-medium text-foreground">{formData.time}</span>
                   </div>
                   <div className="border-t border-border pt-3 flex justify-between">
@@ -330,18 +330,18 @@ const BookingSection = () => {
                 <div className="bg-accent/10 rounded-xl p-4 text-sm">
                   <p className="text-foreground font-medium mb-1">📋 Cancellation Policy</p>
                   <p className="text-muted-foreground">
-                    Cancel at least 2 hours before appointment for a full refund to your original payment method.
+                    Appointment से कम से कम 2 घंटे पहले cancel करें और full refund पाएँ।
                   </p>
                 </div>
 
                 <div className="flex gap-4">
                   <Button variant="outline" size="lg" className="flex-1" onClick={prevStep}>
                     <ArrowLeft className="w-5 h-5" />
-                    Back
+                    वापस
                   </Button>
                   <Button variant="hero" size="lg" className="flex-1" onClick={handlePayment}>
                     <CreditCard className="w-5 h-5" />
-                    Pay ₹500
+                    ₹500 Pay करें
                   </Button>
                 </div>
               </div>
