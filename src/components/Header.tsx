@@ -9,9 +9,9 @@ const Header = () => {
   const navItems = [
     { label: "Home", href: "#home" },
     { label: "Services", href: "#services" },
-    { label: "About", href: "#about" },
-    { label: "How It Works", href: "#process" },
-    { label: "Contact", href: "#contact" },
+    { label: "हमारे बारे में", href: "#about" },
+    { label: "कैसे काम करता है", href: "#process" },
+    { label: "संपर्क करें", href: "#contact" },
   ];
 
   return (

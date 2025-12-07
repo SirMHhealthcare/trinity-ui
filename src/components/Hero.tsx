@@ -4,9 +4,9 @@ import doctorImage from "@/assets/doctor-portrait.jpg";
 
 const Hero = () => {
   const stats = [
-    { icon: Users, value: "10,000+", label: "Happy Patients" },
-    { icon: Award, value: "25+", label: "Years Experience" },
-    { icon: Shield, value: "100%", label: "Natural Treatment" },
+    { icon: Users, value: "10,000+", label: "खुश मरीज़" },
+    { icon: Award, value: "25+", label: "साल का अनुभव" },
+    { icon: Shield, value: "100%", label: "प्राकृतिक इलाज" },
   ];
 
   return (
@@ -22,28 +22,28 @@ const Hero = () => {
           <div className="text-center lg:text-left order-2 lg:order-1 animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
               <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span className="text-primary font-medium text-sm">Natural Healing, Lasting Results</span>
+              <span className="text-primary font-medium text-sm">प्राकृतिक उपचार, स्थायी परिणाम</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-foreground leading-tight mb-6">
-              Your Health,{" "}
-              <span className="text-primary">Our Priority</span>
+              प्रकृति के साथ मिलकर{" "}
+              <span className="text-primary">सेहत बनाएँ</span>
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0">
-              Experience the gentle power of homeopathy. Personalized treatments for chronic diseases, allergies, and lifestyle disorders with Dr. Sharma.
+              आपकी ज़रूरत के हिसाब से personalized homeopathic treatment। Chronic diseases, allergies, और lifestyle disorders में Dr. Sharma का भरोसेमंद इलाज।
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
               <Button variant="hero" size="xl" asChild>
                 <a href="#booking">
                   <Calendar className="w-5 h-5" />
-                  Book Online Consultation
+                  Online Consultation बुक करें
                 </a>
               </Button>
               <Button variant="outline" size="xl" asChild>
                 <a href="#services">
-                  Explore Services
+                  Services देखें
                 </a>
               </Button>
             </div>

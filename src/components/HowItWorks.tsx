@@ -5,29 +5,29 @@ const HowItWorks = () => {
     {
       step: "1",
       icon: ClipboardList,
-      title: "Fill Your Details",
-      description: "Share your basic information and health concerns",
+      title: "जानकारी भरें",
+      description: "अपनी basic details और health concern बताएँ",
       color: "bg-primary",
     },
     {
       step: "2",
       icon: Calendar,
-      title: "Choose Time Slot",
-      description: "Pick a convenient date and time for consultation",
+      title: "समय चुनें",
+      description: "अपनी सुविधा के अनुसार slot चुनें",
       color: "bg-leaf-green",
     },
     {
       step: "3",
       icon: MessageCircle,
-      title: "Pay & Confirm",
-      description: "Pay ₹500 consultation fee and receive Google Meet link",
+      title: "Payment करें",
+      description: "₹500 consultation fee दें और Google Meet link पाएँ",
       color: "bg-accent",
     },
     {
       step: "4",
       icon: Video,
       title: "Video Consultation",
-      description: "Meet Dr. Sharma online and get your treatment plan",
+      description: "Dr. Sharma से online मिलें और treatment plan पाएँ",
       color: "bg-earth",
     },
   ];
@@ -38,13 +38,13 @@ const HowItWorks = () => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
           <span className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4">
-            Simple Process
+            आसान Process
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
-            Book in 4 Easy Steps
+            4 आसान Steps में Book करें
           </h2>
           <p className="text-muted-foreground text-lg">
-            Get your consultation from the comfort of your home
+            घर बैठे अपनी consultation लें
           </p>
         </div>
 
@@ -80,12 +80,12 @@ const HowItWorks = () => {
         {/* Info Box */}
         <div className="mt-12 md:mt-16 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border border-border rounded-2xl p-6 md:p-8 text-center">
           <h3 className="font-heading font-semibold text-xl text-foreground mb-2">
-            💡 Good to Know
+            💡 ज़रूरी जानकारी
           </h3>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            <strong>Free Follow-ups:</strong> After your first consultation, all follow-up appointments are FREE for 1 month!
+            <strong>Free Follow-ups:</strong> पहली consultation के बाद, 1 महीने तक सभी follow-up FREE हैं!
             <br />
-            <strong>Easy Cancellation:</strong> Cancel 2 hours before for full refund.
+            <strong>आसान Cancellation:</strong> Appointment से 2 घंटे पहले cancel करें और full refund पाएँ।
           </p>
         </div>
       </div>

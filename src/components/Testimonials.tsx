@@ -7,21 +7,21 @@ const Testimonials = () => {
       location: "Jaipur",
       image: "https://randomuser.me/api/portraits/women/44.jpg",
       rating: 5,
-      text: "Dr. Sharma treated my thyroid problem without any side effects. After 3 months, my reports are normal now. Very grateful! 🙏",
+      text: "Dr. Sharma ने मेरी thyroid की problem बिना किसी side effect के ठीक की। 3 महीने में मेरी reports normal आ गईं। बहुत धन्यवाद! 🙏",
     },
     {
       name: "Rajesh Kumar",
       location: "Jodhpur",
       image: "https://randomuser.me/api/portraits/men/32.jpg",
       rating: 5,
-      text: "I was suffering from chronic back pain for 2 years. Homeopathic treatment gave me relief when nothing else worked.",
+      text: "मुझे 2 साल से कमर दर्द था। जब कुछ काम नहीं आया, homeopathic treatment ने राहत दी।",
     },
     {
       name: "Sunita Devi",
       location: "Ajmer",
       image: "https://randomuser.me/api/portraits/women/68.jpg",
       rating: 5,
-      text: "My daughter had severe allergies. Dr. Sharma's treatment improved her immunity. She's much healthier now!",
+      text: "मेरी बेटी को बहुत allergies थीं। Dr. Sharma के treatment से उसकी immunity बढ़ी और अब वो काफ़ी healthy है!",
     },
   ];
 
@@ -31,13 +31,13 @@ const Testimonials = () => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
           <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-            Patient Stories
+            मरीज़ों के अनुभव
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
-            What Our Patients Say
+            हमारे मरीज़ क्या कहते हैं
           </h2>
           <p className="text-muted-foreground text-lg">
-            Real experiences from real patients across Rajasthan
+            राजस्थान भर के मरीज़ों के सच्चे अनुभव
           </p>
         </div>
 
@@ -92,11 +92,11 @@ const Testimonials = () => {
           </div>
           <div className="text-center">
             <p className="text-3xl md:text-4xl font-heading font-bold text-primary">10,000+</p>
-            <p className="text-sm text-muted-foreground mt-2">Happy Patients</p>
+            <p className="text-sm text-muted-foreground mt-2">खुश मरीज़</p>
           </div>
           <div className="text-center">
             <p className="text-3xl md:text-4xl font-heading font-bold text-primary">25+</p>
-            <p className="text-sm text-muted-foreground mt-2">Years Experience</p>
+            <p className="text-sm text-muted-foreground mt-2">साल का अनुभव</p>
           </div>
         </div>
       </div>
