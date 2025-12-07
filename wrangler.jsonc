@@ -1,5 +1,5 @@
 {
-  "name": "worker-name",
+  "name": "online-clinic",
   "compatibility_date": "2025-12-06",
   "assets": {
     "directory": "./dist"
