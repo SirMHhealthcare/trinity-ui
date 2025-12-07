@@ -5,6 +5,7 @@ import HowItWorks from "@/components/HowItWorks";
 import BookingSection from "@/components/BookingSection";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
+import WhatsAppChat from "@/components/WhatsAppChat";
 
 const Index = () => {
   return (
@@ -18,6 +19,7 @@ const Index = () => {
         <Testimonials />
       </main>
       <Footer />
+      <WhatsAppChat phoneNumber="919876543210" />
     </div>
   );
 };
