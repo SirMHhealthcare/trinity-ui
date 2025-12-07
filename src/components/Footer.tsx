@@ -12,7 +12,7 @@ const Footer = () => {
                 <span className="text-primary-foreground font-heading font-bold text-lg">H</span>
               </div>
               <div>
-                <p className="font-heading font-semibold">Dr. Sharma</p>
+                <p className="font-heading font-semibold">Dr. Mohsin Khan</p>
                 <p className="text-xs text-primary-foreground/70">Homeopathy Clinic</p>
               </div>
             </div>
@@ -97,7 +97,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-primary-foreground/20 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-primary-foreground/60 text-sm text-center md:text-left">
-            © 2024 Dr. Sharma Homeopathy Clinic. All rights reserved.
+            © 2025 Trinity Homeopathy Clinic. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             <a href="#" className="text-primary-foreground/60 hover:text-primary transition-colors">

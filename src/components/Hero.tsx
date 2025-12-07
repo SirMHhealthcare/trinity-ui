@@ -31,7 +31,7 @@ const Hero = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0">
-              आपकी ज़रूरत के हिसाब से personalized homeopathic treatment। Chronic diseases, allergies, और lifestyle disorders में Dr. Sharma का भरोसेमंद इलाज।
+              आपकी ज़रूरत के हिसाब से personalized homeopathic treatment। Chronic diseases, allergies, और lifestyle disorders में Dr. Mohsin Khan का भरोसेमंद इलाज।
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
@@ -70,7 +70,7 @@ const Hero = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent rounded-3xl" />
               <img
                 src={doctorImage}
-                alt="Dr. Sharma - Homeopathy Specialist"
+                alt="Dr. Mohsin Khan - Homeopathy Specialist"
                 className="w-64 sm:w-80 md:w-96 h-auto rounded-3xl shadow-elevated object-cover"
               />
               {/* Trust Badge */}

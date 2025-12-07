@@ -27,7 +27,7 @@ const HowItWorks = () => {
       step: "4",
       icon: Video,
       title: "Video Consultation",
-      description: "Dr. Sharma से online मिलें और treatment plan पाएँ",
+      description: "Dr. Mohsin Khan से online मिलें और treatment plan पाएँ",
       color: "bg-earth",
     },
   ];

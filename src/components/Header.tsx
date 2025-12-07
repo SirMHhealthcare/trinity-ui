@@ -10,7 +10,7 @@ const Header = () => {
     { label: "Home", href: "#home" },
     { label: "Services", href: "#services" },
     { label: "हमारे बारे में", href: "#about" },
-    { label: "कैसे काम करता है", href: "#process" },
+    { label: "Booking करें", href: "#process" },
     { label: "संपर्क करें", href: "#contact" },
   ];
 
@@ -24,7 +24,7 @@ const Header = () => {
               <span className="text-primary-foreground font-heading font-bold text-lg md:text-xl">H</span>
             </div>
             <div className="hidden sm:block">
-              <p className="font-heading font-semibold text-foreground text-sm md:text-base">Dr. Sharma</p>
+              <p className="font-heading font-semibold text-foreground text-sm md:text-base">Dr. Mohsin Khan</p>
               <p className="text-xs text-muted-foreground">Homeopathy Clinic</p>
             </div>
           </a>

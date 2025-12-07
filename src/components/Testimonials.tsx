@@ -7,7 +7,7 @@ const Testimonials = () => {
       location: "Jaipur",
       image: "https://randomuser.me/api/portraits/women/44.jpg",
       rating: 5,
-      text: "Dr. Sharma ने मेरी thyroid की problem बिना किसी side effect के ठीक की। 3 महीने में मेरी reports normal आ गईं। बहुत धन्यवाद! 🙏",
+      text: "Dr. Mohsin Khan ने मेरी thyroid की problem बिना किसी side effect के ठीक की। 3 महीने में मेरी reports normal आ गईं। बहुत धन्यवाद! 🙏",
     },
     {
       name: "Rajesh Kumar",
@@ -21,8 +21,29 @@ const Testimonials = () => {
       location: "Ajmer",
       image: "https://randomuser.me/api/portraits/women/68.jpg",
       rating: 5,
-      text: "मेरी बेटी को बहुत allergies थीं। Dr. Sharma के treatment से उसकी immunity बढ़ी और अब वो काफ़ी healthy है!",
+      text: "मेरी बेटी को बहुत allergies थीं। Dr. Mohsin Khan के treatment से उसकी immunity बढ़ी और अब वो काफ़ी healthy है!",
     },
+        {
+          name: "Nikhil Mishra",
+          location: "Jaipur",
+          image: "https://randomuser.me/api/portraits/men/73.jpg",
+          rating: 5,
+          text: "Dr. Mohsin Khan। बहुत धन्यवाद! 🙏",
+        },
+        {
+          name: "Kaushal Goyal",
+          location: "Jodhpur",
+          image: "https://randomuser.me/api/portraits/men/89.jpg",
+          rating: 5,
+          text: "Dr. Mohsin Khan। बहुत धन्यवाद! 🙏",
+        },
+        {
+          name: "Jodha Devi",
+          location: "Ajmer",
+          image: "https://randomuser.me/api/portraits/women/64.jpg",
+          rating: 5,
+          text: "मेरी बेटी को बहुत कमर दर्द था। Dr. Mohsin Khan के treatment ने राहत दी!",
+        }
   ];
 
   return (
