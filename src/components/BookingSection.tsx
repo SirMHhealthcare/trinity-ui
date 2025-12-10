@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, Clock, CreditCard, CheckCircle2, ArrowRight, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, CreditCard, CheckCircle2, ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { useAvailableSlots } from "@/hooks/useAvailableSlots";
 
 const BookingSection = () => {
   const { toast } = useToast();
@@ -19,11 +20,12 @@ const BookingSection = () => {
     time: "",
   });
 
-  const timeSlots = [
-    "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
-    "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM",
-    "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM",
-  ];
+  const { slots, isLoading, bookSlot } = useAvailableSlots(formData.date);
+
+  // Reset time selection when date changes
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, time: "" }));
+  }, [formData.date]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -254,22 +256,37 @@ const BookingSection = () => {
                   <label className="block text-sm font-medium text-foreground mb-3">
                     समय चुनें
                   </label>
-                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                    {timeSlots.map((time) => (
-                      <button
-                        key={time}
-                        onClick={() => setFormData({ ...formData, time })}
-                        className={cn(
-                          "p-3 rounded-xl border text-center transition-all text-sm",
-                          formData.time === time
-                            ? "bg-primary text-primary-foreground border-primary"
-                            : "bg-card border-border hover:border-primary/50"
-                        )}
-                      >
-                        {time}
-                      </button>
-                    ))}
-                  </div>
+                  {isLoading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                      <span className="ml-2 text-muted-foreground">Slots load हो रहे हैं...</span>
+                    </div>
+                  ) : !formData.date ? (
+                    <p className="text-muted-foreground text-center py-4">
+                      पहले तारीख़ चुनें
+                    </p>
+                  ) : (
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                      {slots.map((slot) => (
+                        <button
+                          key={slot.time}
+                          onClick={() => !slot.isBooked && setFormData({ ...formData, time: slot.time })}
+                          disabled={slot.isBooked}
+                          className={cn(
+                            "p-3 rounded-xl border text-center transition-all text-sm",
+                            slot.isBooked
+                              ? "bg-muted text-muted-foreground border-border cursor-not-allowed opacity-50 line-through"
+                              : formData.time === slot.time
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-card border-border hover:border-primary/50"
+                          )}
+                        >
+                          {slot.time}
+                          {slot.isBooked && <span className="block text-xs">Booked</span>}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex gap-4">
