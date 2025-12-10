@@ -18,17 +18,23 @@ interface ApiSlotsResponse {
   slots: SlotAvailability[];
 }
 
-// For now, using localStorage as mock backend
-// TODO: Replace with actual API calls to CF Workers
-const STORAGE_KEY = "booked_appointments";
+// Hardcoded booked slots for demo - TODO: Replace with API call to CF Workers
+const HARDCODED_BOOKED_SLOTS: BookedSlot[] = [
+  { date: "2025-06-12", time: "10:00 AM" },
+  { date: "2025-06-12", time: "11:00 AM" },
+  { date: "2025-06-12", time: "02:30 PM" },
+  { date: "2025-06-13", time: "10:30 AM" },
+  { date: "2025-06-13", time: "03:00 PM" },
+  { date: "2025-06-14", time: "11:30 AM" },
+  { date: "2025-06-14", time: "05:00 PM" },
+  { date: "2025-06-14", time: "06:00 PM" },
+];
 
-const getBookedSlotsFromStorage = (): BookedSlot[] => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch {
-    return [];
-  }
+// Local bookings made in current session (for demo interactivity)
+let sessionBookings: BookedSlot[] = [];
+
+const getBookedSlots = (): BookedSlot[] => {
+  return [...HARDCODED_BOOKED_SLOTS, ...sessionBookings];
 };
 
 export const useAvailableSlots = (selectedDate: string) => {
@@ -61,7 +67,7 @@ export const useAvailableSlots = (selectedDate: string) => {
       // Mock implementation - simulates API delay
       await new Promise((resolve) => setTimeout(resolve, 300));
       
-      const bookedSlots = getBookedSlotsFromStorage();
+      const bookedSlots = getBookedSlots();
       const slotsWithAvailability = timeSlots.map((time) => ({
         date: selectedDate,
         time,
@@ -95,16 +101,15 @@ export const useAvailableSlots = (selectedDate: string) => {
       // await fetchSlots();
       // return true;
 
-      // Mock implementation
-      const bookedSlots = getBookedSlotsFromStorage();
+      // Mock implementation - adds to session bookings
+      const bookedSlots = getBookedSlots();
       const isAlreadyBooked = bookedSlots.some(
         (slot) => slot.date === date && slot.time === time
       );
       
       if (isAlreadyBooked) return false;
 
-      bookedSlots.push({ date, time });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(bookedSlots));
+      sessionBookings.push({ date, time });
       await fetchSlots();
       return true;
     } catch {
