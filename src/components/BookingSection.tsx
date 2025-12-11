@@ -2,14 +2,18 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, Clock, CreditCard, CheckCircle2, ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarIcon, Clock, CreditCard, CheckCircle2, ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useAvailableSlots } from "@/hooks/useAvailableSlots";
+import { format, addMonths } from "date-fns";
 
 const BookingSection = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -22,10 +26,16 @@ const BookingSection = () => {
 
   const { slots, isLoading, bookSlot } = useAvailableSlots(formData.date);
 
-  // Reset time selection when date changes
+  // Update formData.date when calendar date changes
   useEffect(() => {
-    setFormData((prev) => ({ ...prev, time: "" }));
-  }, [formData.date]);
+    if (selectedDate) {
+      setFormData((prev) => ({ 
+        ...prev, 
+        date: format(selectedDate, "yyyy-MM-dd"),
+        time: "" // Reset time when date changes
+      }));
+    }
+  }, [selectedDate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -59,21 +69,10 @@ const BookingSection = () => {
     // Payment integration would go here
   };
 
-  // Generate next 7 days for date selection
-  const getNextDays = () => {
-    const days = [];
-    for (let i = 1; i <= 7; i++) {
-      const date = new Date();
-      date.setDate(date.getDate() + i);
-      days.push({
-        date: date.toISOString().split("T")[0],
-        day: date.toLocaleDateString("en-IN", { weekday: "short" }),
-        dateNum: date.getDate(),
-        month: date.toLocaleDateString("en-IN", { month: "short" }),
-      });
-    }
-    return days;
-  };
+  // Date constraints: tomorrow to 2 months from now
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const twoMonthsLater = addMonths(new Date(), 2);
 
   return (
     <section id="booking" className="py-16 md:py-24 bg-gradient-to-b from-secondary/30 to-background">
@@ -231,24 +230,30 @@ const BookingSection = () => {
                   <label className="block text-sm font-medium text-foreground mb-3">
                     तारीख़ चुनें
                   </label>
-                  <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
-                    {getNextDays().map((day) => (
-                      <button
-                        key={day.date}
-                        onClick={() => setFormData({ ...formData, date: day.date })}
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
                         className={cn(
-                          "p-3 rounded-xl border text-center transition-all",
-                          formData.date === day.date
-                            ? "bg-primary text-primary-foreground border-primary"
-                            : "bg-card border-border hover:border-primary/50"
+                          "w-full h-12 justify-start text-left font-normal",
+                          !selectedDate && "text-muted-foreground"
                         )}
                       >
-                        <p className="text-xs opacity-70">{day.day}</p>
-                        <p className="text-lg font-semibold">{day.dateNum}</p>
-                        <p className="text-xs opacity-70">{day.month}</p>
-                      </button>
-                    ))}
-                  </div>
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {selectedDate ? format(selectedDate, "PPP") : <span>तारीख़ चुनें</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={selectedDate}
+                        onSelect={setSelectedDate}
+                        disabled={(date) => date < tomorrow || date > twoMonthsLater}
+                        initialFocus
+                        className={cn("p-3 pointer-events-auto")}
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
 
                 {/* Time Selection */}
