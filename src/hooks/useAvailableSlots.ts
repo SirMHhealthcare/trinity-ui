@@ -21,9 +21,9 @@ const TIME_SLOTS = [
 
 // Hardcoded booked slots for demo
 const BOOKED_SLOTS: Record<string, string[]> = {
-  "2025-06-12": ["10:00 AM", "11:00 AM", "02:30 PM"],
-  "2025-06-13": ["10:30 AM", "03:00 PM"],
-  "2025-06-14": ["11:30 AM", "05:00 PM", "06:00 PM"],
+  "2025-12-12": ["10:00 AM", "11:00 AM", "02:30 PM"],
+  "2025-12-13": ["10:30 AM", "03:00 PM"],
+  "2025-12-14": ["11:30 AM", "05:00 PM", "06:00 PM"],
 };
 
 // Session bookings (for demo interactivity)
