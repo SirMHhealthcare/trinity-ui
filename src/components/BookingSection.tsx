@@ -126,7 +126,7 @@ const BookingSection = () => {
               <div className="space-y-6 animate-fade-in">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                    <Calendar className="w-6 h-6 text-primary" />
+                    <CalendarIcon className="w-6 h-6 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-xl text-foreground">
