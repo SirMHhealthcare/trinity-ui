@@ -243,7 +243,7 @@ const BookingSection = () => {
                         {selectedDate ? format(selectedDate, "PPP") : <span>तारीख़ चुनें</span>}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent className="w-auto p-0 z-50" align="start">
                       <Calendar
                         mode="single"
                         selected={selectedDate}
