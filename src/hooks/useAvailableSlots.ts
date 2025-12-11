@@ -3,50 +3,71 @@ import { useState, useEffect, useCallback } from "react";
 // Mock API base URL - replace with your Cloudflare Workers URL
 const API_BASE_URL = "https://api.your-domain.workers.dev";
 
-interface BookedSlot {
-  date: string;
-  time: string;
-}
-
 interface SlotAvailability {
   date: string;
   time: string;
   isBooked: boolean;
 }
 
-interface ApiSlotsResponse {
-  slots: SlotAvailability[];
-}
+// ============================================
+// MOCK DATA - Replace this section with API call
+// ============================================
 
-// Hardcoded booked slots for demo - TODO: Replace with API call to CF Workers
-const HARDCODED_BOOKED_SLOTS: BookedSlot[] = [
-  { date: "2025-06-12", time: "10:00 AM" },
-  { date: "2025-06-12", time: "11:00 AM" },
-  { date: "2025-06-12", time: "02:30 PM" },
-  { date: "2025-06-13", time: "10:30 AM" },
-  { date: "2025-06-13", time: "03:00 PM" },
-  { date: "2025-06-14", time: "11:30 AM" },
-  { date: "2025-06-14", time: "05:00 PM" },
-  { date: "2025-06-14", time: "06:00 PM" },
+const TIME_SLOTS = [
+  "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+  "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM",
+  "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM",
 ];
 
-// Local bookings made in current session (for demo interactivity)
-let sessionBookings: BookedSlot[] = [];
-
-const getBookedSlots = (): BookedSlot[] => {
-  return [...HARDCODED_BOOKED_SLOTS, ...sessionBookings];
+// Hardcoded booked slots for demo
+const BOOKED_SLOTS: Record<string, string[]> = {
+  "2025-06-12": ["10:00 AM", "11:00 AM", "02:30 PM"],
+  "2025-06-13": ["10:30 AM", "03:00 PM"],
+  "2025-06-14": ["11:30 AM", "05:00 PM", "06:00 PM"],
 };
+
+// Session bookings (for demo interactivity)
+let sessionBookings: Record<string, string[]> = {};
+
+// Mock API function - TODO: Replace with actual fetch call
+const fetchSlotsFromAPI = async (date: string): Promise<SlotAvailability[]> => {
+  await new Promise((resolve) => setTimeout(resolve, 300)); // Simulate network delay
+  
+  const bookedForDate = [
+    ...(BOOKED_SLOTS[date] || []),
+    ...(sessionBookings[date] || []),
+  ];
+
+  return TIME_SLOTS.map((time) => ({
+    date,
+    time,
+    isBooked: bookedForDate.includes(time),
+  }));
+};
+
+// Mock API function - TODO: Replace with actual fetch call
+const bookSlotAPI = async (date: string, time: string): Promise<boolean> => {
+  await new Promise((resolve) => setTimeout(resolve, 200)); // Simulate network delay
+  
+  const bookedForDate = [
+    ...(BOOKED_SLOTS[date] || []),
+    ...(sessionBookings[date] || []),
+  ];
+
+  if (bookedForDate.includes(time)) return false;
+
+  sessionBookings[date] = [...(sessionBookings[date] || []), time];
+  return true;
+};
+
+// ============================================
+// END MOCK DATA
+// ============================================
 
 export const useAvailableSlots = (selectedDate: string) => {
   const [slots, setSlots] = useState<SlotAvailability[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const timeSlots = [
-    "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
-    "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM",
-    "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM",
-  ];
 
   const fetchSlots = useCallback(async () => {
     if (!selectedDate) {
@@ -58,25 +79,14 @@ export const useAvailableSlots = (selectedDate: string) => {
     setError(null);
 
     try {
-      // TODO: Uncomment when CF Workers backend is ready
+      // TODO: Replace with actual API call when backend is ready
       // const response = await fetch(`${API_BASE_URL}/slots?date=${selectedDate}`);
       // if (!response.ok) throw new Error("Failed to fetch slots");
-      // const data: ApiSlotsResponse = await response.json();
+      // const data = await response.json();
       // setSlots(data.slots);
 
-      // Mock implementation - simulates API delay
-      await new Promise((resolve) => setTimeout(resolve, 300));
-      
-      const bookedSlots = getBookedSlots();
-      const slotsWithAvailability = timeSlots.map((time) => ({
-        date: selectedDate,
-        time,
-        isBooked: bookedSlots.some(
-          (slot) => slot.date === selectedDate && slot.time === time
-        ),
-      }));
-
-      setSlots(slotsWithAvailability);
+      const slotsData = await fetchSlotsFromAPI(selectedDate);
+      setSlots(slotsData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch slots");
       setSlots([]);
@@ -91,27 +101,17 @@ export const useAvailableSlots = (selectedDate: string) => {
 
   const bookSlot = async (date: string, time: string): Promise<boolean> => {
     try {
-      // TODO: Uncomment when CF Workers backend is ready
+      // TODO: Replace with actual API call when backend is ready
       // const response = await fetch(`${API_BASE_URL}/book`, {
       //   method: "POST",
       //   headers: { "Content-Type": "application/json" },
       //   body: JSON.stringify({ date, time }),
       // });
       // if (!response.ok) return false;
-      // await fetchSlots();
-      // return true;
 
-      // Mock implementation - adds to session bookings
-      const bookedSlots = getBookedSlots();
-      const isAlreadyBooked = bookedSlots.some(
-        (slot) => slot.date === date && slot.time === time
-      );
-      
-      if (isAlreadyBooked) return false;
-
-      sessionBookings.push({ date, time });
-      await fetchSlots();
-      return true;
+      const success = await bookSlotAPI(date, time);
+      if (success) await fetchSlots();
+      return success;
     } catch {
       return false;
     }
