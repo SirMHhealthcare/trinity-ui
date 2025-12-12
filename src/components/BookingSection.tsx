@@ -8,6 +8,7 @@ import { Calendar as CalendarIcon, Clock, CreditCard, CheckCircle2, ArrowRight, 
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useAvailableSlots } from "@/hooks/useAvailableSlots";
+import { useRazorpay } from "@/hooks/useRazorpay";
 import { format, addMonths } from "date-fns";
 
 const BookingSection = () => {
@@ -25,6 +26,7 @@ const BookingSection = () => {
   });
 
   const { slots, isLoading, bookSlot } = useAvailableSlots(formData.date);
+  const { initiatePayment, isProcessing, isScriptLoaded } = useRazorpay();
 
   // Update formData.date when calendar date changes
   useEffect(() => {
@@ -62,11 +64,46 @@ const BookingSection = () => {
   const prevStep = () => setStep(step - 1);
 
   const handlePayment = () => {
-    toast({
-      title: "Redirecting to Payment...",
-      description: "You'll be redirected to secure payment gateway",
-    });
-    // Payment integration would go here
+    initiatePayment(
+      {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        date: formData.date,
+        time: formData.time,
+        concern: formData.concern,
+      },
+      (meetLink) => {
+        // Success callback
+        bookSlot(formData.date, formData.time);
+        toast({
+          title: "🎉 Payment Successful!",
+          description: meetLink 
+            ? "Google Meet link आपकी email पर भेज दिया गया है।"
+            : "Appointment confirmed! Details आपकी email पर भेजे जाएँगे।",
+        });
+        // Reset form after successful payment
+        setStep(1);
+        setSelectedDate(undefined);
+        setFormData({
+          name: "",
+          phone: "",
+          email: "",
+          age: "",
+          concern: "",
+          date: "",
+          time: "",
+        });
+      },
+      (error) => {
+        // Error callback
+        toast({
+          title: "Payment Failed",
+          description: error,
+          variant: "destructive",
+        });
+      }
+    );
   };
 
   // Date constraints: tomorrow to 2 months from now
@@ -357,13 +394,28 @@ const BookingSection = () => {
                 </div>
 
                 <div className="flex gap-4">
-                  <Button variant="outline" size="lg" className="flex-1" onClick={prevStep}>
+                  <Button variant="outline" size="lg" className="flex-1" onClick={prevStep} disabled={isProcessing}>
                     <ArrowLeft className="w-5 h-5" />
                     वापस
                   </Button>
-                  <Button variant="hero" size="lg" className="flex-1" onClick={handlePayment}>
-                    <CreditCard className="w-5 h-5" />
-                    ₹500 Pay करें
+                  <Button 
+                    variant="hero" 
+                    size="lg" 
+                    className="flex-1" 
+                    onClick={handlePayment}
+                    disabled={isProcessing || !isScriptLoaded}
+                  >
+                    {isProcessing ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <CreditCard className="w-5 h-5" />
+                        ₹500 Pay करें
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
