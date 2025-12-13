@@ -20,9 +20,15 @@ const BookingSection = () => {
     phone: "",
     email: "",
     age: "",
+    gender: "",
     concern: "",
     date: "",
     time: "",
+  });
+  const [formErrors, setFormErrors] = useState({
+    phone: "",
+    email: "",
+    age: "",
   });
 
   const { slots, isLoading, bookSlot } = useAvailableSlots(formData.date);
@@ -39,17 +45,64 @@ const BookingSection = () => {
     }
   }, [selectedDate]);
 
+  const validateField = (name: string, value: string): string => {
+    switch (name) {
+      case "phone":
+        // Allow +, digits, and spaces
+        if (value && !/^\+?[\d\s]+$/.test(value)) {
+          return "Phone number में सिर्फ digits, + और spaces हो सकते हैं";
+        }
+        if (value && value.replace(/\s/g, "").length < 10) {
+          return "Phone number कम से कम 10 digits होना चाहिए";
+        }
+        return "";
+      case "email":
+        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          return "सही email address डालें";
+        }
+        return "";
+      case "age":
+        if (value && (!/^\d+$/.test(value) || parseInt(value) < 1 || parseInt(value) > 120)) {
+          return "उम्र 1 से 120 के बीच होनी चाहिए";
+        }
+        return "";
+      default:
+        return "";
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    // Validate on change for phone, email, age
+    if (["phone", "email", "age"].includes(name)) {
+      setFormErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+    }
   };
 
   const nextStep = () => {
-    if (step === 1 && (!formData.name || !formData.phone || !formData.email)) {
-      toast({
-        title: "Please fill all required fields",
-        variant: "destructive",
-      });
-      return;
+    if (step === 1) {
+      if (!formData.name || !formData.phone || !formData.email) {
+        toast({
+          title: "Please fill all required fields",
+          variant: "destructive",
+        });
+        return;
+      }
+      // Validate fields before proceeding
+      const phoneError = validateField("phone", formData.phone);
+      const emailError = validateField("email", formData.email);
+      const ageError = validateField("age", formData.age);
+      
+      if (phoneError || emailError || ageError) {
+        setFormErrors({ phone: phoneError, email: emailError, age: ageError });
+        toast({
+          title: "Please fix validation errors",
+          variant: "destructive",
+        });
+        return;
+      }
     }
     if (step === 2 && (!formData.date || !formData.time)) {
       toast({
@@ -90,10 +143,12 @@ const BookingSection = () => {
           phone: "",
           email: "",
           age: "",
+          gender: "",
           concern: "",
           date: "",
           time: "",
         });
+        setFormErrors({ phone: "", email: "", age: "" });
       },
       (error) => {
         // Error callback
@@ -188,29 +243,53 @@ const BookingSection = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      उम्र
+                      उम्र (Optional)
                     </label>
                     <Input
                       name="age"
                       value={formData.age}
                       onChange={handleInputChange}
                       placeholder="आपकी उम्र"
-                      className="h-12"
+                      className={cn("h-12", formErrors.age && "border-destructive")}
                     />
+                    {formErrors.age && (
+                      <p className="text-destructive text-xs mt-1">{formErrors.age}</p>
+                    )}
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Phone Number *
-                  </label>
-                  <Input
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="+91 98765 43210"
-                    className="h-12"
-                  />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Gender (Optional)
+                    </label>
+                    <select
+                      name="gender"
+                      value={formData.gender}
+                      onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                      className="flex h-12 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    >
+                      <option value="">चुनें</option>
+                      <option value="male">Male (पुरुष)</option>
+                      <option value="female">Female (महिला)</option>
+                      <option value="other">Other (अन्य)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Phone Number *
+                    </label>
+                    <Input
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="+91 98765 43210"
+                      className={cn("h-12", formErrors.phone && "border-destructive")}
+                    />
+                    {formErrors.phone && (
+                      <p className="text-destructive text-xs mt-1">{formErrors.phone}</p>
+                    )}
+                  </div>
                 </div>
 
                 <div>
@@ -223,8 +302,11 @@ const BookingSection = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="your@email.com"
-                    className="h-12"
+                    className={cn("h-12", formErrors.email && "border-destructive")}
                   />
+                  {formErrors.email && (
+                    <p className="text-destructive text-xs mt-1">{formErrors.email}</p>
+                  )}
                 </div>
 
                 <div>
