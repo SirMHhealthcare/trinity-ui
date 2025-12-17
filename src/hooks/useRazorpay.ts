@@ -103,7 +103,7 @@ export const useRazorpay = () => {
   const verifyPayment = async (
     paymentResponse: RazorpayResponse,
     bookingDetails: BookingDetails
-  ): Promise<{ success: boolean; meetLink?: string }> => {
+  ): Promise<{ success: boolean; meetLink?: string; bookingId?: string }> => {
     const response = await fetch(`${API_BASE_URL}/verify-payment`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -126,7 +126,7 @@ export const useRazorpay = () => {
   const initiatePayment = useCallback(
     async (
       bookingDetails: BookingDetails,
-      onSuccess: (meetLink?: string) => void,
+      onSuccess: (meetLink?: string, bookingId?: string) => void,
       onError: (error: string) => void
     ) => {
       if (!isScriptLoaded) {
@@ -161,7 +161,7 @@ export const useRazorpay = () => {
               // Step 3: Verify payment
               const verification = await verifyPayment(response, bookingDetails);
               if (verification.success) {
-                onSuccess(verification.meetLink);
+                onSuccess(verification.meetLink, verification.bookingId);
               } else {
                 onError("Payment verification failed. Please contact support.");
               }
