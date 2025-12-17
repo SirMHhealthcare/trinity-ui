@@ -100,14 +100,25 @@ const fetchAppointmentsFromAPI = async (date: string): Promise<SlotAvailability[
 
   const appointments = await fetchWithRetry(fetchFn);
   
+  console.log("[useAvailableSlots] Fetched appointments:", appointments);
+  console.log("[useAvailableSlots] Looking for date:", date);
+  
   // Filter appointments for the selected date that are in a "booked" status
   const bookedTimesForDate = appointments
     .filter(apt => {
       const aptDate = format(parseISO(apt.appointmentDateTime), "yyyy-MM-dd");
-      return aptDate === date && BOOKED_STATUSES.includes(apt.status);
+      const isMatch = aptDate === date && BOOKED_STATUSES.includes(apt.status);
+      console.log(`[useAvailableSlots] Appointment ${apt.appointmentRef}: dateTime=${apt.appointmentDateTime}, parsed=${aptDate}, status=${apt.status}, matches=${isMatch}`);
+      return isMatch;
     })
-    .map(apt => formatTimeToSlot(apt.appointmentDateTime))
+    .map(apt => {
+      const slot = formatTimeToSlot(apt.appointmentDateTime);
+      console.log(`[useAvailableSlots] Mapped time: ${apt.appointmentDateTime} -> ${slot}`);
+      return slot;
+    })
     .filter((time): time is string => time !== null);
+
+  console.log("[useAvailableSlots] Booked times for date:", bookedTimesForDate);
 
   // Map all time slots and mark booked ones
   return TIME_SLOTS.map(time => ({
