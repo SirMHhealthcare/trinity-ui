@@ -6,6 +6,8 @@ const API_BASE_URL = "https://api.your-domain.workers.dev";
 // Razorpay Key ID - this is the publishable key (safe for frontend)
 const RAZORPAY_KEY_ID = "rzp_test_XXXXXXXXXXXXXXXX"; // Replace with your actual key
 
+export type PaymentSuccessCallback = (meetLink?: string, bookingId?: string) => void;
+
 interface RazorpayOrder {
   id: string;
   amount: number;
@@ -56,7 +58,17 @@ declare global {
   }
 }
 
-export const useRazorpay = () => {
+interface UseRazorpayReturn {
+  initiatePayment: (
+    bookingDetails: BookingDetails,
+    onSuccess: PaymentSuccessCallback,
+    onError: (error: string) => void
+  ) => Promise<void>;
+  isScriptLoaded: boolean;
+  isProcessing: boolean;
+}
+
+export const useRazorpay = (): UseRazorpayReturn => {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -126,9 +138,9 @@ export const useRazorpay = () => {
   const initiatePayment = useCallback(
     async (
       bookingDetails: BookingDetails,
-      onSuccess: (meetLink?: string, bookingId?: string) => void,
+      onSuccess: PaymentSuccessCallback,
       onError: (error: string) => void
-    ) => {
+    ): Promise<void> => {
       if (!isScriptLoaded) {
         onError("Payment gateway is loading. Please try again.");
         return;
