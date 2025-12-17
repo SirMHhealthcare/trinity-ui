@@ -130,7 +130,7 @@ const BookingSection = () => {
         time: formData.time,
         concern: formData.concern,
       },
-      (meetLink, bookingId) => {
+      (meetLink?: string, bookingId?: string) => {
         // Success callback
         bookSlot(formData.date, formData.time);
         setBookingConfirmation({
