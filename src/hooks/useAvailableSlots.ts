@@ -1,7 +1,20 @@
 import { useState, useEffect, useCallback } from "react";
+import { format, parseISO } from "date-fns";
 
-// Mock API base URL - replace with your Cloudflare Workers URL
-const API_BASE_URL = "https://api.your-domain.workers.dev";
+// Backend API URL
+const API_BASE_URL = "https://trinity-homeopathy-704273852426.asia-south2.run.app";
+
+interface AppointmentResponse {
+  id: string;
+  doctorId: string;
+  appointmentRef: string;
+  appointmentDateTime: string;
+  status: "SCHEDULED" | "CONFIRMED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW" | "RESCHEDULED";
+  symptoms: string;
+  meetingLink: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface SlotAvailability {
   date: string;
@@ -9,60 +22,100 @@ interface SlotAvailability {
   isBooked: boolean;
 }
 
-// ============================================
-// MOCK DATA - Replace this section with API call
-// ============================================
-
+// Predefined time slots for the clinic
 const TIME_SLOTS = [
   "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
   "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM",
   "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM",
 ];
 
-// Hardcoded booked slots for demo
-const BOOKED_SLOTS: Record<string, string[]> = {
-  "2025-12-12": ["10:00 AM", "11:00 AM", "02:30 PM"],
-  "2025-12-13": ["10:30 AM", "03:00 PM"],
-  "2025-12-14": ["11:30 AM", "05:00 PM", "06:00 PM"],
+// Statuses that indicate a slot is booked/unavailable
+const BOOKED_STATUSES: AppointmentResponse["status"][] = [
+  "SCHEDULED", "CONFIRMED", "IN_PROGRESS", "RESCHEDULED"
+];
+
+// Convert 24-hour time to 12-hour format matching TIME_SLOTS
+const formatTimeToSlot = (dateTime: string): string | null => {
+  try {
+    const date = parseISO(dateTime);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    
+    const period = hours >= 12 ? "PM" : "AM";
+    const hour12 = hours % 12 || 12;
+    const formattedTime = `${hour12.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")} ${period}`;
+    
+    // Check if this matches one of our predefined slots
+    if (TIME_SLOTS.includes(formattedTime)) {
+      return formattedTime;
+    }
+    return null;
+  } catch {
+    return null;
+  }
 };
 
-// Session bookings (for demo interactivity)
-let sessionBookings: Record<string, string[]> = {};
-
-// Mock API function - TODO: Replace with actual fetch call
-const fetchSlotsFromAPI = async (date: string): Promise<SlotAvailability[]> => {
-  await new Promise((resolve) => setTimeout(resolve, 300)); // Simulate network delay
+// Retry wrapper with exponential backoff
+const fetchWithRetry = async <T>(
+  fetchFn: () => Promise<T>,
+  maxRetries: number = 3,
+  baseDelay: number = 1000
+): Promise<T> => {
+  let lastError: Error | null = null;
   
-  const bookedForDate = [
-    ...(BOOKED_SLOTS[date] || []),
-    ...(sessionBookings[date] || []),
-  ];
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await fetchFn();
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error("Unknown error");
+      
+      if (attempt < maxRetries - 1) {
+        const delay = baseDelay * Math.pow(2, attempt);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  }
+  
+  throw lastError;
+};
 
-  return TIME_SLOTS.map((time) => ({
+// Fetch appointments from the real backend API
+const fetchAppointmentsFromAPI = async (date: string): Promise<SlotAvailability[]> => {
+  const fetchFn = async () => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/appointments`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status} ${response.statusText}`);
+    }
+
+    const appointments: AppointmentResponse[] = await response.json();
+    return appointments;
+  };
+
+  const appointments = await fetchWithRetry(fetchFn);
+  
+  // Filter appointments for the selected date that are in a "booked" status
+  const bookedTimesForDate = appointments
+    .filter(apt => {
+      const aptDate = format(parseISO(apt.appointmentDateTime), "yyyy-MM-dd");
+      return aptDate === date && BOOKED_STATUSES.includes(apt.status);
+    })
+    .map(apt => formatTimeToSlot(apt.appointmentDateTime))
+    .filter((time): time is string => time !== null);
+
+  // Map all time slots and mark booked ones
+  return TIME_SLOTS.map(time => ({
     date,
     time,
-    isBooked: bookedForDate.includes(time),
+    isBooked: bookedTimesForDate.includes(time),
   }));
 };
-
-// Mock API function - TODO: Replace with actual fetch call
-const bookSlotAPI = async (date: string, time: string): Promise<boolean> => {
-  await new Promise((resolve) => setTimeout(resolve, 200)); // Simulate network delay
-  
-  const bookedForDate = [
-    ...(BOOKED_SLOTS[date] || []),
-    ...(sessionBookings[date] || []),
-  ];
-
-  if (bookedForDate.includes(time)) return false;
-
-  sessionBookings[date] = [...(sessionBookings[date] || []), time];
-  return true;
-};
-
-// ============================================
-// END MOCK DATA
-// ============================================
 
 export const useAvailableSlots = (selectedDate: string) => {
   const [slots, setSlots] = useState<SlotAvailability[]>([]);
@@ -79,17 +132,19 @@ export const useAvailableSlots = (selectedDate: string) => {
     setError(null);
 
     try {
-      // TODO: Replace with actual API call when backend is ready
-      // const response = await fetch(`${API_BASE_URL}/slots?date=${selectedDate}`);
-      // if (!response.ok) throw new Error("Failed to fetch slots");
-      // const data = await response.json();
-      // setSlots(data.slots);
-
-      const slotsData = await fetchSlotsFromAPI(selectedDate);
+      const slotsData = await fetchAppointmentsFromAPI(selectedDate);
       setSlots(slotsData);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch slots");
-      setSlots([]);
+      const errorMessage = err instanceof Error ? err.message : "Failed to fetch slots";
+      setError(errorMessage);
+      console.error("Error fetching slots:", err);
+      
+      // Return all slots as available on error (graceful degradation)
+      setSlots(TIME_SLOTS.map(time => ({
+        date: selectedDate,
+        time,
+        isBooked: false,
+      })));
     } finally {
       setIsLoading(false);
     }
@@ -100,18 +155,11 @@ export const useAvailableSlots = (selectedDate: string) => {
   }, [fetchSlots]);
 
   const bookSlot = async (date: string, time: string): Promise<boolean> => {
+    // Note: Actual booking is handled through the payment flow
+    // This function can be used for optimistic updates or future booking API integration
     try {
-      // TODO: Replace with actual API call when backend is ready
-      // const response = await fetch(`${API_BASE_URL}/book`, {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ date, time }),
-      // });
-      // if (!response.ok) return false;
-
-      const success = await bookSlotAPI(date, time);
-      if (success) await fetchSlots();
-      return success;
+      await fetchSlots(); // Refresh slots after booking attempt
+      return true;
     } catch {
       return false;
     }
