@@ -489,6 +489,24 @@ const BookingSection = () => {
                     )}
                   </Button>
                 </div>
+
+                {/* DEV MODE: Test confirmation screen - REMOVE BEFORE PRODUCTION */}
+                {import.meta.env.DEV && (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full text-xs text-muted-foreground border border-dashed border-muted-foreground/30 mt-2"
+                    onClick={() => {
+                      setBookingConfirmation({
+                        meetLink: "https://meet.google.com/abc-defg-hij",
+                        bookingId: `BK${Date.now()}`,
+                      });
+                      setStep(4);
+                    }}
+                  >
+                    🧪 Dev Mode: Preview Confirmation Screen
+                  </Button>
+                )}
               </div>
             )}
 
