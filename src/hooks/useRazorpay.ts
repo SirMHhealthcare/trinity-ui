@@ -99,7 +99,7 @@ export const useRazorpay = (): UseRazorpayReturn => {
     const response = await fetch(`${API_BASE_URL}/api/v1/appointments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(
+      body: JSON.stringify({
         patientName: bookingDetails.name,
         patientAge: bookingDetails.age,
         patientGender: bookingDetails.gender,
@@ -108,9 +108,10 @@ export const useRazorpay = (): UseRazorpayReturn => {
         symptoms: bookingDetails.concern || "",
         doctorId: "MK101",
         appointmentDateTime: `${bookingDetails.date}T${bookingDetails.time}:00`,
-      createOrderRequest: {
-        amount: 50000, // ₹500 in paise
-        currency: "INR",
+        createOrderRequest: {
+          amount: 50000, // ₹500 in paise
+          currency: "INR",
+        }
       }),
     });
 
