@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 
 // Placeholder API base URL - replace with your Cloudflare Workers URL
-const API_BASE_URL = "https://api.your-domain.workers.dev";
+const API_BASE_URL = "https://trinity-homeopathy-704273852426.asia-south2.run.app";
 
 // Razorpay Key ID - this is the publishable key (safe for frontend)
-const RAZORPAY_KEY_ID = "rzp_test_XXXXXXXXXXXXXXXX"; // Replace with your actual key
+const RAZORPAY_KEY_ID = "rzp_test_RtnlRaTM4pGMqu"; // Replace with your actual key
 
 export type PaymentSuccessCallback = (meetLink?: string, bookingId?: string) => void;
 
@@ -17,6 +17,8 @@ interface RazorpayOrder {
 interface BookingDetails {
   name: string;
   email: string;
+  age: string;
+  gender: string;
   phone: string;
   date: string;
   time: string;
@@ -93,14 +95,22 @@ export const useRazorpay = (): UseRazorpayReturn => {
   }, []);
 
   // Create order via backend
-  const createOrder = async (bookingDetails: BookingDetails): Promise<RazorpayOrder> => {
-    const response = await fetch(`${API_BASE_URL}/create-order`, {
+  const bookAppointment = async (bookingDetails: BookingDetails): Promise<RazorpayOrder> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/appointments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+      body: JSON.stringify(
+        patientName: bookingDetails.name,
+        patientAge: bookingDetails.age,
+        patientGender: bookingDetails.gender,
+        patientPhoneNumber: bookingDetails.phone,
+        patientEmail: bookingDetails.email,
+        symptoms: bookingDetails.concern || "",
+        doctorId: "MK101",
+        appointmentDateTime: `${bookingDetails.date}T${bookingDetails.time}:00`,
+      createOrderRequest: {
         amount: 50000, // ₹500 in paise
         currency: "INR",
-        booking: bookingDetails,
       }),
     });
 
@@ -150,7 +160,7 @@ export const useRazorpay = (): UseRazorpayReturn => {
 
       try {
         // Step 1: Create order
-        const order = await createOrder(bookingDetails);
+        const order = await bookAppointment(bookingDetails);
 
         // Step 2: Open Razorpay checkout
         const options: RazorpayOptions = {

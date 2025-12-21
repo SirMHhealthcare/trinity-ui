@@ -125,6 +125,8 @@ const BookingSection = () => {
       {
         name: formData.name,
         email: formData.email,
+        age: formData.age,
+        gender: formData.gender,
         phone: formData.phone,
         date: formData.date,
         time: formData.time,
