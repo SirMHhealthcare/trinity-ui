@@ -129,7 +129,7 @@ const BookingSection = () => {
         gender: formData.gender,
         phone: formData.phone,
         date: formData.date,
-        time: formData.time.substring(0, 5),
+        time: formData.time.substring(6,8) === "PM" ? (12 + Number(formData.time.substring(0,2))) + formData.time.substring(2, 5) : formData.time.substring(0, 5),
         concern: formData.concern,
       },
       (meetLink?: string, bookingId?: string) => {
