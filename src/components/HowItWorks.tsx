@@ -1,4 +1,4 @@
-import { ClipboardList, Calendar, Video, MessageCircle } from "lucide-react";
+import { ClipboardList, Calendar, Video } from "lucide-react";
 
 const HowItWorks = () => {
   const steps = [
@@ -13,22 +13,15 @@ const HowItWorks = () => {
       step: "2",
       icon: Calendar,
       title: "समय चुनें",
-      description: "अपनी सुविधा के अनुसार slot चुनें",
+      description: "अपनी सुविधा के अनुसार slot चुनें और book करें",
       color: "bg-leaf-green",
     },
     {
       step: "3",
-      icon: MessageCircle,
-      title: "Payment करें",
-      description: "₹500 consultation fee दें और Google Meet link पाएँ",
-      color: "bg-accent",
-    },
-    {
-      step: "4",
       icon: Video,
       title: "Video Consultation",
       description: "Dr. Mohsin Khan से online मिलें और treatment plan पाएँ",
-      color: "bg-earth",
+      color: "bg-accent",
     },
   ];
 
@@ -41,7 +34,7 @@ const HowItWorks = () => {
             आसान Process
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
-            4 आसान Steps में Book करें
+            3 आसान Steps में Book करें
           </h2>
           <p className="text-muted-foreground text-lg">
             घर बैठे अपनी consultation लें
@@ -51,9 +44,9 @@ const HowItWorks = () => {
         {/* Steps */}
         <div className="relative">
           {/* Connection Line - Desktop */}
-          <div className="hidden lg:block absolute top-24 left-[12%] right-[12%] h-1 bg-gradient-to-r from-primary via-leaf-green to-accent rounded-full" />
+          <div className="hidden lg:block absolute top-24 left-[16%] right-[16%] h-1 bg-gradient-to-r from-primary via-leaf-green to-accent rounded-full" />
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-3 gap-8">
             {steps.map((item, index) => (
               <div key={item.title} className="relative text-center group">
                 {/* Step Number */}
@@ -85,7 +78,7 @@ const HowItWorks = () => {
           <p className="text-muted-foreground max-w-2xl mx-auto">
             <strong>Free Follow-ups:</strong> पहली consultation के बाद, 1 महीने तक सभी follow-up FREE हैं!
             <br />
-            <strong>आसान Cancellation:</strong> Appointment से 2 घंटे पहले cancel करें और full refund पाएँ।
+            <strong>आसान Cancellation:</strong> Appointment से 2 घंटे पहले cancel करके reschedule कर सकते हैं।
           </p>
         </div>
       </div>
