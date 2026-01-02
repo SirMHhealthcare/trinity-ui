@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Calendar, Shield, Award, Users } from "lucide-react";
-import doctorImage from "@/assets/doctor-portrait.jpg";
+import { getPrimaryDoctor, content } from "@/config";
 
 const Hero = () => {
+  const doctor = getPrimaryDoctor();
+  const { hero } = content;
+
   const stats = [
-    { icon: Users, value: "10,000+", label: "खुश मरीज़" },
-    { icon: Award, value: "25+", label: "साल का अनुभव" },
-    { icon: Shield, value: "100%", label: "प्राकृतिक इलाज" },
+    { icon: Users, value: hero.stats.patients.value, label: hero.stats.patients.label },
+    { icon: Award, value: hero.stats.experience.value, label: hero.stats.experience.label },
+    { icon: Shield, value: hero.stats.natural.value, label: hero.stats.natural.label },
   ];
 
   return (
@@ -22,28 +25,28 @@ const Hero = () => {
           <div className="text-center lg:text-left order-2 lg:order-1 animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-6">
               <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span className="text-primary font-medium text-sm">प्राकृतिक उपचार, स्थायी परिणाम</span>
+              <span className="text-primary font-medium text-sm">{hero.badge}</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-foreground leading-tight mb-6">
-              प्रकृति के साथ मिलकर{" "}
-              <span className="text-primary">सेहत बनाएँ</span>
+              {hero.headline}{" "}
+              <span className="text-primary">{hero.headlineHighlight}</span>
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0">
-              आपकी ज़रूरत के हिसाब से personalized homeopathic treatment। Chronic diseases, allergies, और lifestyle disorders में Dr. Mohsin Khan का भरोसेमंद इलाज।
+              {hero.description.replace("भरोसेमंद इलाज", `${doctor.name} का भरोसेमंद इलाज`)}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
               <Button variant="hero" size="xl" asChild>
                 <a href="#booking">
                   <Calendar className="w-5 h-5" />
-                  Online Consultation बुक करें
+                  {hero.ctaPrimary}
                 </a>
               </Button>
               <Button variant="outline" size="xl" asChild>
                 <a href="#services">
-                  Services देखें
+                  {hero.ctaSecondary}
                 </a>
               </Button>
             </div>
@@ -69,8 +72,8 @@ const Hero = () => {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent rounded-3xl" />
               <img
-                src={doctorImage}
-                alt="Dr. Mohsin Khan - Homeopathy Specialist"
+                src={doctor.image}
+                alt={`${doctor.name} - ${doctor.specialization}`}
                 className="w-64 sm:w-80 md:w-96 h-auto rounded-3xl shadow-elevated object-cover"
               />
               {/* Trust Badge */}
@@ -80,8 +83,8 @@ const Hero = () => {
                     <Shield className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground text-sm">Verified Doctor</p>
-                    <p className="text-xs text-muted-foreground">BHMS, MD (Hom)</p>
+                    <p className="font-semibold text-foreground text-sm">{hero.trustBadge.title}</p>
+                    <p className="text-xs text-muted-foreground">{doctor.degree}</p>
                   </div>
                 </div>
               </div>
