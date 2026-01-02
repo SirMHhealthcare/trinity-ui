@@ -1,10 +1,14 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
-// Placeholder API base URL - replace with your Cloudflare Workers URL
+// API base URL
 const API_BASE_URL = "https://trinity-homeopathy-704273852426.asia-south2.run.app";
 
 // Razorpay Key ID - this is the publishable key (safe for frontend)
-const RAZORPAY_KEY_ID = "rzp_test_RtnlRaTM4pGMqu"; // Replace with your actual key
+const RAZORPAY_KEY_ID = "rzp_test_RtnlRaTM4pGMqu";
+
+// Polling configuration
+const POLLING_INTERVAL_MS = 3000; // 3 seconds
+const MAX_POLLING_ATTEMPTS = 20; // Max 60 seconds of polling
 
 export type PaymentSuccessCallback = (meetLink?: string, bookingId?: string) => void;
 
@@ -52,6 +56,20 @@ interface RazorpayOptions {
   };
 }
 
+interface PaymentStatusResponse {
+  orderId: string;
+  status: string;
+  amount: number;
+  currency: string;
+  appointmentId?: string;
+  failureReason?: string;
+}
+
+interface AppointmentResponse {
+  id: string;
+  googleMeetLink?: string;
+}
+
 declare global {
   interface Window {
     Razorpay: new (options: RazorpayOptions) => {
@@ -68,11 +86,14 @@ interface UseRazorpayReturn {
   ) => Promise<void>;
   isScriptLoaded: boolean;
   isProcessing: boolean;
+  isVerifying: boolean;
 }
 
 export const useRazorpay = (): UseRazorpayReturn => {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const pollingRef = useRef<NodeJS.Timeout | null>(null);
 
   // Load Razorpay script dynamically
   useEffect(() => {
@@ -90,7 +111,10 @@ export const useRazorpay = (): UseRazorpayReturn => {
     document.body.appendChild(script);
 
     return () => {
-      // Cleanup not needed as we want the script to persist
+      // Cleanup polling on unmount
+      if (pollingRef.current) {
+        clearTimeout(pollingRef.current);
+      }
     };
   }, []);
 
@@ -122,27 +146,89 @@ export const useRazorpay = (): UseRazorpayReturn => {
     return response.json();
   };
 
-  // Verify payment via backend
-  const verifyPayment = async (
-    paymentResponse: RazorpayResponse,
-    bookingDetails: BookingDetails
-  ): Promise<{ success: boolean; meetLink?: string; bookingId?: string }> => {
-    const response = await fetch(`${API_BASE_URL}/verify-payment`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        razorpay_payment_id: paymentResponse.razorpay_payment_id,
-        razorpay_order_id: paymentResponse.razorpay_order_id,
-        razorpay_signature: paymentResponse.razorpay_signature,
-        booking: bookingDetails,
-      }),
-    });
-
+  // Check payment status
+  const checkPaymentStatus = async (orderId: string): Promise<PaymentStatusResponse> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/payments/status/${orderId}`);
+    
     if (!response.ok) {
-      throw new Error("Payment verification failed");
+      throw new Error("Failed to check payment status");
     }
 
     return response.json();
+  };
+
+  // Fetch appointment details to get meetLink
+  const fetchAppointmentDetails = async (appointmentId: string): Promise<AppointmentResponse> => {
+    const response = await fetch(`${API_BASE_URL}/api/v1/appointments/${appointmentId}`);
+    
+    if (!response.ok) {
+      throw new Error("Failed to fetch appointment details");
+    }
+
+    return response.json();
+  };
+
+  // Poll for payment status
+  const pollPaymentStatus = (
+    orderId: string,
+    onSuccess: PaymentSuccessCallback,
+    onError: (error: string) => void
+  ) => {
+    let attempts = 0;
+
+    const poll = async () => {
+      attempts++;
+      
+      try {
+        const statusResponse = await checkPaymentStatus(orderId);
+        
+        if (statusResponse.status === "CAPTURED") {
+          // Payment successful - fetch appointment details for meetLink
+          setIsVerifying(false);
+          
+          if (statusResponse.appointmentId) {
+            try {
+              const appointmentDetails = await fetchAppointmentDetails(statusResponse.appointmentId);
+              onSuccess(appointmentDetails.googleMeetLink, statusResponse.appointmentId);
+            } catch {
+              // If fetching appointment fails, still call success with appointmentId
+              onSuccess(undefined, statusResponse.appointmentId);
+            }
+          } else {
+            onSuccess(undefined, orderId);
+          }
+          return;
+        }
+        
+        if (statusResponse.status === "FAILED") {
+          setIsVerifying(false);
+          onError(statusResponse.failureReason || "Payment failed. Please try again.");
+          return;
+        }
+        
+        // Status is PENDING - continue polling
+        if (attempts >= MAX_POLLING_ATTEMPTS) {
+          setIsVerifying(false);
+          onError("Payment verification is taking longer than expected. Please contact support if the amount was deducted.");
+          return;
+        }
+        
+        // Schedule next poll
+        pollingRef.current = setTimeout(poll, POLLING_INTERVAL_MS);
+      } catch (error) {
+        // Network error - continue polling unless max attempts reached
+        if (attempts >= MAX_POLLING_ATTEMPTS) {
+          setIsVerifying(false);
+          onError("Unable to verify payment. Please contact support if the amount was deducted.");
+          return;
+        }
+        
+        pollingRef.current = setTimeout(poll, POLLING_INTERVAL_MS);
+      }
+    };
+
+    // Start polling
+    poll();
   };
 
   // Initiate payment
@@ -179,20 +265,11 @@ export const useRazorpay = (): UseRazorpayReturn => {
           theme: {
             color: "#4A7C59", // Primary green color
           },
-          handler: async (response: RazorpayResponse) => {
-            try {
-              // Step 3: Verify payment
-              const verification = await verifyPayment(response, bookingDetails);
-              if (verification.success) {
-                onSuccess(verification.meetLink, verification.bookingId);
-              } else {
-                onError("Payment verification failed. Please contact support.");
-              }
-            } catch {
-              onError("Payment verification failed. Please contact support.");
-            } finally {
-              setIsProcessing(false);
-            }
+          handler: (response: RazorpayResponse) => {
+            // Razorpay checkout completed - start polling for verification
+            setIsProcessing(false);
+            setIsVerifying(true);
+            pollPaymentStatus(response.razorpay_order_id, onSuccess, onError);
           },
           modal: {
             ondismiss: () => {
@@ -219,5 +296,6 @@ export const useRazorpay = (): UseRazorpayReturn => {
     initiatePayment,
     isScriptLoaded,
     isProcessing,
+    isVerifying,
   };
 };
