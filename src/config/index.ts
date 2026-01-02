@@ -5,3 +5,4 @@ export * from "./services";
 export * from "./clinic";
 export * from "./content";
 export * from "./navigation";
+export * from "./booking";

@@ -9,9 +9,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useAvailableSlots } from "@/hooks/useAvailableSlots";
 import { format, addMonths } from "date-fns";
-
-const API_BASE_URL = "https://trinity-homeopathy-704273852426.asia-south2.run.app";
-const DOCTOR_ID = "101";
+import { bookingConfig, bookingContent } from "@/config";
 
 const BookingSection = () => {
   const { toast } = useToast();
@@ -56,20 +54,20 @@ const BookingSection = () => {
       case "phone":
         // Allow +, digits, and spaces
         if (value && !/^\+?[\d\s]+$/.test(value)) {
-          return "Phone number में सिर्फ digits, + और spaces हो सकते हैं";
+          return bookingContent.form.validation.phoneInvalid;
         }
         if (value && value.replace(/\s/g, "").length < 10) {
-          return "Phone number कम से कम 10 digits होना चाहिए";
+          return bookingContent.form.validation.phoneMinDigits;
         }
         return "";
       case "email":
         if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          return "सही email address डालें";
+          return bookingContent.form.validation.emailInvalid;
         }
         return "";
       case "age":
         if (value && (!/^\d+$/.test(value) || parseInt(value) < 1 || parseInt(value) > 120)) {
-          return "उम्र 1 से 120 के बीच होनी चाहिए";
+          return bookingContent.form.validation.ageInvalid;
         }
         return "";
       default:
@@ -106,7 +104,7 @@ const BookingSection = () => {
       const time24h = convertTo24Hour(formData.time);
       const appointmentDateTime = `${formData.date}T${time24h}:00`;
 
-      const response = await fetch(`${API_BASE_URL}/api/v1/appointments`, {
+      const response = await fetch(`${bookingConfig.apiBaseUrl}/api/v1/appointments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -118,7 +116,7 @@ const BookingSection = () => {
           patientPhoneNumber: formData.phone,
           patientEmail: formData.email,
           symptoms: formData.concern || undefined,
-          doctorId: DOCTOR_ID,
+          doctorId: bookingConfig.doctorId,
           appointmentDateTime,
         }),
       });
@@ -137,14 +135,14 @@ const BookingSection = () => {
       setStep(3); // Go to confirmation step
       
       toast({
-        title: "Appointment Booked! 🎉",
-        description: "आपकी appointment successfully book हो गई है।",
+        title: bookingContent.toasts.bookingSuccess.title,
+        description: bookingContent.toasts.bookingSuccess.description,
       });
     } catch (error) {
       console.error("Booking error:", error);
       toast({
-        title: "Booking Failed",
-        description: "कुछ गड़बड़ हो गई। कृपया फिर से try करें।",
+        title: bookingContent.toasts.bookingFailed.title,
+        description: bookingContent.toasts.bookingFailed.description,
         variant: "destructive",
       });
     } finally {
@@ -156,7 +154,7 @@ const BookingSection = () => {
     if (step === 1) {
       if (!formData.name || !formData.phone || !formData.email) {
         toast({
-          title: "Please fill all required fields",
+          title: bookingContent.toasts.fillRequired.title,
           variant: "destructive",
         });
         return;
@@ -169,7 +167,7 @@ const BookingSection = () => {
       if (phoneError || emailError || ageError) {
         setFormErrors({ phone: phoneError, email: emailError, age: ageError });
         toast({
-          title: "Please fix validation errors",
+          title: bookingContent.toasts.fixValidation.title,
           variant: "destructive",
         });
         return;
@@ -177,7 +175,7 @@ const BookingSection = () => {
     }
     if (step === 2 && (!formData.date || !formData.time)) {
       toast({
-        title: "Please select date and time",
+        title: bookingContent.toasts.selectDateTime.title,
         variant: "destructive",
       });
       return;
@@ -192,10 +190,10 @@ const BookingSection = () => {
 
   const prevStep = () => setStep(step - 1);
 
-  // Date constraints: tomorrow to 2 months from now
+  // Date constraints: tomorrow to X months from now
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  const twoMonthsLater = addMonths(new Date(), 2);
+  const maxDate = addMonths(new Date(), bookingConfig.maxAdvanceBookingMonths);
 
   return (
     <section id="booking" className="py-16 md:py-24 bg-gradient-to-b from-secondary/30 to-background">
@@ -203,13 +201,13 @@ const BookingSection = () => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <span className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4">
-            Appointment Book करें
+            {bookingContent.sectionBadge}
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
-            अपनी सेहत की यात्रा शुरू करें
+            {bookingContent.sectionTitle}
           </h2>
           <p className="text-muted-foreground text-lg">
-            Free Online Consultation Book करें
+            {bookingContent.sectionSubtitle}
           </p>
         </div>
 
@@ -253,34 +251,34 @@ const BookingSection = () => {
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-xl text-foreground">
-                      आपकी जानकारी
+                      {bookingContent.steps.personal.title}
                     </h3>
-                    <p className="text-muted-foreground text-sm">Step 1 of 3</p>
+                    <p className="text-muted-foreground text-sm">{bookingContent.steps.personal.stepLabel}</p>
                   </div>
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      पूरा नाम *
+                      {bookingContent.form.labels.name}
                     </label>
                     <Input
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      placeholder="अपना नाम लिखें"
+                      placeholder={bookingContent.form.placeholders.name}
                       className="h-12"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      उम्र (Optional)
+                      {bookingContent.form.labels.age}
                     </label>
                     <Input
                       name="age"
                       value={formData.age}
                       onChange={handleInputChange}
-                      placeholder="आपकी उम्र"
+                      placeholder={bookingContent.form.placeholders.age}
                       className={cn("h-12", formErrors.age && "border-destructive")}
                     />
                     {formErrors.age && (
@@ -292,7 +290,7 @@ const BookingSection = () => {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Gender (Optional)
+                      {bookingContent.form.labels.gender}
                     </label>
                     <select
                       name="gender"
@@ -300,21 +298,20 @@ const BookingSection = () => {
                       onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                       className="flex h-12 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     >
-                      <option value="">चुनें</option>
-                      <option value="male">Male (पुरुष)</option>
-                      <option value="female">Female (महिला)</option>
-                      <option value="other">Other (अन्य)</option>
+                      {bookingContent.form.genderOptions.map((option) => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Phone Number *
+                      {bookingContent.form.labels.phone}
                     </label>
                     <Input
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      placeholder="+91 98765 43210"
+                      placeholder={bookingContent.form.placeholders.phone}
                       className={cn("h-12", formErrors.phone && "border-destructive")}
                     />
                     {formErrors.phone && (
@@ -325,14 +322,14 @@ const BookingSection = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Email Address *
+                    {bookingContent.form.labels.email}
                   </label>
                   <Input
                     name="email"
                     type="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="your@email.com"
+                    placeholder={bookingContent.form.placeholders.email}
                     className={cn("h-12", formErrors.email && "border-destructive")}
                   />
                   {formErrors.email && (
@@ -342,19 +339,19 @@ const BookingSection = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Health Concern (Optional)
+                    {bookingContent.form.labels.concern}
                   </label>
                   <Textarea
                     name="concern"
                     value={formData.concern}
                     onChange={handleInputChange}
-                    placeholder="अपनी health problem संक्षेप में बताएँ..."
+                    placeholder={bookingContent.form.placeholders.concern}
                     rows={3}
                   />
                 </div>
 
                 <Button variant="hero" size="lg" className="w-full" onClick={nextStep}>
-                  आगे बढ़ें
+                  {bookingContent.buttons.next}
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </div>
@@ -369,16 +366,15 @@ const BookingSection = () => {
                   </div>
                   <div>
                     <h3 className="font-heading font-semibold text-xl text-foreground">
-                      तारीख़ और समय चुनें
+                      {bookingContent.steps.dateTime.title}
                     </h3>
-                    <p className="text-muted-foreground text-sm">Step 2 of 3</p>
+                    <p className="text-muted-foreground text-sm">{bookingContent.steps.dateTime.stepLabel}</p>
                   </div>
                 </div>
 
-                {/* Date Selection */}
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-3">
-                    तारीख़ चुनें
+                    {bookingContent.form.labels.selectDate}
                   </label>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -390,7 +386,7 @@ const BookingSection = () => {
                         )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {selectedDate ? format(selectedDate, "PPP") : <span>तारीख़ चुनें</span>}
+                        {selectedDate ? format(selectedDate, "PPP") : <span>{bookingContent.form.placeholders.selectDate}</span>}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0 z-50" align="start">
@@ -398,7 +394,7 @@ const BookingSection = () => {
                         mode="single"
                         selected={selectedDate}
                         onSelect={setSelectedDate}
-                        disabled={(date) => date < tomorrow || date > twoMonthsLater}
+                        disabled={(date) => date < tomorrow || date > maxDate}
                         initialFocus
                         className={cn("p-3 pointer-events-auto")}
                       />
@@ -409,16 +405,16 @@ const BookingSection = () => {
                 {/* Time Selection */}
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-3">
-                    समय चुनें
+                    {bookingContent.form.labels.selectTime}
                   </label>
                   {isLoading ? (
                     <div className="flex items-center justify-center py-8">
                       <Loader2 className="w-6 h-6 animate-spin text-primary" />
-                      <span className="ml-2 text-muted-foreground">Slots load हो रहे हैं...</span>
+                      <span className="ml-2 text-muted-foreground">{bookingContent.messages.slotsLoading}</span>
                     </div>
                   ) : !formData.date ? (
                     <p className="text-muted-foreground text-center py-4">
-                      पहले तारीख़ चुनें
+                      {bookingContent.messages.selectDateFirst}
                     </p>
                   ) : (
                     <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
@@ -437,7 +433,7 @@ const BookingSection = () => {
                           )}
                         >
                           {slot.time}
-                          {slot.isBooked && <span className="block text-xs">Booked</span>}
+                          {slot.isBooked && <span className="block text-xs">{bookingContent.messages.booked}</span>}
                         </button>
                       ))}
                     </div>
@@ -447,7 +443,7 @@ const BookingSection = () => {
                 <div className="flex gap-4">
                   <Button variant="outline" size="lg" className="flex-1" onClick={prevStep}>
                     <ArrowLeft className="w-5 h-5" />
-                    वापस
+                    {bookingContent.buttons.back}
                   </Button>
                   <Button 
                     variant="hero" 
@@ -459,11 +455,11 @@ const BookingSection = () => {
                     {isBooking ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        Booking...
+                        {bookingContent.buttons.booking}
                       </>
                     ) : (
                       <>
-                        Appointment Book करें
+                        {bookingContent.buttons.bookAppointment}
                         <ArrowRight className="w-5 h-5" />
                       </>
                     )}
@@ -481,11 +477,11 @@ const BookingSection = () => {
                     <CheckCircle2 className="w-10 h-10 text-green-600" />
                   </div>
                   <h3 className="font-heading font-bold text-2xl text-foreground mb-2">
-                    🎉 Appointment Confirmed!
+                    {bookingContent.steps.confirmation.title}
                   </h3>
                   {bookingConfirmation.appointmentRef && (
                     <p className="text-muted-foreground">
-                      Ref: <span className="font-mono font-semibold text-foreground">{bookingConfirmation.appointmentRef}</span>
+                      {bookingContent.confirmation.labels.ref} <span className="font-mono font-semibold text-foreground">{bookingConfirmation.appointmentRef}</span>
                     </p>
                   )}
                 </div>
@@ -493,11 +489,11 @@ const BookingSection = () => {
                 {/* Booking Details */}
                 <div className="bg-secondary/50 rounded-xl p-4 space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">नाम</span>
+                    <span className="text-muted-foreground">{bookingContent.confirmation.labels.name}</span>
                     <span className="font-medium text-foreground">{formData.name}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">तारीख़</span>
+                    <span className="text-muted-foreground">{bookingContent.confirmation.labels.date}</span>
                     <span className="font-medium text-foreground">
                       {formData.date && new Date(formData.date).toLocaleDateString("hi-IN", {
                         weekday: "long",
@@ -507,11 +503,11 @@ const BookingSection = () => {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">समय</span>
+                    <span className="text-muted-foreground">{bookingContent.confirmation.labels.time}</span>
                     <span className="font-medium text-foreground">{formData.time}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Email</span>
+                    <span className="text-muted-foreground">{bookingContent.confirmation.labels.email}</span>
                     <span className="font-medium text-foreground">{formData.email}</span>
                   </div>
                 </div>
@@ -526,13 +522,13 @@ const BookingSection = () => {
                     onClick={() => {
                       const time24h = convertTo24Hour(formData.time);
                       const startDate = new Date(`${formData.date}T${time24h}:00`);
-                      const endDate = new Date(startDate.getTime() + 30 * 60000); // 30 min appointment
-                      const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Homeopathy Consultation - Dr. Mohsin Khan")}&dates=${startDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z/${endDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z&details=${encodeURIComponent("Online Consultation")}`;
+                      const endDate = new Date(startDate.getTime() + bookingConfig.appointmentDurationMinutes * 60000);
+                      const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(bookingContent.calendar.eventTitle)}&dates=${startDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z/${endDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z&details=${encodeURIComponent(bookingContent.calendar.eventDetails)}`;
                       window.open(googleCalendarUrl, "_blank");
                     }}
                   >
                     <CalendarPlus className="w-5 h-5" />
-                    Calendar
+                    {bookingContent.buttons.addToCalendar}
                   </Button>
 
                   {/* Share on WhatsApp */}
@@ -546,24 +542,18 @@ const BookingSection = () => {
                         day: "numeric",
                         month: "long",
                       });
-                      const message = `✅ *Appointment Confirmed!*
-
-📋 *Trinity Homeopathy*
-👨‍⚕️ Dr. Mohsin Khan
-
-📅 तारीख़: ${dateStr}
-🕐 समय: ${formData.time}
-${bookingConfirmation.appointmentRef ? `🔖 Ref: ${bookingConfirmation.appointmentRef}` : ""}
-
-🏥 Online Video Consultation
-📧 ${formData.email}`;
-                      
+                      const message = bookingContent.whatsApp.messageTemplate(
+                        dateStr || "",
+                        formData.time,
+                        bookingConfirmation.appointmentRef,
+                        formData.email
+                      );
                       const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
                       window.open(whatsappUrl, "_blank");
                     }}
                   >
                     <MessageCircle className="w-5 h-5" />
-                    WhatsApp
+                    {bookingContent.buttons.shareWhatsApp}
                   </Button>
                 </div>
 
@@ -571,7 +561,7 @@ ${bookingConfirmation.appointmentRef ? `🔖 Ref: ${bookingConfirmation.appointm
                 <div className="flex items-start gap-3 bg-accent/10 rounded-xl p-4 text-sm">
                   <Mail className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                   <p className="text-muted-foreground">
-                    Appointment details save करने के लिए WhatsApp share करें या Calendar में add करें।
+                    {bookingContent.messages.confirmationNotice}
                   </p>
                 </div>
 
@@ -596,7 +586,7 @@ ${bookingConfirmation.appointmentRef ? `🔖 Ref: ${bookingConfirmation.appointm
                     setBookingConfirmation({ bookingId: "", appointmentRef: "" });
                   }}
                 >
-                  एक और Appointment book करें
+                  {bookingContent.buttons.bookAnother}
                 </Button>
               </div>
             )}
