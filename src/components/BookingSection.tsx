@@ -36,7 +36,7 @@ const BookingSection = () => {
   });
 
   const { slots, isLoading, bookSlot } = useAvailableSlots(formData.date);
-  const { initiatePayment, isProcessing, isScriptLoaded } = useRazorpay();
+  const { initiatePayment, isProcessing, isScriptLoaded, isVerifying } = useRazorpay();
 
   // Update formData.date when calendar date changes
   useEffect(() => {
@@ -420,94 +420,112 @@ const BookingSection = () => {
             {/* Step 3: Payment */}
             {step === 3 && (
               <div className="space-y-6 animate-fade-in">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                    <CreditCard className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-heading font-semibold text-xl text-foreground">
-                      Confirm करें और Pay करें
+                {isVerifying ? (
+                  // Verifying payment state
+                  <div className="text-center py-8">
+                    <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Loader2 className="w-10 h-10 text-primary animate-spin" />
+                    </div>
+                    <h3 className="font-heading font-semibold text-xl text-foreground mb-2">
+                      Payment Verify हो रहा है...
                     </h3>
-                    <p className="text-muted-foreground text-sm">Step 3 of 4</p>
+                    <p className="text-muted-foreground">
+                      कृपया इस page को बंद न करें। यह कुछ seconds में पूरा हो जाएगा।
+                    </p>
                   </div>
-                </div>
+                ) : (
+                  // Normal payment step
+                  <>
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <CreditCard className="w-6 h-6 text-green-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-heading font-semibold text-xl text-foreground">
+                          Confirm करें और Pay करें
+                        </h3>
+                        <p className="text-muted-foreground text-sm">Step 3 of 4</p>
+                      </div>
+                    </div>
 
-                {/* Booking Summary */}
-                <div className="bg-secondary/50 rounded-xl p-4 space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">नाम</span>
-                    <span className="font-medium text-foreground">{formData.name}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">तारीख़</span>
-                    <span className="font-medium text-foreground">
-                      {formData.date && new Date(formData.date).toLocaleDateString("hi-IN", {
-                        weekday: "long",
-                        day: "numeric",
-                        month: "long",
-                      })}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">समय</span>
-                    <span className="font-medium text-foreground">{formData.time}</span>
-                  </div>
-                  <div className="border-t border-border pt-3 flex justify-between">
-                    <span className="font-semibold text-foreground">Consultation Fee</span>
-                    <span className="font-bold text-primary text-xl">₹500</span>
-                  </div>
-                </div>
+                    {/* Booking Summary */}
+                    <div className="bg-secondary/50 rounded-xl p-4 space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">नाम</span>
+                        <span className="font-medium text-foreground">{formData.name}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">तारीख़</span>
+                        <span className="font-medium text-foreground">
+                          {formData.date && new Date(formData.date).toLocaleDateString("hi-IN", {
+                            weekday: "long",
+                            day: "numeric",
+                            month: "long",
+                          })}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">समय</span>
+                        <span className="font-medium text-foreground">{formData.time}</span>
+                      </div>
+                      <div className="border-t border-border pt-3 flex justify-between">
+                        <span className="font-semibold text-foreground">Consultation Fee</span>
+                        <span className="font-bold text-primary text-xl">₹500</span>
+                      </div>
+                    </div>
 
-                {/* Cancellation Policy */}
-                <div className="bg-accent/10 rounded-xl p-4 text-sm">
-                  <p className="text-foreground font-medium mb-1">📋 Cancellation Policy</p>
-                  <p className="text-muted-foreground">
-                    Appointment से कम से कम 2 घंटे पहले cancel करें और full refund पाएँ।
-                  </p>
-                </div>
+                    {/* Cancellation Policy */}
+                    <div className="bg-accent/10 rounded-xl p-4 text-sm">
+                      <p className="text-foreground font-medium mb-1">📋 Cancellation Policy</p>
+                      <p className="text-muted-foreground">
+                        Appointment से कम से कम 2 घंटे पहले cancel करें और full refund पाएँ।
+                      </p>
+                    </div>
 
-                <div className="flex gap-4">
-                  <Button variant="outline" size="lg" className="flex-1" onClick={prevStep} disabled={isProcessing}>
-                    <ArrowLeft className="w-5 h-5" />
-                    वापस
-                  </Button>
-                  <Button 
-                    variant="hero" 
-                    size="lg" 
-                    className="flex-1" 
-                    onClick={handlePayment}
-                    disabled={isProcessing || !isScriptLoaded}
-                  >
-                    {isProcessing ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        <CreditCard className="w-5 h-5" />
-                        ₹500 Pay करें
-                      </>
+                    <div className="flex gap-4">
+                      <Button variant="outline" size="lg" className="flex-1" onClick={prevStep} disabled={isProcessing}>
+                        <ArrowLeft className="w-5 h-5" />
+                        वापस
+                      </Button>
+                      <Button 
+                        variant="hero" 
+                        size="lg" 
+                        className="flex-1" 
+                        onClick={handlePayment}
+                        disabled={isProcessing || !isScriptLoaded}
+                      >
+                        {isProcessing ? (
+                          <>
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                            Processing...
+                          </>
+                        ) : (
+                          <>
+                            <CreditCard className="w-5 h-5" />
+                            ₹500 Pay करें
+                          </>
+                        )}
+                      </Button>
+                    </div>
+
+                    {/* DEV MODE: Test confirmation screen - REMOVE BEFORE PRODUCTION */}
+                    {import.meta.env.DEV && (
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="w-full text-xs text-muted-foreground border border-dashed border-muted-foreground/30 mt-2"
+                        onClick={() => {
+                          setBookingConfirmation({
+                            meetLink: "https://meet.google.com/abc-defg-hij",
+                            bookingId: `BK${Date.now()}`,
+                          });
+                          setStep(4);
+                        }}
+                      >
+                        🧪 Dev Mode: Preview Confirmation Screen
+                      </Button>
                     )}
-                  </Button>
-                </div>
-
-                {/* DEV MODE: Test confirmation screen - REMOVE BEFORE PRODUCTION */}
-                {import.meta.env.DEV && (
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full text-xs text-muted-foreground border border-dashed border-muted-foreground/30 mt-2"
-                    onClick={() => {
-                      setBookingConfirmation({
-                        meetLink: "https://meet.google.com/abc-defg-hij",
-                        bookingId: `BK${Date.now()}`,
-                      });
-                      setStep(4);
-                    }}
-                  >
-                    🧪 Dev Mode: Preview Confirmation Screen
-                  </Button>
+                  </>
                 )}
               </div>
             )}
