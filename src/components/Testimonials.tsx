@@ -1,50 +1,8 @@
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, Play } from "lucide-react";
+import { testimonials as testimonialsData, content } from "@/config";
 
 const Testimonials = () => {
-  const testimonials = [
-    {
-      name: "Priya Sharma",
-      location: "Jaipur",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
-      rating: 5,
-      text: "Dr. Mohsin Khan ने मेरी thyroid की problem बिना किसी side effect के ठीक की। 3 महीने में मेरी reports normal आ गईं। बहुत धन्यवाद! 🙏",
-    },
-    {
-      name: "Rajesh Kumar",
-      location: "Jodhpur",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
-      rating: 5,
-      text: "मुझे 2 साल से कमर दर्द था। जब कुछ काम नहीं आया, homeopathic treatment ने राहत दी।",
-    },
-    {
-      name: "Sunita Devi",
-      location: "Ajmer",
-      image: "https://randomuser.me/api/portraits/women/68.jpg",
-      rating: 5,
-      text: "मेरी बेटी को बहुत allergies थीं। Dr. Mohsin Khan के treatment से उसकी immunity बढ़ी और अब वो काफ़ी healthy है!",
-    },
-        {
-          name: "Nikhil Mishra",
-          location: "Jaipur",
-          image: "https://randomuser.me/api/portraits/men/73.jpg",
-          rating: 5,
-          text: "Dr. Mohsin Khan। बहुत धन्यवाद! 🙏",
-        },
-        {
-          name: "Kaushal Goyal",
-          location: "Jodhpur",
-          image: "https://randomuser.me/api/portraits/men/89.jpg",
-          rating: 5,
-          text: "Dr. Mohsin Khan। बहुत धन्यवाद! 🙏",
-        },
-        {
-          name: "Jodha Devi",
-          location: "Ajmer",
-          image: "https://randomuser.me/api/portraits/women/64.jpg",
-          rating: 5,
-          text: "मेरी बेटी को बहुत कमर दर्द था। Dr. Mohsin Khan के treatment ने राहत दी!",
-        }
-  ];
+  const { testimonials: testimonialsContent } = content;
 
   return (
     <section id="testimonials" className="py-16 md:py-24 bg-primary/5">
@@ -52,21 +10,21 @@ const Testimonials = () => {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
           <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-            मरीज़ों के अनुभव
+            {testimonialsContent.badge}
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4">
-            हमारे मरीज़ क्या कहते हैं
+            {testimonialsContent.headline}
           </h2>
           <p className="text-muted-foreground text-lg">
-            राजस्थान भर के मरीज़ों के सच्चे अनुभव
+            {testimonialsContent.description}
           </p>
         </div>
 
         {/* Testimonials Grid */}
         <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
+          {testimonialsData.map((testimonial) => (
             <div
-              key={testimonial.name}
+              key={testimonial.id}
               className="bg-card p-6 rounded-2xl border border-border shadow-card hover:shadow-elevated transition-all duration-300"
             >
               {/* Quote Icon */}
@@ -78,6 +36,32 @@ const Testimonials = () => {
                   <Star key={i} className="w-5 h-5 fill-gold text-gold" />
                 ))}
               </div>
+
+              {/* Media Content (for image/video testimonials) */}
+              {testimonial.type === "image" && testimonial.mediaUrl && (
+                <div className="mb-4 rounded-lg overflow-hidden">
+                  <img 
+                    src={testimonial.mediaUrl} 
+                    alt={`${testimonial.name} testimonial`}
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              )}
+
+              {testimonial.type === "video" && testimonial.mediaUrl && (
+                <div className="mb-4 rounded-lg overflow-hidden relative group cursor-pointer">
+                  <img 
+                    src={testimonial.thumbnailUrl || testimonial.mediaUrl} 
+                    alt={`${testimonial.name} video testimonial`}
+                    className="w-full h-auto object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                    <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center">
+                      <Play className="w-6 h-6 text-primary-foreground ml-1" />
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Text */}
               <p className="text-foreground leading-relaxed mb-6">
@@ -103,21 +87,33 @@ const Testimonials = () => {
         {/* Trust Indicators */}
         <div className="mt-12 md:mt-16 flex flex-wrap justify-center gap-8 md:gap-16">
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-heading font-bold text-primary">4.9</p>
+            <p className="text-3xl md:text-4xl font-heading font-bold text-primary">
+              {testimonialsContent.trustIndicators.rating.value}
+            </p>
             <div className="flex justify-center gap-1 my-2">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-gold text-gold" />
               ))}
             </div>
-            <p className="text-sm text-muted-foreground">Google Rating</p>
+            <p className="text-sm text-muted-foreground">
+              {testimonialsContent.trustIndicators.rating.label}
+            </p>
           </div>
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-heading font-bold text-primary">10,000+</p>
-            <p className="text-sm text-muted-foreground mt-2">खुश मरीज़</p>
+            <p className="text-3xl md:text-4xl font-heading font-bold text-primary">
+              {testimonialsContent.trustIndicators.patients.value}
+            </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              {testimonialsContent.trustIndicators.patients.label}
+            </p>
           </div>
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-heading font-bold text-primary">25+</p>
-            <p className="text-sm text-muted-foreground mt-2">साल का अनुभव</p>
+            <p className="text-3xl md:text-4xl font-heading font-bold text-primary">
+              {testimonialsContent.trustIndicators.experience.value}
+            </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              {testimonialsContent.trustIndicators.experience.label}
+            </p>
           </div>
         </div>
       </div>
