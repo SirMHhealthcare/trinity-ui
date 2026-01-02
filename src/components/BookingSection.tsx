@@ -4,17 +4,20 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar as CalendarIcon, Clock, CreditCard, CheckCircle2, ArrowRight, ArrowLeft, Loader2, Video, CalendarPlus, Mail } from "lucide-react";
+import { Calendar as CalendarIcon, Clock, CheckCircle2, ArrowRight, ArrowLeft, Loader2, CalendarPlus, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useAvailableSlots } from "@/hooks/useAvailableSlots";
-import { useRazorpay } from "@/hooks/useRazorpay";
 import { format, addMonths } from "date-fns";
+
+const API_BASE_URL = "https://trinity-homeopathy-704273852426.asia-south2.run.app";
+const DOCTOR_ID = "101";
 
 const BookingSection = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [isBooking, setIsBooking] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -31,12 +34,11 @@ const BookingSection = () => {
     age: "",
   });
   const [bookingConfirmation, setBookingConfirmation] = useState({
-    meetLink: "",
     bookingId: "",
+    appointmentRef: "",
   });
 
   const { slots, isLoading, bookSlot } = useAvailableSlots(formData.date);
-  const { initiatePayment, isProcessing, isScriptLoaded, isVerifying } = useRazorpay();
 
   // Update formData.date when calendar date changes
   useEffect(() => {
@@ -85,6 +87,71 @@ const BookingSection = () => {
     }
   };
 
+  // Convert 12-hour time to 24-hour format for API
+  const convertTo24Hour = (time12h: string): string => {
+    const [time, modifier] = time12h.split(" ");
+    let [hours, minutes] = time.split(":");
+    if (modifier === "PM" && hours !== "12") {
+      hours = String(parseInt(hours) + 12);
+    }
+    if (modifier === "AM" && hours === "12") {
+      hours = "00";
+    }
+    return `${hours.padStart(2, "0")}:${minutes}`;
+  };
+
+  const handleBookAppointment = async () => {
+    setIsBooking(true);
+    try {
+      const time24h = convertTo24Hour(formData.time);
+      const appointmentDateTime = `${formData.date}T${time24h}:00`;
+
+      const response = await fetch(`${API_BASE_URL}/api/v1/appointments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          patientName: formData.name,
+          patientAge: formData.age ? parseInt(formData.age) : undefined,
+          patientGender: formData.gender || undefined,
+          patientPhoneNumber: formData.phone,
+          patientEmail: formData.email,
+          symptoms: formData.concern || undefined,
+          doctorId: DOCTOR_ID,
+          appointmentDateTime,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Appointment booking failed");
+      }
+
+      const data = await response.json();
+      
+      bookSlot(formData.date, formData.time);
+      setBookingConfirmation({
+        bookingId: data.id || `BK${Date.now()}`,
+        appointmentRef: data.appointmentRef || "",
+      });
+      setStep(3); // Go to confirmation step
+      
+      toast({
+        title: "Appointment Booked! 🎉",
+        description: "आपकी appointment successfully book हो गई है।",
+      });
+    } catch (error) {
+      console.error("Booking error:", error);
+      toast({
+        title: "Booking Failed",
+        description: "कुछ गड़बड़ हो गई। कृपया फिर से try करें।",
+        variant: "destructive",
+      });
+    } finally {
+      setIsBooking(false);
+    }
+  };
+
   const nextStep = () => {
     if (step === 1) {
       if (!formData.name || !formData.phone || !formData.email) {
@@ -115,42 +182,15 @@ const BookingSection = () => {
       });
       return;
     }
+    // From step 2, book appointment instead of going to payment
+    if (step === 2) {
+      handleBookAppointment();
+      return;
+    }
     setStep(step + 1);
   };
 
   const prevStep = () => setStep(step - 1);
-
-  const handlePayment = () => {
-    initiatePayment(
-      {
-        name: formData.name,
-        email: formData.email,
-        age: formData.age,
-        gender: formData.gender,
-        phone: formData.phone,
-        date: formData.date,
-        time: formData.time.substring(6,8) === "PM" ? (12 + Number(formData.time.substring(0,2))) + formData.time.substring(2, 5) : formData.time.substring(0, 5),
-        concern: formData.concern,
-      },
-      (meetLink?: string, bookingId?: string) => {
-        // Success callback
-        bookSlot(formData.date, formData.time);
-        setBookingConfirmation({
-          meetLink: meetLink || "https://meet.google.com/xxx-xxxx-xxx", // Placeholder until backend provides
-          bookingId: bookingId || `BK${Date.now()}`,
-        });
-        setStep(4); // Go to confirmation step
-      },
-      (error) => {
-        // Error callback
-        toast({
-          title: "Payment Failed",
-          description: error,
-          variant: "destructive",
-        });
-      }
-    );
-  };
 
   // Date constraints: tomorrow to 2 months from now
   const tomorrow = new Date();
@@ -169,14 +209,14 @@ const BookingSection = () => {
             अपनी सेहत की यात्रा शुरू करें
           </h2>
           <p className="text-muted-foreground text-lg">
-            Consultation Fee: <strong className="text-primary">₹500</strong> (1 महीने तक Follow-ups free)
+            Free Online Consultation Book करें
           </p>
         </div>
 
-        {/* Progress Steps */}
+        {/* Progress Steps - Now 3 steps */}
         <div className="flex justify-center mb-8">
           <div className="flex items-center gap-2 md:gap-4">
-            {[1, 2, 3, 4].map((s) => (
+            {[1, 2, 3].map((s) => (
               <div key={s} className="flex items-center">
                 <div
                   className={cn(
@@ -188,7 +228,7 @@ const BookingSection = () => {
                 >
                   {step > s ? <CheckCircle2 className="w-5 h-5" /> : s}
                 </div>
-                {s < 4 && (
+                {s < 3 && (
                   <div
                     className={cn(
                       "w-8 md:w-16 h-1 mx-1 md:mx-2",
@@ -215,7 +255,7 @@ const BookingSection = () => {
                     <h3 className="font-heading font-semibold text-xl text-foreground">
                       आपकी जानकारी
                     </h3>
-                    <p className="text-muted-foreground text-sm">Step 1 of 4</p>
+                    <p className="text-muted-foreground text-sm">Step 1 of 3</p>
                   </div>
                 </div>
 
@@ -331,7 +371,7 @@ const BookingSection = () => {
                     <h3 className="font-heading font-semibold text-xl text-foreground">
                       तारीख़ और समय चुनें
                     </h3>
-                    <p className="text-muted-foreground text-sm">Step 2 of 4</p>
+                    <p className="text-muted-foreground text-sm">Step 2 of 3</p>
                   </div>
                 </div>
 
@@ -409,129 +449,31 @@ const BookingSection = () => {
                     <ArrowLeft className="w-5 h-5" />
                     वापस
                   </Button>
-                  <Button variant="hero" size="lg" className="flex-1" onClick={nextStep}>
-                    आगे बढ़ें
-                    <ArrowRight className="w-5 h-5" />
+                  <Button 
+                    variant="hero" 
+                    size="lg" 
+                    className="flex-1" 
+                    onClick={nextStep}
+                    disabled={isBooking}
+                  >
+                    {isBooking ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Booking...
+                      </>
+                    ) : (
+                      <>
+                        Appointment Book करें
+                        <ArrowRight className="w-5 h-5" />
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>
             )}
 
-            {/* Step 3: Payment */}
+            {/* Step 3: Confirmation */}
             {step === 3 && (
-              <div className="space-y-6 animate-fade-in">
-                {isVerifying ? (
-                  // Verifying payment state
-                  <div className="text-center py-8">
-                    <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Loader2 className="w-10 h-10 text-primary animate-spin" />
-                    </div>
-                    <h3 className="font-heading font-semibold text-xl text-foreground mb-2">
-                      Payment Verify हो रहा है...
-                    </h3>
-                    <p className="text-muted-foreground">
-                      कृपया इस page को बंद न करें। यह कुछ seconds में पूरा हो जाएगा।
-                    </p>
-                  </div>
-                ) : (
-                  // Normal payment step
-                  <>
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                        <CreditCard className="w-6 h-6 text-green-600" />
-                      </div>
-                      <div>
-                        <h3 className="font-heading font-semibold text-xl text-foreground">
-                          Confirm करें और Pay करें
-                        </h3>
-                        <p className="text-muted-foreground text-sm">Step 3 of 4</p>
-                      </div>
-                    </div>
-
-                    {/* Booking Summary */}
-                    <div className="bg-secondary/50 rounded-xl p-4 space-y-3">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">नाम</span>
-                        <span className="font-medium text-foreground">{formData.name}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">तारीख़</span>
-                        <span className="font-medium text-foreground">
-                          {formData.date && new Date(formData.date).toLocaleDateString("hi-IN", {
-                            weekday: "long",
-                            day: "numeric",
-                            month: "long",
-                          })}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">समय</span>
-                        <span className="font-medium text-foreground">{formData.time}</span>
-                      </div>
-                      <div className="border-t border-border pt-3 flex justify-between">
-                        <span className="font-semibold text-foreground">Consultation Fee</span>
-                        <span className="font-bold text-primary text-xl">₹500</span>
-                      </div>
-                    </div>
-
-                    {/* Cancellation Policy */}
-                    <div className="bg-accent/10 rounded-xl p-4 text-sm">
-                      <p className="text-foreground font-medium mb-1">📋 Cancellation Policy</p>
-                      <p className="text-muted-foreground">
-                        Appointment से कम से कम 2 घंटे पहले cancel करें और full refund पाएँ।
-                      </p>
-                    </div>
-
-                    <div className="flex gap-4">
-                      <Button variant="outline" size="lg" className="flex-1" onClick={prevStep} disabled={isProcessing}>
-                        <ArrowLeft className="w-5 h-5" />
-                        वापस
-                      </Button>
-                      <Button 
-                        variant="hero" 
-                        size="lg" 
-                        className="flex-1" 
-                        onClick={handlePayment}
-                        disabled={isProcessing || !isScriptLoaded}
-                      >
-                        {isProcessing ? (
-                          <>
-                            <Loader2 className="w-5 h-5 animate-spin" />
-                            Processing...
-                          </>
-                        ) : (
-                          <>
-                            <CreditCard className="w-5 h-5" />
-                            ₹500 Pay करें
-                          </>
-                        )}
-                      </Button>
-                    </div>
-
-                    {/* DEV MODE: Test confirmation screen - REMOVE BEFORE PRODUCTION */}
-                    {import.meta.env.DEV && (
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="w-full text-xs text-muted-foreground border border-dashed border-muted-foreground/30 mt-2"
-                        onClick={() => {
-                          setBookingConfirmation({
-                            meetLink: "https://meet.google.com/abc-defg-hij",
-                            bookingId: `BK${Date.now()}`,
-                          });
-                          setStep(4);
-                        }}
-                      >
-                        🧪 Dev Mode: Preview Confirmation Screen
-                      </Button>
-                    )}
-                  </>
-                )}
-              </div>
-            )}
-
-            {/* Step 4: Confirmation */}
-            {step === 4 && (
               <div className="space-y-6 animate-fade-in">
                 {/* Success Header */}
                 <div className="text-center py-4">
@@ -541,9 +483,11 @@ const BookingSection = () => {
                   <h3 className="font-heading font-bold text-2xl text-foreground mb-2">
                     🎉 Appointment Confirmed!
                   </h3>
-                  <p className="text-muted-foreground">
-                    Booking ID: <span className="font-mono font-semibold text-foreground">{bookingConfirmation.bookingId}</span>
-                  </p>
+                  {bookingConfirmation.appointmentRef && (
+                    <p className="text-muted-foreground">
+                      Ref: <span className="font-mono font-semibold text-foreground">{bookingConfirmation.appointmentRef}</span>
+                    </p>
+                  )}
                 </div>
 
                 {/* Booking Details */}
@@ -572,51 +516,22 @@ const BookingSection = () => {
                   </div>
                 </div>
 
-                {/* Google Meet Link */}
-                <div className="bg-primary/10 rounded-xl p-4">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Video className="w-5 h-5 text-primary" />
-                    <span className="font-semibold text-foreground">Google Meet Link</span>
-                  </div>
-                  <a 
-                    href={bookingConfirmation.meetLink} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-primary underline break-all hover:text-primary/80 transition-colors"
-                  >
-                    {bookingConfirmation.meetLink}
-                  </a>
-                  <p className="text-muted-foreground text-sm mt-2">
-                    यह link आपकी email ({formData.email}) पर भी भेज दिया गया है।
-                  </p>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="grid sm:grid-cols-2 gap-3">
-                  <Button 
-                    variant="outline" 
-                    size="lg" 
-                    className="w-full"
-                    onClick={() => {
-                      const startDate = new Date(`${formData.date}T${formData.time.replace(" ", "")}`);
-                      const endDate = new Date(startDate.getTime() + 30 * 60000); // 30 min appointment
-                      const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Homeopathy Consultation")}&dates=${startDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z/${endDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z&details=${encodeURIComponent(`Google Meet: ${bookingConfirmation.meetLink}`)}&location=${encodeURIComponent(bookingConfirmation.meetLink)}`;
-                      window.open(googleCalendarUrl, "_blank");
-                    }}
-                  >
-                    <CalendarPlus className="w-5 h-5" />
-                    Add to Calendar
-                  </Button>
-                  <Button 
-                    variant="hero" 
-                    size="lg" 
-                    className="w-full"
-                    onClick={() => window.open(bookingConfirmation.meetLink, "_blank")}
-                  >
-                    <Video className="w-5 h-5" />
-                    Join Meeting
-                  </Button>
-                </div>
+                {/* Add to Calendar */}
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="w-full"
+                  onClick={() => {
+                    const time24h = convertTo24Hour(formData.time);
+                    const startDate = new Date(`${formData.date}T${time24h}:00`);
+                    const endDate = new Date(startDate.getTime() + 30 * 60000); // 30 min appointment
+                    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Homeopathy Consultation - Dr. Mohsin Khan")}&dates=${startDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z/${endDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z&details=${encodeURIComponent("Online Consultation")}`;
+                    window.open(googleCalendarUrl, "_blank");
+                  }}
+                >
+                  <CalendarPlus className="w-5 h-5" />
+                  Add to Calendar
+                </Button>
 
                 {/* Email Confirmation Notice */}
                 <div className="flex items-start gap-3 bg-accent/10 rounded-xl p-4 text-sm">
@@ -644,7 +559,7 @@ const BookingSection = () => {
                       time: "",
                     });
                     setFormErrors({ phone: "", email: "", age: "" });
-                    setBookingConfirmation({ meetLink: "", bookingId: "" });
+                    setBookingConfirmation({ bookingId: "", appointmentRef: "" });
                   }}
                 >
                   एक और Appointment book करें
