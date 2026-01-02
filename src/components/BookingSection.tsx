@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar as CalendarIcon, Clock, CheckCircle2, ArrowRight, ArrowLeft, Loader2, CalendarPlus, Mail } from "lucide-react";
+import { Calendar as CalendarIcon, Clock, CheckCircle2, ArrowRight, ArrowLeft, Loader2, CalendarPlus, Mail, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useAvailableSlots } from "@/hooks/useAvailableSlots";
@@ -516,28 +516,62 @@ const BookingSection = () => {
                   </div>
                 </div>
 
-                {/* Add to Calendar */}
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="w-full"
-                  onClick={() => {
-                    const time24h = convertTo24Hour(formData.time);
-                    const startDate = new Date(`${formData.date}T${time24h}:00`);
-                    const endDate = new Date(startDate.getTime() + 30 * 60000); // 30 min appointment
-                    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Homeopathy Consultation - Dr. Mohsin Khan")}&dates=${startDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z/${endDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z&details=${encodeURIComponent("Online Consultation")}`;
-                    window.open(googleCalendarUrl, "_blank");
-                  }}
-                >
-                  <CalendarPlus className="w-5 h-5" />
-                  Add to Calendar
-                </Button>
+                {/* Action Buttons */}
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Add to Calendar */}
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="w-full"
+                    onClick={() => {
+                      const time24h = convertTo24Hour(formData.time);
+                      const startDate = new Date(`${formData.date}T${time24h}:00`);
+                      const endDate = new Date(startDate.getTime() + 30 * 60000); // 30 min appointment
+                      const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Homeopathy Consultation - Dr. Mohsin Khan")}&dates=${startDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z/${endDate.toISOString().replace(/[-:]/g, "").split(".")[0]}Z&details=${encodeURIComponent("Online Consultation")}`;
+                      window.open(googleCalendarUrl, "_blank");
+                    }}
+                  >
+                    <CalendarPlus className="w-5 h-5" />
+                    Calendar
+                  </Button>
 
-                {/* Email Confirmation Notice */}
+                  {/* Share on WhatsApp */}
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="w-full bg-green-50 border-green-200 hover:bg-green-100 text-green-700"
+                    onClick={() => {
+                      const dateStr = formData.date && new Date(formData.date).toLocaleDateString("hi-IN", {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                      });
+                      const message = `✅ *Appointment Confirmed!*
+
+📋 *Trinity Homeopathy*
+👨‍⚕️ Dr. Mohsin Khan
+
+📅 तारीख़: ${dateStr}
+🕐 समय: ${formData.time}
+${bookingConfirmation.appointmentRef ? `🔖 Ref: ${bookingConfirmation.appointmentRef}` : ""}
+
+🏥 Online Video Consultation
+📧 ${formData.email}`;
+                      
+                      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                      window.open(whatsappUrl, "_blank");
+                    }}
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    WhatsApp
+                  </Button>
+                </div>
+
+                {/* Confirmation Notice */}
                 <div className="flex items-start gap-3 bg-accent/10 rounded-xl p-4 text-sm">
                   <Mail className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                   <p className="text-muted-foreground">
-                    Confirmation email आपको जल्दी ही मिलेगी। अगर email न मिले, तो spam folder भी check करें।
+                    Appointment details save करने के लिए WhatsApp share करें या Calendar में add करें।
                   </p>
                 </div>
 
