@@ -1,4 +1,5 @@
 // Central export for all config files
+export * from "./admin";
 export * from "./doctors";
 export * from "./testimonials";
 export * from "./services";
