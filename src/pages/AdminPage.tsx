@@ -3,6 +3,7 @@ import { format, parseISO } from "date-fns";
 import { ChevronDown, ChevronUp, Calendar, Search, RefreshCw, AlertCircle } from "lucide-react";
 import { useAppointments, Appointment } from "@/hooks/useAppointments";
 import { adminConfig, adminContent } from "@/config/admin";
+import { getDoctorById } from "@/config/doctors";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -65,11 +66,17 @@ interface AppointmentRowProps {
   onToggle: () => void;
 }
 
+const getDoctorName = (doctorId: string): string => {
+  const doctor = getDoctorById(doctorId);
+  return doctor ? doctor.name : doctorId;
+};
+
 const AppointmentRow = ({ appointment, isExpanded, onToggle }: AppointmentRowProps) => {
   const dateTime = formatDateTime(appointment.appointmentDateTime);
   const createdAt = formatDateTime(appointment.createdAt);
   const updatedAt = formatDateTime(appointment.updatedAt);
   const labels = adminContent.table.expandedDetails;
+  const doctorName = getDoctorName(appointment.doctorId);
 
   return (
     <Collapsible open={isExpanded} onOpenChange={onToggle}>
@@ -77,23 +84,31 @@ const AppointmentRow = ({ appointment, isExpanded, onToggle }: AppointmentRowPro
         className="cursor-pointer hover:bg-muted/50"
         onClick={onToggle}
       >
-        <TableCell className="font-mono text-xs">{appointment.appointmentRef}</TableCell>
-        <TableCell>
+        <TableCell className="w-[120px]">
           <div className="flex flex-col">
             <span className="font-medium">{dateTime.date}</span>
             <span className="text-xs text-muted-foreground">{dateTime.time}</span>
           </div>
         </TableCell>
-        <TableCell>
+        <TableCell className="min-w-[140px]">
+          {appointment.patientName || "-"}
+        </TableCell>
+        <TableCell className="w-[120px] font-mono text-xs">
+          {appointment.patientPhone || "-"}
+        </TableCell>
+        <TableCell className="min-w-[160px] max-w-[200px] truncate text-xs">
+          {appointment.patientEmail || "-"}
+        </TableCell>
+        <TableCell className="min-w-[120px]">
+          {doctorName}
+        </TableCell>
+        <TableCell className="w-[100px]">
           <Badge variant={getStatusVariant(appointment.status)}>
             {adminContent.status[appointment.status]}
           </Badge>
         </TableCell>
-        <TableCell className="max-w-[200px] truncate">
-          {appointment.symptoms || adminContent.table.noSymptoms}
-        </TableCell>
-        <TableCell className="font-mono text-xs">{appointment.doctorId}</TableCell>
-        <TableCell>
+        <TableCell className="w-[90px] font-mono text-xs">{appointment.appointmentRef}</TableCell>
+        <TableCell className="w-[50px]">
           <CollapsibleTrigger asChild>
             <Button variant="ghost" size="sm" onClick={(e) => e.stopPropagation()}>
               {isExpanded ? (
@@ -107,12 +122,8 @@ const AppointmentRow = ({ appointment, isExpanded, onToggle }: AppointmentRowPro
       </TableRow>
       <CollapsibleContent asChild>
         <TableRow className="bg-muted/30 hover:bg-muted/30">
-          <TableCell colSpan={6} className="p-0">
+          <TableCell colSpan={8} className="p-0">
             <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-              <div>
-                <span className="text-muted-foreground">{labels.id}:</span>
-                <p className="font-mono text-xs break-all">{appointment.id}</p>
-              </div>
               <div>
                 <span className="text-muted-foreground">{labels.appointmentRef}:</span>
                 <p className="font-mono">{appointment.appointmentRef}</p>
@@ -132,6 +143,18 @@ const AppointmentRow = ({ appointment, isExpanded, onToggle }: AppointmentRowPro
                     {adminContent.status[appointment.status]}
                   </Badge>
                 </p>
+              </div>
+              <div>
+                <span className="text-muted-foreground">{labels.patientName}:</span>
+                <p>{appointment.patientName || "-"}</p>
+              </div>
+              <div>
+                <span className="text-muted-foreground">{labels.patientPhone}:</span>
+                <p className="font-mono">{appointment.patientPhone || "-"}</p>
+              </div>
+              <div>
+                <span className="text-muted-foreground">{labels.patientEmail}:</span>
+                <p>{appointment.patientEmail || "-"}</p>
               </div>
               <div>
                 <span className="text-muted-foreground">{labels.symptoms}:</span>
@@ -185,7 +208,10 @@ const AdminPage = () => {
         apt.appointmentRef.toLowerCase().includes(query) ||
         apt.symptoms?.toLowerCase().includes(query) ||
         apt.doctorId.toLowerCase().includes(query) ||
-        apt.status.toLowerCase().includes(query);
+        apt.status.toLowerCase().includes(query) ||
+        apt.patientName?.toLowerCase().includes(query) ||
+        apt.patientPhone?.toLowerCase().includes(query) ||
+        apt.patientEmail?.toLowerCase().includes(query);
 
       // Filter by date
       const matchesDate =
@@ -276,24 +302,26 @@ const AdminPage = () => {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50">
-                <TableHead>{adminContent.table.headers.appointmentRef}</TableHead>
-                <TableHead>{adminContent.table.headers.dateTime}</TableHead>
-                <TableHead>{adminContent.table.headers.status}</TableHead>
-                <TableHead>{adminContent.table.headers.symptoms}</TableHead>
-                <TableHead>{adminContent.table.headers.doctorId}</TableHead>
+                <TableHead className="w-[120px]">{adminContent.table.headers.dateTime}</TableHead>
+                <TableHead className="min-w-[140px]">{adminContent.table.headers.patientName}</TableHead>
+                <TableHead className="w-[120px]">{adminContent.table.headers.patientPhone}</TableHead>
+                <TableHead className="min-w-[160px]">{adminContent.table.headers.patientEmail}</TableHead>
+                <TableHead className="min-w-[120px]">{adminContent.table.headers.doctorName}</TableHead>
+                <TableHead className="w-[100px]">{adminContent.table.headers.status}</TableHead>
+                <TableHead className="w-[90px]">{adminContent.table.headers.appointmentRef}</TableHead>
                 <TableHead className="w-[50px]">{adminContent.table.headers.actions}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                     {adminContent.table.loading}
                   </TableCell>
                 </TableRow>
               ) : filteredAppointments.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                     {adminContent.table.noData}
                   </TableCell>
                 </TableRow>
