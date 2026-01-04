@@ -15,11 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import {
   Popover,
@@ -79,7 +74,7 @@ const AppointmentRow = ({ appointment, isExpanded, onToggle }: AppointmentRowPro
   const doctorName = getDoctorName(appointment.doctorId);
 
   return (
-    <Collapsible open={isExpanded} onOpenChange={onToggle}>
+    <>
       <TableRow 
         className="cursor-pointer hover:bg-muted/50"
         onClick={onToggle}
@@ -90,16 +85,16 @@ const AppointmentRow = ({ appointment, isExpanded, onToggle }: AppointmentRowPro
             <span className="text-xs text-muted-foreground">{dateTime.time}</span>
           </div>
         </TableCell>
-        <TableCell className="min-w-[140px]">
+        <TableCell className="w-[140px]">
           {appointment.patientName || "-"}
         </TableCell>
         <TableCell className="w-[120px] font-mono text-xs">
           {appointment.patientPhone || "-"}
         </TableCell>
-        <TableCell className="min-w-[160px] max-w-[200px] truncate text-xs">
+        <TableCell className="w-[200px] truncate text-xs">
           {appointment.patientEmail || "-"}
         </TableCell>
-        <TableCell className="min-w-[120px]">
+        <TableCell className="w-[120px]">
           {doctorName}
         </TableCell>
         <TableCell className="w-[100px]">
@@ -109,18 +104,16 @@ const AppointmentRow = ({ appointment, isExpanded, onToggle }: AppointmentRowPro
         </TableCell>
         <TableCell className="w-[90px] font-mono text-xs">{appointment.appointmentRef}</TableCell>
         <TableCell className="w-[50px]">
-          <CollapsibleTrigger asChild>
-            <Button variant="ghost" size="sm" onClick={(e) => e.stopPropagation()}>
-              {isExpanded ? (
-                <ChevronUp className="h-4 w-4" />
-              ) : (
-                <ChevronDown className="h-4 w-4" />
-              )}
-            </Button>
-          </CollapsibleTrigger>
+          <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); onToggle(); }}>
+            {isExpanded ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </Button>
         </TableCell>
       </TableRow>
-      <CollapsibleContent asChild>
+      {isExpanded && (
         <TableRow className="bg-muted/30 hover:bg-muted/30">
           <TableCell colSpan={8} className="p-0">
             <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
@@ -188,8 +181,8 @@ const AppointmentRow = ({ appointment, isExpanded, onToggle }: AppointmentRowPro
             </div>
           </TableCell>
         </TableRow>
-      </CollapsibleContent>
-    </Collapsible>
+      )}
+    </>
   );
 };
 
@@ -302,11 +295,11 @@ const AdminPage = () => {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/50">
-                <TableHead className="w-[120px]">{adminContent.table.headers.dateTime}</TableHead>
-                <TableHead className="min-w-[140px]">{adminContent.table.headers.patientName}</TableHead>
+              <TableHead className="w-[120px]">{adminContent.table.headers.dateTime}</TableHead>
+                <TableHead className="w-[140px]">{adminContent.table.headers.patientName}</TableHead>
                 <TableHead className="w-[120px]">{adminContent.table.headers.patientPhone}</TableHead>
-                <TableHead className="min-w-[160px]">{adminContent.table.headers.patientEmail}</TableHead>
-                <TableHead className="min-w-[120px]">{adminContent.table.headers.doctorName}</TableHead>
+                <TableHead className="w-[200px]">{adminContent.table.headers.patientEmail}</TableHead>
+                <TableHead className="w-[120px]">{adminContent.table.headers.doctorName}</TableHead>
                 <TableHead className="w-[100px]">{adminContent.table.headers.status}</TableHead>
                 <TableHead className="w-[90px]">{adminContent.table.headers.appointmentRef}</TableHead>
                 <TableHead className="w-[50px]">{adminContent.table.headers.actions}</TableHead>
