@@ -60,8 +60,8 @@ export const useAppointments = (): UseAppointmentsReturn => {
         // First sort by status priority (SCHEDULED first)
         const statusDiff = statusPriority[a.status] - statusPriority[b.status];
         if (statusDiff !== 0) return statusDiff;
-        // Then sort by date ascending (most recent first)
-        return new Date(b.appointmentDateTime).getTime() - new Date(a.appointmentDateTime).getTime();
+        // Then sort by date ascending (earliest first)
+        return new Date(a.appointmentDateTime).getTime() - new Date(b.appointmentDateTime).getTime();
       });
       setAppointments(sorted);
     } catch (err) {
