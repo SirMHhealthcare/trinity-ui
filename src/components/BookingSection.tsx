@@ -190,9 +190,9 @@ const BookingSection = () => {
 
   const prevStep = () => setStep(step - 1);
 
-  // Date constraints: tomorrow to X months from now
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
+  // Date constraints: today to X months from now
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Reset to start of day for accurate comparison
   const maxDate = addMonths(new Date(), bookingConfig.maxAdvanceBookingMonths);
 
   return (
@@ -394,7 +394,11 @@ const BookingSection = () => {
                         mode="single"
                         selected={selectedDate}
                         onSelect={setSelectedDate}
-                        disabled={(date) => date < tomorrow || date > maxDate}
+                        disabled={(date) => {
+                          const compareDate = new Date(date);
+                          compareDate.setHours(0, 0, 0, 0);
+                          return compareDate < today || date > maxDate;
+                        }}
                         initialFocus
                         className={cn("p-3 pointer-events-auto")}
                       />
