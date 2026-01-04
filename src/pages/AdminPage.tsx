@@ -21,7 +21,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  PaginationEllipsis,
+} from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
+
+const ITEMS_PER_PAGE = 10;
 
 const getStatusVariant = (status: Appointment["status"]) => {
   switch (status) {
@@ -191,6 +202,7 @@ const AdminPage = () => {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredAppointments = useMemo(() => {
     return appointments.filter((apt) => {
@@ -215,6 +227,34 @@ const AdminPage = () => {
       return matchesSearch && matchesDate;
     });
   }, [appointments, searchQuery, selectedDate]);
+
+  // Reset to page 1 when filters change
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedDate]);
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredAppointments.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedAppointments = filteredAppointments.slice(startIndex, endIndex);
+
+  // Generate page numbers to display
+  const getPageNumbers = () => {
+    const pages: (number | "ellipsis")[] = [];
+    if (totalPages <= 5) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (currentPage > 3) pages.push("ellipsis");
+      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+        pages.push(i);
+      }
+      if (currentPage < totalPages - 2) pages.push("ellipsis");
+      pages.push(totalPages);
+    }
+    return pages;
+  };
 
   const handleClearFilters = () => {
     setSearchQuery("");
@@ -319,7 +359,7 @@ const AdminPage = () => {
                   </TableCell>
                 </TableRow>
               ) : (
-                filteredAppointments.map((appointment) => (
+                paginatedAppointments.map((appointment) => (
                   <AppointmentRow
                     key={appointment.id}
                     appointment={appointment}
@@ -334,11 +374,47 @@ const AdminPage = () => {
           </Table>
         </div>
 
-        {/* Results count */}
-        {!isLoading && (
-          <p className="text-sm text-muted-foreground mt-4">
-            Showing {filteredAppointments.length} of {appointments.length} appointments
-          </p>
+        {/* Pagination and Results count */}
+        {!isLoading && filteredAppointments.length > 0 && (
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
+            <p className="text-sm text-muted-foreground">
+              Showing {startIndex + 1}-{Math.min(endIndex, filteredAppointments.length)} of {filteredAppointments.length} appointments
+            </p>
+            {totalPages > 1 && (
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                      className={cn(currentPage === 1 && "pointer-events-none opacity-50")}
+                    />
+                  </PaginationItem>
+                  {getPageNumbers().map((page, idx) =>
+                    page === "ellipsis" ? (
+                      <PaginationItem key={`ellipsis-${idx}`}>
+                        <PaginationEllipsis />
+                      </PaginationItem>
+                    ) : (
+                      <PaginationItem key={page}>
+                        <PaginationLink
+                          onClick={() => setCurrentPage(page)}
+                          isActive={currentPage === page}
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    )
+                  )}
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                      className={cn(currentPage === totalPages && "pointer-events-none opacity-50")}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
+          </div>
         )}
       </div>
     </div>
