@@ -1,8 +1,12 @@
-import { Star, Quote, Play } from "lucide-react";
+import { useState } from "react";
+import { Star, Quote, Play, X } from "lucide-react";
 import { testimonials as testimonialsData, content } from "@/config";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Testimonial } from "@/config/testimonials";
 
 const Testimonials = () => {
   const { testimonials: testimonialsContent } = content;
+  const [activeVideo, setActiveVideo] = useState<Testimonial | null>(null);
 
   return (
     <section id="testimonials" className="py-16 md:py-24 bg-primary/5">
@@ -49,14 +53,17 @@ const Testimonials = () => {
               )}
 
               {testimonial.type === "video" && testimonial.mediaUrl && (
-                <div className="mb-4 rounded-lg overflow-hidden relative group cursor-pointer">
+                <div 
+                  className="mb-4 rounded-lg overflow-hidden relative group cursor-pointer"
+                  onClick={() => setActiveVideo(testimonial)}
+                >
                   <img 
                     src={testimonial.thumbnailUrl || testimonial.mediaUrl} 
                     alt={`${testimonial.name} video testimonial`}
                     className="w-full h-auto object-cover"
                   />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-colors">
-                    <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center">
+                    <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                       <Play className="w-6 h-6 text-primary-foreground ml-1" />
                     </div>
                   </div>
@@ -117,6 +124,45 @@ const Testimonials = () => {
           </div>
         </div>
       </div>
+
+      {/* Video Lightbox Modal */}
+      <Dialog open={!!activeVideo} onOpenChange={() => setActiveVideo(null)}>
+        <DialogContent className="max-w-4xl w-[95vw] p-0 bg-black border-none">
+          <button
+            onClick={() => setActiveVideo(null)}
+            className="absolute right-3 top-3 z-10 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+          >
+            <X className="w-5 h-5 text-white" />
+          </button>
+          {activeVideo?.mediaUrl && (
+            <div className="aspect-video w-full">
+              <video
+                src={activeVideo.mediaUrl}
+                controls
+                autoPlay
+                className="w-full h-full rounded-lg"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          )}
+          {activeVideo && (
+            <div className="p-4 bg-card">
+              <div className="flex items-center gap-3">
+                <img
+                  src={activeVideo.image}
+                  alt={activeVideo.name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <div>
+                  <p className="font-semibold text-foreground">{activeVideo.name}</p>
+                  <p className="text-sm text-muted-foreground">{activeVideo.location}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
