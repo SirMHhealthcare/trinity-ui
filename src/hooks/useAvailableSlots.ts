@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { format, parseISO } from "date-fns";
-
-// Backend API URL
-const API_BASE_URL = "https://trinity-homeopathy-704273852426.asia-south2.run.app";
+import { bookingConfig } from "@/config";
 
 interface AppointmentResponse {
   id: string;
@@ -82,7 +80,7 @@ const fetchWithRetry = async <T>(
 // Fetch appointments from the real backend API
 const fetchAppointmentsFromAPI = async (date: string): Promise<SlotAvailability[]> => {
   const fetchFn = async () => {
-    const response = await fetch(`${API_BASE_URL}/api/v1/appointments`, {
+    const response = await fetch(`${bookingConfig.apiBaseUrl}/api/v1/appointments`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
