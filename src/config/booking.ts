@@ -1,8 +1,9 @@
-// Booking configuration
+import { env } from './env';
 
+// Booking configuration
 export const bookingConfig = {
-  apiBaseUrl: "https://trinity-homeopathy-704273852426.asia-south2.run.app",
-  doctorId: "101",
+  apiBaseUrl: env.apiBaseUrl,
+  doctorId: env.doctorId,
   appointmentDurationMinutes: 30,
   maxAdvanceBookingMonths: 2,
 };
