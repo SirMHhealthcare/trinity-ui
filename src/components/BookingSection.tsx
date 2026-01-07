@@ -8,7 +8,7 @@ import { Calendar as CalendarIcon, Clock, CheckCircle2, ArrowRight, ArrowLeft, L
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useAvailableSlots } from "@/hooks/useAvailableSlots";
-import { format, addMonths } from "date-fns";
+import { format, addMonths, isToday, parse, isBefore } from "date-fns";
 import { bookingConfig, bookingContent } from "@/config";
 
 const BookingSection = () => {
@@ -422,24 +422,36 @@ const BookingSection = () => {
                     </p>
                   ) : (
                     <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                      {slots.map((slot) => (
-                        <button
-                          key={slot.time}
-                          onClick={() => !slot.isBooked && setFormData({ ...formData, time: slot.time })}
-                          disabled={slot.isBooked}
-                          className={cn(
-                            "p-3 rounded-xl border text-center transition-all text-sm",
-                            slot.isBooked
-                              ? "bg-muted text-muted-foreground border-border cursor-not-allowed opacity-50 line-through"
-                              : formData.time === slot.time
-                              ? "bg-primary text-primary-foreground border-primary"
-                              : "bg-card border-border hover:border-primary/50"
-                          )}
-                        >
-                          {slot.time}
-                          {slot.isBooked && <span className="block text-xs">{bookingContent.messages.booked}</span>}
-                        </button>
-                      ))}
+                      {slots.map((slot) => {
+                        // Check if slot is in the past (only relevant for today)
+                        const isSlotInPast = selectedDate && isToday(selectedDate) && (() => {
+                          const slotTime = parse(slot.time, "hh:mm a", new Date());
+                          const now = new Date();
+                          slotTime.setFullYear(now.getFullYear(), now.getMonth(), now.getDate());
+                          return isBefore(slotTime, now);
+                        })();
+                        
+                        const isDisabled = slot.isBooked || isSlotInPast;
+                        
+                        return (
+                          <button
+                            key={slot.time}
+                            onClick={() => !isDisabled && setFormData({ ...formData, time: slot.time })}
+                            disabled={isDisabled}
+                            className={cn(
+                              "p-3 rounded-xl border text-center transition-all text-sm",
+                              isDisabled
+                                ? "bg-muted text-muted-foreground border-border cursor-not-allowed opacity-50 line-through"
+                                : formData.time === slot.time
+                                ? "bg-primary text-primary-foreground border-primary"
+                                : "bg-card border-border hover:border-primary/50"
+                            )}
+                          >
+                            {slot.time}
+                            {slot.isBooked && <span className="block text-xs">{bookingContent.messages.booked}</span>}
+                          </button>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
