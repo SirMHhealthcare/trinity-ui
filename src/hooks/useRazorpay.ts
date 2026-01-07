@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { bookingConfig } from "@/config";
 
 // API base URL
-const API_BASE_URL = "https://trinity-homeopathy-704273852426.asia-south2.run.app";
+const API_BASE_URL = bookingConfig.apiBaseUrl;
 
 // Razorpay Key ID - this is the publishable key (safe for frontend)
 const RAZORPAY_KEY_ID = "rzp_test_RtnlRaTM4pGMqu";
@@ -130,7 +131,7 @@ export const useRazorpay = (): UseRazorpayReturn => {
         patientPhoneNumber: bookingDetails.phone,
         patientEmail: bookingDetails.email,
         symptoms: bookingDetails.concern || "",
-        doctorId: "MK101",
+        doctorId: bookingConfig.doctorId,
         appointmentDateTime: `${bookingDetails.date}T${bookingDetails.time}:00`,
         createOrderRequest: {
           amount: 50000, // ₹500 in paise
