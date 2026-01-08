@@ -20,12 +20,16 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="#home" className="flex items-center">
+          <a href="#home" className="flex items-center gap-3">
             <img 
               src={logo} 
               alt="Trinity Homeopathy - Healing Naturally" 
-              className="h-12 md:h-16 w-auto"
+              className="h-10 md:h-14 w-auto rounded-lg shadow-sm"
             />
+            <div className="hidden sm:block">
+              <p className="font-heading font-semibold text-foreground text-sm md:text-base">Dr. Mohsin Khan</p>
+              <p className="text-xs text-muted-foreground">Trinity Homeopathy</p>
+            </div>
           </a>
 
           {/* Desktop Navigation */}
