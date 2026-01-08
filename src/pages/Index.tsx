@@ -7,10 +7,12 @@ import BookingSection from "@/components/BookingSection";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 import WhatsAppChat from "@/components/WhatsAppChat";
+import SEOSchema from "@/components/SEOSchema";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEOSchema />
       <Header />
       <main>
         <Hero />
