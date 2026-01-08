@@ -36,9 +36,9 @@ export const doctors: Doctor[] = [
     location: "Jaipur, Rajasthan",
     casesTreated: "10,000+",
     bio: {
-      short: "प्राकृतिक Homeopathic treatment से हज़ारों मरीज़ों को ठीक किया है।",
-      detailed: "Dr. Mohsin Khan ने पिछले 25 सालों में हज़ारों मरीज़ों को प्राकृतिक Homeopathic treatment से ठीक किया है। उनका मानना है कि हर मरीज़ unique है और इसीलिए treatment भी personalized होना चाहिए।",
-      approach: "Chronic diseases, allergies, skin problems, mental health - किसी भी health issue में Dr. Mohsin Khan का gentle और effective approach आपको natural healing की राह दिखाता है।",
+      short: "25+ साल के experience के साथ chronic diseases, allergies, और mental health में trusted specialist।",
+      detailed: "Dr. Mohsin Khan 25 से ज़्यादा सालों से Classical Homeopathy में practice कर रहे हैं। Chronic diseases, skin conditions, allergies, और mental health issues में उनका experience patients को effective और lasting relief दिलाने में मदद करता है।",
+      approach: "Dr. Khan का treatment approach हर patient की individual needs को समझकर personalized care देने पर focused है। Natural remedies के ज़रिए root cause को address करके permanent healing का लक्ष्य।",
     },
     socialLinks: {
       facebook: "#",

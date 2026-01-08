@@ -38,9 +38,12 @@ const AboutSection = () => {
             <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
               {about.badge} {doctor.name}
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-2">
               {about.headline}
             </h2>
+            <p className="text-lg md:text-xl text-primary font-medium mb-6">
+              {about.subheadline}
+            </p>
             <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
               {doctor.bio.detailed}
             </p>
