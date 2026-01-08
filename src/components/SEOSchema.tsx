@@ -9,11 +9,11 @@ const SEOSchema = () => {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "MedicalBusiness", "Physician"],
-    "@id": "https://drsharma-homeopathy.com/#business",
+    "@id": "https://trinityhomeopathy.com/#business",
     name: clinic.name,
     alternateName: clinic.shortName,
     description: "Trusted homeopathy doctor in Jaipur offering natural treatment for chronic diseases, allergies, skin disorders, and more. 25+ years experience.",
-    url: "https://drsharma-homeopathy.com",
+    url: "https://trinityhomeopathy.com",
     telephone: clinic.contact.phone,
     email: clinic.contact.email,
     address: {
@@ -38,7 +38,7 @@ const SEOSchema = () => {
       }
     ],
     priceRange: "₹₹",
-    image: "https://drsharma-homeopathy.com/og-image.jpg",
+    image: "https://trinityhomeopathy.com/og-image.jpg",
     sameAs: [
       clinic.socialLinks.facebook,
       clinic.socialLinks.instagram,
@@ -55,10 +55,10 @@ const SEOSchema = () => {
   const physicianSchema = {
     "@context": "https://schema.org",
     "@type": "Physician",
-    "@id": "https://drsharma-homeopathy.com/#doctor",
+    "@id": "https://trinityhomeopathy.com/#doctor",
     name: doctor.name,
     description: doctor.bio.short,
-    image: "https://drsharma-homeopathy.com/doctor-portrait.jpg",
+    image: "https://trinityhomeopathy.com/doctor-portrait.jpg",
     telephone: doctor.phone,
     email: doctor.email,
     address: {
@@ -72,7 +72,7 @@ const SEOSchema = () => {
       name: doctor.specialization
     },
     worksFor: {
-      "@id": "https://drsharma-homeopathy.com/#business"
+      "@id": "https://trinityhomeopathy.com/#business"
     },
     alumniOf: doctor.degree,
     knowsAbout: ["Homeopathy", "Natural Medicine", "Chronic Disease Treatment", "Holistic Healing"]
@@ -81,12 +81,12 @@ const SEOSchema = () => {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": "https://drsharma-homeopathy.com/#website",
-    url: "https://drsharma-homeopathy.com",
+    "@id": "https://trinityhomeopathy.com/#website",
+    url: "https://trinityhomeopathy.com",
     name: clinic.name,
     description: "Trusted homeopathy clinic in Jaipur",
     publisher: {
-      "@id": "https://drsharma-homeopathy.com/#business"
+      "@id": "https://trinityhomeopathy.com/#business"
     }
   };
 
@@ -98,7 +98,7 @@ const SEOSchema = () => {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://drsharma-homeopathy.com"
+        item: "https://trinityhomeopathy.com"
       }
     ]
   };
