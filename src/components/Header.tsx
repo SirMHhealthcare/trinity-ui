@@ -2,7 +2,7 @@ import { Phone, Calendar, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import Logo from "@/components/Logo";
+import logo from "@/assets/logo.jpg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,7 +21,11 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <a href="#home" className="flex items-center gap-3">
-            <Logo className="h-12 md:h-16 w-auto" />
+            <img 
+              src={logo} 
+              alt="Trinity Homeopathy - Healing Naturally" 
+              className="h-14 md:h-[4.5rem] w-auto object-cover object-center"
+            />
             <div className="hidden sm:block">
               <p className="font-heading font-semibold text-foreground text-sm md:text-base">Dr. Mohsin Khan</p>
               <p className="text-xs text-muted-foreground">Trinity Homeopathy</p>
