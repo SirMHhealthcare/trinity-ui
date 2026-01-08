@@ -24,7 +24,7 @@ const Header = () => {
             <img 
               src={logo} 
               alt="Trinity Homeopathy - Healing Naturally" 
-              className="h-14 md:h-[4.5rem] w-auto object-cover object-center"
+              className="h-14 md:h-[4.5rem] w-auto rounded-lg"
             />
             <div className="hidden sm:block">
               <p className="font-heading font-semibold text-foreground text-sm md:text-base">Dr. Mohsin Khan</p>
