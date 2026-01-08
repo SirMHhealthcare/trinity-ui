@@ -31,7 +31,7 @@ export const services: Service[] = [
   {
     id: "child",
     iconName: "Baby",
-    title: "बच्चों की सेहत",
+    title: "Child Health",
     description: "बच्चों की immunity, growth और आम बीमारियों के लिए gentle remedies",
     colorClass: "bg-blue-100 text-blue-600",
   },

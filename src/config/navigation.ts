@@ -15,9 +15,9 @@ export const mainNavigation: NavItem[] = [
 export const footerQuickLinks: NavItem[] = [
   { label: "Home", href: "#home" },
   { label: "Services", href: "#services" },
-  { label: "Doctor के बारे में", href: "#about" },
-  { label: "Appointment Book करें", href: "#booking" },
-  { label: "संपर्क करें", href: "#contact" },
+  { label: "About Doctor", href: "#about" },
+  { label: "Book Appointment", href: "#booking" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export const legalLinks: NavItem[] = [
