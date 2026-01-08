@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://drsharma-homeopathy.com/sitemap.xml
+Sitemap: https://trinityhomeopathy.com/sitemap.xml
