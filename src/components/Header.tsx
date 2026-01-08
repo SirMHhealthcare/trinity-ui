@@ -2,6 +2,7 @@ import { Phone, Calendar, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo.jpg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,14 +20,12 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2">
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-heading font-bold text-lg md:text-xl">H</span>
-            </div>
-            <div className="hidden sm:block">
-              <p className="font-heading font-semibold text-foreground text-sm md:text-base">Dr. Mohsin Khan</p>
-              <p className="text-xs text-muted-foreground">Homeopathy Clinic</p>
-            </div>
+          <a href="#home" className="flex items-center">
+            <img 
+              src={logo} 
+              alt="Trinity Homeopathy - Healing Naturally" 
+              className="h-12 md:h-16 w-auto"
+            />
           </a>
 
           {/* Desktop Navigation */}
