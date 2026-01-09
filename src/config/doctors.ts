@@ -33,7 +33,7 @@ export const doctors: Doctor[] = [
     phone: "+919782301786",
     email: "homeotrinity@gmail.com",
     image: doctorImage,
-    location: "19B, Kali Kothi, Near Darbaar School, Jhotwara, Jaipur, Rajasthan. Pin:302015.",
+    location: "19B, Kali Kothi, Near Darbaar School, Jhotwara, Jaipur, Rajasthan - 302015.",
     casesTreated: "10,000+",
     bio: {
       short: "15+ साल के experience के साथ chronic diseases, allergies, और mental health में trusted specialist।",
