@@ -47,7 +47,7 @@ export const clinic: ClinicInfo = {
     phone: "+919782301786",
     phoneDisplay: "+91 97823 01786",
     email: "homeotrinity@gmail.com",
-    whatsapp: "+919782301786",
+    whatsapp: "919782301786",
   },
   hours: {
     weekdays: "सोमवार - शनिवार: 10 AM - 7 PM",

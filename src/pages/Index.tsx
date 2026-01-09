@@ -23,7 +23,7 @@ const Index = () => {
         <Testimonials />
       </main>
       <Footer />
-      <WhatsAppChat phoneNumber="919876543210" />
+      <WhatsAppChat phoneNumber="00919782301786" />
     </div>
   );
 };

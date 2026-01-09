@@ -41,7 +41,7 @@ export const bookingContent = {
     placeholders: {
       name: "अपना नाम लिखें",
       age: "आपकी उम्र",
-      phone: "+91 98765 43210",
+      phone: "+91 98765 43xxx",
       email: "your@email.com",
       concern: "अपनी health problem संक्षेप में बताएँ...",
       selectDate: "तारीख़ चुनें",
