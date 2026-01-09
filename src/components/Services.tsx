@@ -31,7 +31,7 @@ const Services = () => {
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
                   <img
-                    src={service.imagePath}
+                    src={`${service.imagePath}?v=2`}
                     alt={service.title}
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
