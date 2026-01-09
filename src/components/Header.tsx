@@ -47,9 +47,9 @@ const Header = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="sm" className="gap-2">
+            <Button variant="outline" size="sm" className="gap-2 border-primary/30 hover:bg-primary/10">
               <Phone className="w-4 h-4" />
-              <span className="hidden lg:inline">+91 98765 43210</span>
+              <span className="hidden lg:inline">Call Now</span>
             </Button>
             <Button variant="hero" size="default" asChild>
               <a href="#booking">
