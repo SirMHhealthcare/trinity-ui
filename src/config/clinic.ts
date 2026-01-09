@@ -44,10 +44,10 @@ export const clinic: ClinicInfo = {
     full: "19B, Kali Kothi, Near Darbaar School, Jhotwara, Jaipur, Rajasthan - 302015.",
   },
   contact: {
-    phone: "+919876543210",
-    phoneDisplay: "+91 98765 43210",
-    email: "doctor@homeopathy.com",
-    whatsapp: "919876543210",
+    phone: "+919782301786",
+    phoneDisplay: "+91 97823 01786",
+    email: "homeotrinity@gmail.com",
+    whatsapp: "+919782301786",
   },
   hours: {
     weekdays: "सोमवार - शनिवार: 10 AM - 7 PM",

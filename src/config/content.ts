@@ -42,7 +42,7 @@ export const content = {
     trustIndicators: {
       rating: { value: "4.9", label: "Google Rating" },
       patients: { value: "10,000+", label: "खुश मरीज़" },
-      experience: { value: "25+", label: "साल का अनुभव" },
+      experience: { value: "15+", label: "साल का अनुभव" },
     },
   },
 
