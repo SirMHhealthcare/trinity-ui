@@ -51,7 +51,7 @@ const Header = () => {
               <Phone className="w-4 h-4" />
               <span className="hidden lg:inline">Call Now</span>
             </Button>
-            <Button variant="hero" size="default" asChild>
+            <Button variant="hero" size="lg" className="animate-pulse shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-shadow" asChild>
               <a href="#booking">
                 <Calendar className="w-4 h-4" />
                 Book Appointment
