@@ -4,6 +4,7 @@ import { services } from "@/config";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TreatmentCTA from "@/components/TreatmentCTA";
+import treatmentHero from "@/assets/treatment-hero.jpg";
 
 // Placeholder detailed content for each service
 const treatmentDetails: Record<string, { title: string; content: string[] }> = {
@@ -107,25 +108,24 @@ const TreatmentPage = () => {
         {/* Hero Section */}
         <div className="relative h-64 md:h-80 overflow-hidden">
           <img
-            src={`${service.imagePath}?v=3`}
+            src={treatmentHero}
             alt={service.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-            <div className="container mx-auto">
-              <Link 
-                to="/#services" 
-                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-4"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Back to Services
-              </Link>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground">
-                {details.title}
-              </h1>
-            </div>
-          </div>
+        </div>
+        
+        {/* Title Section */}
+        <div className="container mx-auto px-4 py-8">
+          <Link 
+            to="/#services" 
+            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-4"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Services
+          </Link>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground">
+            {details.title}
+          </h1>
         </div>
 
         {/* Content Section */}

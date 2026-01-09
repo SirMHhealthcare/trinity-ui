@@ -40,14 +40,14 @@ const Services = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-start">
           {servicesData.map((service, index) => {
             const isExpanded = expandedId === service.id;
             
             return (
               <div
                 key={service.id}
-                className="group bg-card rounded-2xl border border-border hover:border-primary/30 transition-all duration-300 card-hover overflow-hidden cursor-pointer"
+                className="group bg-card rounded-2xl border border-border hover:border-primary/30 transition-all duration-300 card-hover overflow-hidden cursor-pointer self-start"
                 style={{ animationDelay: `${index * 100}ms` }}
                 onClick={() => toggleExpand(service.id)}
               >
@@ -89,7 +89,10 @@ const Services = () => {
                       <Link
                         to={`/treatment/${service.id}`}
                         className="inline-block text-primary text-sm font-medium hover:underline"
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.scrollTo(0, 0);
+                        }}
                       >
                         See more →
                       </Link>
