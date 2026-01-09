@@ -2,6 +2,7 @@ import { Phone, Calendar, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo.jpg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,23 +10,25 @@ const Header = () => {
   const navItems = [
     { label: "Home", href: "#home" },
     { label: "Services", href: "#services" },
-    { label: "हमारे बारे में", href: "#about" },
-    { label: "Booking करें", href: "#process" },
-    { label: "संपर्क करें", href: "#contact" },
+    { label: "About", href: "#about" },
+    { label: "Book Now", href: "#booking" },
+    { label: "Contact", href: "#contact" },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-cream/95 via-warm-white/95 to-sage/20 backdrop-blur-md border-b border-leaf-green/20 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2">
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-heading font-bold text-lg md:text-xl">H</span>
-            </div>
+          <a href="#home" className="flex items-center gap-3">
+            <img 
+              src={logo} 
+              alt="Trinity Homeopathy - Healing Naturally" 
+              className="h-14 md:h-[4.5rem] w-auto rounded-lg"
+            />
             <div className="hidden sm:block">
               <p className="font-heading font-semibold text-foreground text-sm md:text-base">Dr. Mohsin Khan</p>
-              <p className="text-xs text-muted-foreground">Homeopathy Clinic</p>
+              <p className="text-xs text-muted-foreground">Trinity Homeopathy</p>
             </div>
           </a>
 
@@ -35,7 +38,7 @@ const Header = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-muted-foreground hover:text-primary transition-colors font-medium"
+                className="relative text-muted-foreground hover:text-primary font-medium transition-all duration-300 hover:-translate-y-0.5 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[2px] after:-bottom-1 after:left-0 after:bg-primary after:rounded-full after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
               >
                 {item.label}
               </a>
@@ -44,11 +47,11 @@ const Header = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="sm" className="gap-2">
+            <Button variant="outline" size="sm" className="gap-2 border-primary/30 hover:bg-primary/10">
               <Phone className="w-4 h-4" />
-              <span className="hidden lg:inline">+91 98765 43210</span>
+              <span className="hidden lg:inline">Call Now</span>
             </Button>
-            <Button variant="hero" size="default" asChild>
+            <Button variant="hero" size="lg" className="shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 transition-all" asChild>
               <a href="#booking">
                 <Calendar className="w-4 h-4" />
                 Book Appointment

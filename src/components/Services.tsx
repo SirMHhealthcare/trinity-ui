@@ -1,27 +1,4 @@
-import { 
-  Leaf, 
-  Heart, 
-  Brain, 
-  Baby, 
-  Bone, 
-  Droplets,
-  Sparkles,
-  Shield,
-  LucideIcon
-} from "lucide-react";
 import { services as servicesData, content } from "@/config";
-
-// Icon mapping for dynamic icon rendering
-const iconMap: Record<string, LucideIcon> = {
-  Heart,
-  Leaf,
-  Brain,
-  Baby,
-  Bone,
-  Droplets,
-  Sparkles,
-  Shield,
-};
 
 const Services = () => {
   const { services: servicesContent } = content;
@@ -45,22 +22,30 @@ const Services = () => {
         {/* Services Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {servicesData.map((service, index) => {
-            const IconComponent = iconMap[service.iconName] || Heart;
             return (
               <div
                 key={service.id}
-                className="group bg-card p-6 rounded-2xl border border-border hover:border-primary/30 transition-all duration-300 card-hover"
+                className="group bg-card rounded-2xl border border-border hover:border-primary/30 transition-all duration-300 card-hover overflow-hidden"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className={`w-14 h-14 rounded-xl ${service.colorClass} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <IconComponent className="w-7 h-7" />
+                {/* Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={`${service.imagePath}?v=3`}
+                    alt={service.title}
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
-                <h3 className="font-heading font-semibold text-lg text-foreground mb-2">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {service.description}
-                </p>
+                
+                {/* Content */}
+                <div className="p-5">
+                  <h3 className="font-heading font-semibold text-lg text-foreground mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
               </div>
             );
           })}

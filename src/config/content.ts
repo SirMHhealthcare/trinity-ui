@@ -22,15 +22,16 @@ export const content = {
   // About Section
   about: {
     badge: "About",
-    headline: "आपकी सेहत के लिए समर्पित",
+    headline: "Trusted Care, Natural Healing",
+    subheadline: "Classical Homeopathy के ज़रिए complete wellness",
     experienceBadge: "Years of Healing",
   },
 
   // Services Section
   services: {
-    badge: "हमारी Services",
-    headline: "हर समस्या के लिए समग्र उपचार",
-    description: "हम बीमारी नहीं, व्यक्ति का इलाज करते हैं। आपकी ज़रूरत के अनुसार natural remedies।",
+    badge: "Our Services",
+    headline: "Specialized Treatment Areas",
+    description: "हर patient की unique health needs के लिए personalized homeopathic care। Symptoms नहीं, root cause का treatment।",
   },
 
   // Testimonials Section
@@ -41,7 +42,7 @@ export const content = {
     trustIndicators: {
       rating: { value: "4.9", label: "Google Rating" },
       patients: { value: "10,000+", label: "खुश मरीज़" },
-      experience: { value: "25+", label: "साल का अनुभव" },
+      experience: { value: "15+", label: "साल का अनुभव" },
     },
   },
 

@@ -1,5 +1,6 @@
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Youtube } from "lucide-react";
 import { getPrimaryDoctor, clinic, footerQuickLinks, services as servicesData, content } from "@/config";
+import logo from "@/assets/logo.jpg";
 
 const Footer = () => {
   const doctor = getPrimaryDoctor();
@@ -11,13 +12,15 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-heading font-bold text-lg">H</span>
-              </div>
+            <div className="flex items-center gap-3 mb-4">
+              <img 
+                src={logo} 
+                alt="Trinity Homeopathy - Healing Naturally" 
+                className="h-14 w-auto rounded-lg"
+              />
               <div>
                 <p className="font-heading font-semibold">{doctor.name}</p>
-                <p className="text-xs text-primary-foreground/70">Homeopathy Clinic</p>
+                <p className="text-xs text-primary-foreground/70">Trinity Homeopathy</p>
               </div>
             </div>
             <p className="text-primary-foreground/80 text-sm leading-relaxed mb-4">
