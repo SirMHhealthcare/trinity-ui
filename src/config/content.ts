@@ -90,7 +90,7 @@ export const content = {
       email: "Email Address",
       emailPlaceholder: "your.email@example.com",
       phone: "Phone Number",
-      phonePlaceholder: "+91 98765 43210",
+      phonePlaceholder: "+91 98765 43xxx",
       age: "Age",
       agePlaceholder: "30",
       gender: "Gender",
