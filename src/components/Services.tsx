@@ -1,7 +1,27 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 import { services as servicesData, content } from "@/config";
+
+// Placeholder expanded descriptions for each service
+const expandedDescriptions: Record<string, string> = {
+  chronic: "Chronic diseases require a holistic approach that addresses root causes. Our classical homeopathy treatment helps manage conditions like diabetes, thyroid disorders, and arthritis naturally, reducing dependence on conventional medications while improving quality of life.",
+  allergies: "Skin conditions and allergies often indicate internal imbalances. Our treatment strengthens your immune system and reduces hypersensitivity, providing lasting relief from eczema, psoriasis, urticaria, and seasonal allergies without harsh topical treatments.",
+  mental: "Mental wellness is crucial for overall health. Our gentle remedies address anxiety, depression, stress, and sleep disorders by restoring emotional balance. Experience improved mood and mental clarity without the side effects of conventional medications.",
+  child: "Children respond exceptionally well to homeopathy. We treat recurrent infections, growth issues, and behavioral problems with safe, pleasant-tasting remedies that build natural immunity and support healthy development.",
+  joint: "Joint and muscle pain can limit your daily life. Our constitutional remedies reduce inflammation, repair tissues, and restore mobility naturally. Experience relief from arthritis, back pain, and sports injuries without relying on painkillers.",
+  digestive: "Digestive health is fundamental to well-being. We treat acidity, IBS, constipation, and bloating by addressing underlying causes and restoring gut balance. Many patients find relief from issues that persisted for years.",
+  women: "Women's health requires specialized care. We effectively treat PCOS, irregular periods, menstrual pain, and menopausal symptoms through individualized treatment that addresses hormonal and emotional factors safely.",
+  immunity: "A strong immune system is your best defense. Our treatment enhances your body's vital force, making you more resistant to infections. Experience fewer illnesses and faster recovery times naturally."
+};
 
 const Services = () => {
   const { services: servicesContent } = content;
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  const toggleExpand = (id: string) => {
+    setExpandedId(expandedId === id ? null : id);
+  };
 
   return (
     <section id="services" className="py-16 md:py-24 bg-secondary/30">
@@ -20,13 +40,16 @@ const Services = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-start">
           {servicesData.map((service, index) => {
+            const isExpanded = expandedId === service.id;
+            
             return (
               <div
                 key={service.id}
-                className="group bg-card rounded-2xl border border-border hover:border-primary/30 transition-all duration-300 card-hover overflow-hidden"
+                className="group bg-card rounded-2xl border border-border hover:border-primary/30 transition-all duration-300 card-hover overflow-hidden cursor-pointer self-start"
                 style={{ animationDelay: `${index * 100}ms` }}
+                onClick={() => toggleExpand(service.id)}
               >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
@@ -39,12 +62,42 @@ const Services = () => {
                 
                 {/* Content */}
                 <div className="p-5">
-                  <h3 className="font-heading font-semibold text-lg text-foreground mb-2">
-                    {service.title}
-                  </h3>
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-heading font-semibold text-lg text-foreground mb-2">
+                      {service.title}
+                    </h3>
+                    <ChevronDown 
+                      className={`w-5 h-5 text-muted-foreground flex-shrink-0 transition-transform duration-300 ${
+                        isExpanded ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     {service.description}
                   </p>
+                  
+                  {/* Expanded Content */}
+                  <div 
+                    className={`grid transition-all duration-300 ease-in-out ${
+                      isExpanded ? "grid-rows-[1fr] opacity-100 mt-4" : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-3">
+                        {expandedDescriptions[service.id]}
+                      </p>
+                      <Link
+                        to={`/treatment/${service.id}`}
+                        className="inline-block text-primary text-sm font-medium hover:underline"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.scrollTo(0, 0);
+                        }}
+                      >
+                        See more →
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
             );
