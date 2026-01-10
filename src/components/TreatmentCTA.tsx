@@ -27,7 +27,7 @@ const TreatmentCTA = () => {
               <span>{clinic.contact.email}</span>
             </a>
           </div>
-          <Button onClick={scrollToBooking} size="lg" className="w-full sm:w-auto">
+          <Button onClick={scrollToBooking} size="lg" className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground">
             Book Appointment
           </Button>
         </div>
