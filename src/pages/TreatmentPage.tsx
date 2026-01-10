@@ -6,78 +6,78 @@ import Footer from "@/components/Footer";
 import TreatmentCTA from "@/components/TreatmentCTA";
 import treatmentHero from "@/assets/treatment-hero.jpg";
 
-// Placeholder detailed content for each service
+// Placeholder detailed content for each service (Hinglish)
 const treatmentDetails: Record<string, { title: string; content: string[] }> = {
   chronic: {
     title: "Chronic Diseases Treatment",
     content: [
-      "Chronic diseases like diabetes, thyroid disorders, and arthritis require a holistic approach that addresses the root cause rather than just managing symptoms. At Trinity Homeopathy Clinic, we specialize in treating these conditions through classical homeopathy, which aims to restore your body's natural balance.",
-      "Our treatment protocol begins with a comprehensive case-taking session where we understand your complete medical history, lifestyle factors, and the unique way your body responds to illness. This individualized approach ensures that the remedy selected is perfectly matched to your constitution.",
-      "Patients often experience significant improvement in their symptoms within the first few weeks of treatment, with many reporting reduced dependence on conventional medications over time. Our goal is not just to manage your condition but to help your body heal itself naturally.",
-      "We provide continuous support throughout your healing journey, with regular follow-ups to monitor progress and adjust treatment as needed. Many of our patients have successfully managed their chronic conditions and regained a better quality of life through our care."
+      "Chronic diseases जैसे diabetes, thyroid disorders और arthritis के लिए एक holistic approach ज़रूरी है जो सिर्फ symptoms manage करने की जगह root cause को address करे। Trinity Homeopathy Clinic में हम classical homeopathy के through इन conditions का specialized treatment करते हैं, जो आपके body का natural balance restore करता है।",
+      "हमारा treatment protocol एक comprehensive case-taking session से शुरू होता है जहाँ हम आपकी complete medical history, lifestyle factors और आपके body की unique response को समझते हैं। यह individualized approach ensure करता है कि selected remedy आपके constitution से perfectly match करे।",
+      "ज़्यादातर patients को treatment के पहले कुछ हफ्तों में ही significant improvement महसूस होती है, और कई patients की conventional medications पर dependency भी धीरे-धीरे कम हो जाती है। हमारा goal सिर्फ condition manage करना नहीं, बल्कि आपके body को naturally heal होने में मदद करना है।",
+      "हम आपकी healing journey में continuous support provide करते हैं, regular follow-ups के साथ progress monitor करते हैं और ज़रूरत के हिसाब से treatment adjust करते हैं। हमारे कई patients ने successfully अपनी chronic conditions manage की हैं और better quality of life पाई है।"
     ]
   },
   allergies: {
     title: "Allergies & Skin Treatment",
     content: [
-      "Skin conditions and allergies are often the body's way of expressing internal imbalances. Whether you're dealing with eczema, psoriasis, urticaria, or seasonal allergies, our homeopathic approach targets the underlying cause to provide lasting relief.",
-      "Unlike topical treatments that only suppress symptoms, homeopathy works from within to strengthen your immune system and reduce hypersensitivity. This means fewer flare-ups and a gradual reduction in the severity of your condition.",
-      "Our treatment takes into account various factors including dietary habits, stress levels, and genetic predispositions. We create a comprehensive treatment plan that may include lifestyle modifications alongside carefully selected homeopathic remedies.",
-      "Many patients who have struggled with chronic skin issues for years find significant relief through our treatment. The gentle nature of homeopathy makes it suitable for all ages, including infants and elderly patients with sensitive skin."
+      "Skin conditions और allergies अक्सर body की internal imbalances को express करने का तरीका होती हैं। चाहे आप eczema, psoriasis, urticaria या seasonal allergies से deal कर रहे हों, हमारा homeopathic approach underlying cause को target करके lasting relief provide करता है।",
+      "Topical treatments के विपरीत जो सिर्फ symptoms suppress करते हैं, homeopathy अंदर से काम करती है - आपके immune system को strengthen करती है और hypersensitivity को reduce करती है। इसका मतलब है कम flare-ups और condition की severity में gradual reduction।",
+      "हमारा treatment dietary habits, stress levels और genetic predispositions जैसे various factors को consider करता है। हम carefully selected homeopathic remedies के साथ-साथ lifestyle modifications को include करते हुए एक comprehensive treatment plan बनाते हैं।",
+      "कई patients जो सालों से chronic skin issues से struggle कर रहे थे, हमारे treatment से significant relief पाते हैं। Homeopathy की gentle nature इसे सभी ages के लिए suitable बनाती है, including infants और sensitive skin वाले elderly patients।"
     ]
   },
   mental: {
     title: "Mental Wellness Treatment",
     content: [
-      "Mental health is as important as physical health, and homeopathy offers a gentle yet effective approach to treating conditions like anxiety, depression, stress, and sleep disorders. Our remedies work on the emotional and mental plane to restore inner peace and balance.",
-      "We understand that mental health issues are deeply personal and often interconnected with physical symptoms. Our detailed consultation process helps us understand the complete picture, including your emotional patterns, fears, and life circumstances.",
-      "Homeopathic treatment for mental wellness is non-addictive and free from the side effects commonly associated with conventional psychiatric medications. Many patients experience improved mood, better sleep, and enhanced mental clarity within weeks of starting treatment.",
-      "We provide a supportive and judgment-free environment for our patients. Regular follow-ups help us track your progress and make necessary adjustments to ensure optimal results on your journey to mental wellness."
+      "Mental health उतनी ही important है जितनी physical health, और homeopathy anxiety, depression, stress और sleep disorders जैसी conditions के लिए एक gentle yet effective approach offer करती है। हमारी remedies emotional और mental plane पर काम करती हैं ताकि inner peace और balance restore हो सके।",
+      "हम समझते हैं कि mental health issues deeply personal होते हैं और अक्सर physical symptoms से interconnected होते हैं। हमारी detailed consultation process complete picture समझने में मदद करती है, including आपके emotional patterns, fears और life circumstances।",
+      "Mental wellness के लिए homeopathic treatment non-addictive है और conventional psychiatric medications से जुड़े common side effects से free है। कई patients treatment शुरू करने के हफ्तों में ही improved mood, better sleep और enhanced mental clarity experience करते हैं।",
+      "हम अपने patients के लिए एक supportive और judgment-free environment provide करते हैं। Regular follow-ups आपकी progress track करने और optimal results के लिए necessary adjustments करने में help करते हैं।"
     ]
   },
   child: {
     title: "Child Health Treatment",
     content: [
-      "Children respond exceptionally well to homeopathic treatment due to their high vitality and untainted constitutions. We treat a wide range of pediatric conditions including recurrent infections, growth issues, behavioral problems, and common childhood ailments.",
-      "Our gentle remedies are safe, pleasant-tasting, and easy to administer, making treatment stress-free for both children and parents. We focus on building your child's natural immunity rather than suppressing symptoms with strong medications.",
-      "Common conditions we treat include recurrent colds and coughs, tonsillitis, adenoids, allergies, asthma, digestive issues, and attention difficulties. Our holistic approach also addresses issues like bedwetting, night terrors, and teething troubles.",
-      "We work closely with parents to understand each child's unique temperament and health patterns. This collaborative approach ensures that your child receives personalized care that supports their overall growth and development."
+      "Children homeopathic treatment पर exceptionally well respond करते हैं क्योंकि उनकी high vitality और untainted constitutions होती है। हम recurrent infections, growth issues, behavioral problems और common childhood ailments सहित wide range की pediatric conditions treat करते हैं।",
+      "हमारी gentle remedies safe, pleasant-tasting और easy to administer हैं, जो treatment को बच्चों और parents दोनों के लिए stress-free बनाती हैं। हम strong medications से symptoms suppress करने की जगह आपके बच्चे की natural immunity build करने पर focus करते हैं।",
+      "Common conditions जो हम treat करते हैं उनमें recurrent colds और coughs, tonsillitis, adenoids, allergies, asthma, digestive issues और attention difficulties शामिल हैं। हमारा holistic approach bedwetting, night terrors और teething troubles जैसे issues को भी address करता है।",
+      "हम parents के साथ closely work करते हैं ताकि हर बच्चे के unique temperament और health patterns को समझ सकें। यह collaborative approach ensure करता है कि आपके बच्चे को personalized care मिले जो उनकी overall growth और development को support करे।"
     ]
   },
   joint: {
     title: "Joint & Muscle Treatment",
     content: [
-      "Joint and muscle pain can significantly impact your quality of life, limiting mobility and daily activities. Our homeopathic approach addresses conditions like arthritis, back pain, sciatica, frozen shoulder, and sports injuries at their root cause.",
-      "Rather than relying on painkillers that only mask symptoms, we use constitutional remedies that work to reduce inflammation, repair damaged tissues, and restore joint health naturally. Many patients experience improved mobility and reduced pain within weeks.",
-      "Our treatment protocol may include specific remedies for acute pain relief combined with constitutional treatment for long-term healing. We also provide guidance on exercises and lifestyle modifications that support joint health.",
-      "Whether you're dealing with age-related joint degeneration or injury-related muscle pain, our personalized treatment plans aim to restore function and improve your quality of life without the side effects of conventional pain management."
+      "Joint और muscle pain आपकी quality of life को significantly impact कर सकता है, mobility और daily activities को limit करता है। हमारा homeopathic approach arthritis, back pain, sciatica, frozen shoulder और sports injuries जैसी conditions को root cause पर address करता है।",
+      "Painkillers पर rely करने की जगह जो सिर्फ symptoms mask करते हैं, हम constitutional remedies use करते हैं जो inflammation reduce करने, damaged tissues repair करने और joint health naturally restore करने में काम करती हैं। कई patients हफ्तों में ही improved mobility और reduced pain experience करते हैं।",
+      "हमारा treatment protocol acute pain relief के लिए specific remedies को long-term healing के लिए constitutional treatment के साथ combine कर सकता है। हम joint health support करने वाले exercises और lifestyle modifications पर guidance भी provide करते हैं।",
+      "चाहे आप age-related joint degeneration से deal कर रहे हों या injury-related muscle pain से, हमारे personalized treatment plans conventional pain management के side effects के बिना function restore करने और quality of life improve करने का aim रखते हैं।"
     ]
   },
   digestive: {
     title: "Digestive Health Treatment",
     content: [
-      "Digestive health is fundamental to overall well-being, and issues like acidity, IBS, constipation, and bloating can severely affect daily life. Our homeopathic treatment addresses digestive disorders by restoring the natural balance of your gut.",
-      "We take a comprehensive approach, considering factors like dietary habits, stress levels, and lifestyle patterns that contribute to digestive issues. This allows us to treat not just the symptoms but the underlying causes of your condition.",
-      "Common conditions we treat include GERD, gastritis, ulcerative colitis, Crohn's disease, food intolerances, and functional digestive disorders. Our remedies work to heal the digestive tract and restore normal function.",
-      "Many patients experience relief from chronic digestive issues that have persisted for years. Our gentle approach is particularly beneficial for those who have developed sensitivity to conventional digestive medications."
+      "Digestive health overall well-being के लिए fundamental है, और acidity, IBS, constipation और bloating जैसी issues daily life को severely affect कर सकती हैं। हमारा homeopathic treatment आपके gut का natural balance restore करके digestive disorders address करता है।",
+      "हम एक comprehensive approach लेते हैं, dietary habits, stress levels और lifestyle patterns जैसे factors को consider करते हुए जो digestive issues में contribute करते हैं। यह हमें सिर्फ symptoms नहीं बल्कि आपकी condition के underlying causes treat करने की allow करता है।",
+      "Common conditions जो हम treat करते हैं उनमें GERD, gastritis, ulcerative colitis, Crohn's disease, food intolerances और functional digestive disorders शामिल हैं। हमारी remedies digestive tract heal करने और normal function restore करने में काम करती हैं।",
+      "कई patients सालों से persist कर रहे chronic digestive issues से relief experience करते हैं। हमारा gentle approach particularly उनके लिए beneficial है जिन्होंने conventional digestive medications से sensitivity develop कर ली है।"
     ]
   },
   women: {
     title: "Women's Health Treatment",
     content: [
-      "Women's health encompasses a unique set of conditions related to hormonal balance, reproductive health, and life transitions. We specialize in treating PCOS, irregular periods, menstrual pain, infertility, and menopausal symptoms through classical homeopathy.",
-      "Our approach recognizes that women's health issues are often interconnected with emotional and hormonal factors. We conduct detailed consultations to understand your complete symptom picture and provide truly individualized treatment.",
-      "Homeopathy offers a safe and effective alternative for conditions like fibroids, ovarian cysts, endometriosis, and hormonal imbalances without the side effects of hormone replacement therapy. Many women find lasting relief and improved quality of life.",
-      "We also support women through life transitions like pregnancy planning, postpartum recovery, and menopause. Our gentle remedies are safe during these sensitive periods and help maintain optimal health naturally."
+      "Women's health में hormonal balance, reproductive health और life transitions से related unique conditions शामिल हैं। हम PCOS, irregular periods, menstrual pain, infertility और menopausal symptoms का classical homeopathy के through specialized treatment करते हैं।",
+      "हमारा approach recognize करता है कि women's health issues अक्सर emotional और hormonal factors से interconnected होते हैं। हम detailed consultations conduct करते हैं ताकि आपकी complete symptom picture समझ सकें और truly individualized treatment provide कर सकें।",
+      "Homeopathy fibroids, ovarian cysts, endometriosis और hormonal imbalances जैसी conditions के लिए hormone replacement therapy के side effects के बिना एक safe और effective alternative offer करती है। कई महिलाओं को lasting relief और improved quality of life मिलती है।",
+      "हम महिलाओं को pregnancy planning, postpartum recovery और menopause जैसी life transitions में भी support करते हैं। हमारी gentle remedies इन sensitive periods में safe हैं और naturally optimal health maintain करने में help करती हैं।"
     ]
   },
   immunity: {
     title: "Immunity Boost Treatment",
     content: [
-      "A strong immune system is your best defense against illness. If you find yourself frequently falling sick, experiencing prolonged recovery times, or feeling low on energy, our immunity-boosting treatment can help strengthen your natural defenses.",
-      "Our approach goes beyond simple supplements to address the root causes of low immunity. We consider factors like chronic stress, sleep patterns, nutritional deficiencies, and underlying health conditions that may be compromising your immune function.",
-      "Constitutional homeopathic treatment works to enhance your body's vital force, making you more resistant to infections and improving overall vitality. Many patients report fewer illnesses and faster recovery times after starting treatment.",
-      "Whether you're recovering from a prolonged illness, preparing for seasonal changes, or simply want to optimize your health, our personalized immunity treatment plans can help you achieve and maintain robust health naturally."
+      "एक strong immune system illness के खिलाफ आपकी best defense है। अगर आप frequently बीमार पड़ते हैं, recovery में ज्यादा time लगता है, या energy low feel होती है, तो हमारा immunity-boosting treatment आपकी natural defenses strengthen करने में मदद कर सकता है।",
+      "हमारा approach simple supplements से beyond जाकर low immunity के root causes address करता है। हम chronic stress, sleep patterns, nutritional deficiencies और underlying health conditions जैसे factors consider करते हैं जो आपके immune function को compromise कर रहे हों।",
+      "Constitutional homeopathic treatment आपके body की vital force enhance करने में काम करता है, जिससे आप infections के against more resistant बनते हैं और overall vitality improve होती है। कई patients कम बीमारियाँ और faster recovery times report करते हैं।",
+      "चाहे आप prolonged illness से recover कर रहे हों, seasonal changes के लिए prepare कर रहे हों, या simply अपनी health optimize करना चाहते हों, हमारे personalized immunity treatment plans naturally robust health achieve और maintain करने में आपकी help कर सकते हैं।"
     ]
   }
 };
