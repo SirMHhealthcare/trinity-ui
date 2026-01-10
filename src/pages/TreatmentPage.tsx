@@ -1,9 +1,10 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { services } from "@/config";
+import { services, clinic } from "@/config";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TreatmentCTA from "@/components/TreatmentCTA";
+import WhatsAppChat from "@/components/WhatsAppChat";
 import treatmentHero from "@/assets/treatment-hero.jpg";
 
 // Placeholder detailed content for each service (Hinglish)
@@ -145,6 +146,7 @@ const TreatmentPage = () => {
 
       <Footer />
       <TreatmentCTA />
+      <WhatsAppChat phoneNumber={clinic.contact.whatsapp} />
     </div>
   );
 };
