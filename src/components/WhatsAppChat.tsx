@@ -14,9 +14,12 @@ const WhatsAppChat = ({ phoneNumber, defaultMessage = "Namaste! Mujhe appointmen
   useEffect(() => {
     // Show button after a short delay
     const buttonTimer = setTimeout(() => setShowButton(true), 1000);
+    // Auto-open popup after 2 seconds
+    const popupTimer = setTimeout(() => setIsOpen(true), 2000);
 
     return () => {
       clearTimeout(buttonTimer);
+      clearTimeout(popupTimer);
     };
   }, []);
 
