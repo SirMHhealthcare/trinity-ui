@@ -13,7 +13,7 @@ const Hero = () => {
   ];
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section id="home" className="relative min-h-screen flex items-center pt-24 md:pt-20 overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-gradient-to-br from-secondary via-background to-cream opacity-80" />
       <div className="absolute top-20 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
@@ -45,7 +45,7 @@ const Hero = () => {
                 </a>
               </Button>
               <Button variant="outline" size="xl" asChild>
-                <a href="#services">
+                <a href="#treatments">
                   {hero.ctaSecondary}
                 </a>
               </Button>

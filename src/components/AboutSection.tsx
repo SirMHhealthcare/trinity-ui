@@ -51,7 +51,7 @@ const AboutSection = () => {
             <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
               {doctor.bio.detailed}
             </p>
-            <p className="text-muted-foreground mb-8 leading-relaxed">
+            <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
               {doctor.bio.approach}
             </p>
 

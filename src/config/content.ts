@@ -11,7 +11,7 @@ export const content = {
     ctaSecondary: "View Services",
     stats: {
       patients: { value: "10,000+", label: "Happy Patients" },
-      experience: { value: "25+", label: "Years Experience" },
+      experience: { value: "15+", label: "Years Experience" },
       natural: { value: "100%", label: "Natural Treatment" },
     },
     trustBadge: {
@@ -23,15 +23,15 @@ export const content = {
   about: {
     badge: "About",
     headline: "Trusted Care, Natural Healing",
-    subheadline: "Classical Homeopathy के ज़रिए complete wellness",
+    subheadline: "Complete wellness through Classical Homeopathy",
     experienceBadge: "Years of Healing",
   },
 
-  // Services Section
+  // Treatments Section
   services: {
-    badge: "Our Services",
+    badge: "Our Treatments",
     headline: "Specialized Treatment Areas",
-    description: "हर patient की unique health needs के लिए personalized homeopathic care। Symptoms नहीं, root cause का treatment।",
+    description: "Personalized homeopathic care for your unique health needs. We treat the root cause, not just symptoms.",
   },
 
   // Testimonials Section
