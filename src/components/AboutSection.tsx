@@ -1,5 +1,6 @@
 import { Award, GraduationCap, Clock, MapPin } from "lucide-react";
 import { getPrimaryDoctor, content } from "@/config";
+import LogoWatermark from "./LogoWatermark";
 
 const AboutSection = () => {
   const doctor = getPrimaryDoctor();
@@ -13,7 +14,10 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="py-16 md:py-24 bg-background">
+    <section id="about" className="py-16 md:py-24 bg-background relative overflow-hidden">
+      {/* Logo Watermark */}
+      <LogoWatermark className="top-10 right-10" size="lg" opacity={0.04} />
+      <LogoWatermark className="bottom-10 left-10" size="md" opacity={0.03} />
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Image */}

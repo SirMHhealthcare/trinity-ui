@@ -1,11 +1,15 @@
 import { Phone, Calendar, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.jpg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === "/";
 
   const navItems = [
     { label: "Home", href: "#home" },
@@ -15,18 +19,35 @@ const Header = () => {
     { label: "Contact", href: "#contact" },
   ];
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!isHomePage) {
+      e.preventDefault();
+      navigate("/" + href);
+    }
+  };
+
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isHomePage) {
+      e.preventDefault();
+      navigate("/");
+    }
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-cream/95 via-warm-white/95 to-sage/20 backdrop-blur-md border-b border-leaf-green/20 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <a href="#home" className="flex items-center gap-3">
-            <img 
-              src={logo} 
-              alt="Trinity Homeopathy - Healing Naturally" 
-              className="h-14 md:h-[4.5rem] w-auto rounded-lg"
-            />
-            <div className="hidden sm:block">
+          {/* Logo - Enhanced with glow effect */}
+          <a href="#home" onClick={handleLogoClick} className="flex items-center gap-3 group">
+            <div className="relative">
+              <div className="absolute -inset-1 bg-primary/20 rounded-xl blur-md group-hover:bg-primary/30 transition-all duration-300" />
+              <img 
+                src={logo} 
+                alt="Trinity Homeopathy - Healing Naturally" 
+                className="relative h-14 md:h-[4.5rem] w-auto rounded-lg shadow-lg shadow-primary/20 group-hover:shadow-xl group-hover:shadow-primary/30 transition-all duration-300"
+              />
+            </div>
+            <div className="block">
               <p className="font-heading font-semibold text-foreground text-sm md:text-base">Dr. Mohsin Khan</p>
               <p className="text-xs text-muted-foreground">Trinity Homeopathy</p>
             </div>
@@ -38,6 +59,7 @@ const Header = () => {
               <a
                 key={item.label}
                 href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className="relative text-muted-foreground hover:text-primary font-medium transition-all duration-300 hover:-translate-y-0.5 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[2px] after:-bottom-1 after:left-0 after:bg-primary after:rounded-full after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
               >
                 {item.label}
@@ -52,7 +74,7 @@ const Header = () => {
               <span className="hidden lg:inline">Call Now</span>
             </Button>
             <Button variant="hero" size="lg" className="shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 transition-all" asChild>
-              <a href="#booking">
+              <a href="#booking" onClick={(e) => handleNavClick(e, "#booking")}>
                 <Calendar className="w-4 h-4" />
                 Book Appointment
               </a>
@@ -78,19 +100,37 @@ const Header = () => {
         )}
       >
         <nav className="container mx-auto px-4 py-4 flex flex-col gap-2">
+          {/* Mobile Logo Display */}
+          <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
+            <div className="relative">
+              <div className="absolute -inset-1 bg-primary/20 rounded-lg blur-sm" />
+              <img 
+                src={logo} 
+                alt="Trinity Homeopathy" 
+                className="relative h-12 w-auto rounded-lg shadow-md shadow-primary/20"
+              />
+            </div>
+            <div>
+              <p className="font-heading font-semibold text-foreground text-sm">Dr. Mohsin Khan</p>
+              <p className="text-xs text-muted-foreground">Trinity Homeopathy</p>
+            </div>
+          </div>
           {navItems.map((item) => (
             <a
               key={item.label}
               href={item.href}
+              onClick={(e) => {
+                handleNavClick(e, item.href);
+                setIsMenuOpen(false);
+              }}
               className="py-3 px-4 text-foreground hover:bg-secondary rounded-lg transition-colors"
-              onClick={() => setIsMenuOpen(false)}
             >
               {item.label}
             </a>
           ))}
           <div className="pt-4 border-t border-border mt-2">
             <Button variant="hero" size="lg" className="w-full" asChild>
-              <a href="#booking">
+              <a href="#booking" onClick={(e) => handleNavClick(e, "#booking")}>
                 <Calendar className="w-5 h-5" />
                 Book Appointment
               </a>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { services as servicesData, content } from "@/config";
+import LogoWatermark from "./LogoWatermark";
 
 // Placeholder expanded descriptions for each service
 const expandedDescriptions: Record<string, string> = {
@@ -24,7 +25,10 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="py-16 md:py-24 bg-secondary/30">
+    <section id="services" className="py-16 md:py-24 bg-secondary/30 relative overflow-hidden">
+      {/* Logo Watermarks */}
+      <LogoWatermark className="top-20 left-5" size="lg" opacity={0.04} />
+      <LogoWatermark className="bottom-20 right-5" size="md" opacity={0.03} />
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
