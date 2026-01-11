@@ -25,7 +25,7 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="py-16 md:py-24 bg-secondary/30 relative overflow-hidden">
+    <section id="treatments" className="py-16 md:py-24 bg-secondary/30 relative overflow-hidden">
       {/* Logo Watermarks */}
       <LogoWatermark className="top-20 left-5" size="lg" opacity={0.04} />
       <LogoWatermark className="bottom-20 right-5" size="md" opacity={0.03} />
