@@ -3,16 +3,16 @@
 export const content = {
   // Hero Section
   hero: {
-    badge: "प्राकृतिक उपचार, स्थायी परिणाम",
-    headline: "प्रकृति के साथ मिलकर",
-    headlineHighlight: "सेहत बनाएँ",
-    description: "आपकी ज़रूरत के हिसाब से personalized homeopathic treatment। Chronic diseases, allergies, और lifestyle disorders में भरोसेमंद इलाज।",
-    ctaPrimary: "Online Consultation बुक करें",
-    ctaSecondary: "Services देखें",
+    badge: "Natural Healing, Lasting Results",
+    headline: "Heal Naturally with",
+    headlineHighlight: "Classical Homeopathy",
+    description: "Personalized homeopathic treatment tailored to your needs. Trusted care for chronic diseases, allergies, and lifestyle disorders. Online consultations available across India.",
+    ctaPrimary: "Book Online Consultation",
+    ctaSecondary: "View Services",
     stats: {
-      patients: { value: "10,000+", label: "खुश मरीज़" },
-      experience: { value: "25+", label: "साल का अनुभव" },
-      natural: { value: "100%", label: "प्राकृतिक इलाज" },
+      patients: { value: "10,000+", label: "Happy Patients" },
+      experience: { value: "25+", label: "Years Experience" },
+      natural: { value: "100%", label: "Natural Treatment" },
     },
     trustBadge: {
       title: "Verified Doctor",

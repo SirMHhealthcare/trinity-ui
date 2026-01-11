@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAvailableSlots } from "@/hooks/useAvailableSlots";
 import { format, addMonths, isToday, parse, isBefore } from "date-fns";
 import { bookingConfig, bookingContent } from "@/config";
+import logo from "@/assets/logo.jpg";
 
 const BookingSection = () => {
   const { toast } = useToast();
@@ -487,10 +488,18 @@ const BookingSection = () => {
             {/* Step 3: Confirmation */}
             {step === 3 && (
               <div className="space-y-6 animate-fade-in">
-                {/* Success Header */}
+                {/* Success Header with Logo */}
                 <div className="text-center py-4">
-                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle2 className="w-10 h-10 text-green-600" />
+                  <div className="relative w-24 h-24 mx-auto mb-4">
+                    <div className="absolute inset-0 bg-green-100 rounded-full" />
+                    <img 
+                      src={logo} 
+                      alt="Trinity Homeopathy" 
+                      className="absolute inset-2 w-20 h-20 rounded-full object-cover shadow-lg"
+                    />
+                    <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                      <CheckCircle2 className="w-5 h-5 text-white" />
+                    </div>
                   </div>
                   <h3 className="font-heading font-bold text-2xl text-foreground mb-2">
                     {bookingContent.steps.confirmation.title}

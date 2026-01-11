@@ -8,6 +8,27 @@ const Footer = () => {
 
   return (
     <footer id="contact" className="bg-foreground text-primary-foreground">
+      {/* Large Logo Brand Section */}
+      <div className="border-b border-primary-foreground/10">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+            <div className="relative">
+              <div className="absolute -inset-2 bg-primary/20 rounded-2xl blur-lg" />
+              <img 
+                src={logo} 
+                alt="Trinity Homeopathy - Healing Naturally" 
+                className="relative h-24 md:h-28 w-auto rounded-xl shadow-xl shadow-primary/30"
+              />
+            </div>
+            <div className="text-center md:text-left">
+              <h3 className="font-heading text-2xl md:text-3xl font-bold text-primary-foreground">{doctor.name}</h3>
+              <p className="text-primary-foreground/80 text-lg">Trinity Homeopathy Clinic</p>
+              <p className="text-primary-foreground/60 text-sm mt-1">Natural Healing • Trusted Care • Pan-India Service</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
@@ -16,7 +37,7 @@ const Footer = () => {
               <img 
                 src={logo} 
                 alt="Trinity Homeopathy - Healing Naturally" 
-                className="h-14 w-auto rounded-lg"
+                className="h-14 w-auto rounded-lg shadow-lg shadow-primary/20"
               />
               <div>
                 <p className="font-heading font-semibold">{doctor.name}</p>
