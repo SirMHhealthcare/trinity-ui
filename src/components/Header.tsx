@@ -34,22 +34,22 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-cream/95 via-warm-white/95 to-sage/20 backdrop-blur-md border-b border-leaf-green/20 shadow-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-foreground/85 backdrop-blur-xl border-b border-primary/20 shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo - Enhanced with glow effect */}
+          {/* Logo - Pops on dark background */}
           <a href="#home" onClick={handleLogoClick} className="flex items-center gap-3 group">
             <div className="relative">
-              <div className="absolute -inset-1 bg-primary/20 rounded-xl blur-md group-hover:bg-primary/30 transition-all duration-300" />
+              <div className="absolute -inset-1.5 bg-primary/30 rounded-xl blur-lg group-hover:bg-primary/40 transition-all duration-300" />
               <img 
                 src={logo} 
                 alt="Trinity Homeopathy - Healing Naturally" 
-                className="relative h-14 md:h-[4.5rem] w-auto rounded-lg shadow-lg shadow-primary/20 group-hover:shadow-xl group-hover:shadow-primary/30 transition-all duration-300"
+                className="relative h-12 md:h-14 w-auto rounded-lg ring-2 ring-primary/40 shadow-xl shadow-black/30 group-hover:ring-primary/60 transition-all duration-300"
               />
             </div>
             <div className="block">
-              <p className="font-heading font-semibold text-foreground text-sm md:text-base">Dr. Mohsin Khan</p>
-              <p className="text-xs text-muted-foreground">Trinity Homeopathy</p>
+              <p className="font-heading font-semibold text-primary-foreground text-sm md:text-base">Dr. Mohsin Khan</p>
+              <p className="text-xs text-primary-foreground/70">Trinity Homeopathy</p>
             </div>
           </a>
 
@@ -60,7 +60,7 @@ const Header = () => {
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className="relative text-muted-foreground hover:text-primary font-medium transition-all duration-300 hover:-translate-y-0.5 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[2px] after:-bottom-1 after:left-0 after:bg-primary after:rounded-full after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
+                className="relative text-primary-foreground/80 hover:text-primary font-medium transition-all duration-300 hover:-translate-y-0.5 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[2px] after:-bottom-1 after:left-0 after:bg-primary after:rounded-full after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
               >
                 {item.label}
               </a>
@@ -69,11 +69,11 @@ const Header = () => {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="outline" size="sm" className="gap-2 border-primary/30 hover:bg-primary/10">
+            <Button variant="outline" size="sm" className="gap-2 border-primary/50 text-primary-foreground hover:bg-primary/20 hover:text-primary-foreground">
               <Phone className="w-4 h-4" />
               <span className="hidden lg:inline">Call Now</span>
             </Button>
-            <Button variant="hero" size="lg" className="shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 transition-all" asChild>
+            <Button variant="hero" size="lg" className="shadow-lg shadow-accent/40 hover:shadow-xl hover:shadow-accent/50 transition-all" asChild>
               <a href="#booking" onClick={(e) => handleNavClick(e, "#booking")}>
                 <Calendar className="w-4 h-4" />
                 Book Appointment
@@ -83,7 +83,7 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 text-foreground"
+            className="lg:hidden p-2 text-primary-foreground"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -92,27 +92,27 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Dark frosted glass */}
       <div
         className={cn(
-          "lg:hidden absolute top-full left-0 right-0 bg-background border-b border-border transition-all duration-300 overflow-hidden",
-          isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          "lg:hidden absolute top-full left-0 right-0 bg-foreground/95 backdrop-blur-xl border-b border-primary/20 transition-all duration-300 overflow-hidden",
+          isMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
         )}
       >
         <nav className="container mx-auto px-4 py-4 flex flex-col gap-2">
           {/* Mobile Logo Display */}
-          <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
+          <div className="flex items-center gap-3 mb-4 pb-4 border-b border-primary-foreground/20">
             <div className="relative">
-              <div className="absolute -inset-1 bg-primary/20 rounded-lg blur-sm" />
+              <div className="absolute -inset-1 bg-primary/30 rounded-lg blur-sm" />
               <img 
                 src={logo} 
                 alt="Trinity Homeopathy" 
-                className="relative h-12 w-auto rounded-lg shadow-md shadow-primary/20"
+                className="relative h-12 w-auto rounded-lg ring-2 ring-primary/40 shadow-lg"
               />
             </div>
             <div>
-              <p className="font-heading font-semibold text-foreground text-sm">Dr. Mohsin Khan</p>
-              <p className="text-xs text-muted-foreground">Trinity Homeopathy</p>
+              <p className="font-heading font-semibold text-primary-foreground text-sm">Dr. Mohsin Khan</p>
+              <p className="text-xs text-primary-foreground/70">Trinity Homeopathy</p>
             </div>
           </div>
           {navItems.map((item) => (
@@ -123,13 +123,13 @@ const Header = () => {
                 handleNavClick(e, item.href);
                 setIsMenuOpen(false);
               }}
-              className="py-3 px-4 text-foreground hover:bg-secondary rounded-lg transition-colors"
+              className="py-3 px-4 text-primary-foreground/90 hover:bg-primary/20 hover:text-primary rounded-lg transition-colors"
             >
               {item.label}
             </a>
           ))}
-          <div className="pt-4 border-t border-border mt-2">
-            <Button variant="hero" size="lg" className="w-full" asChild>
+          <div className="pt-4 border-t border-primary-foreground/20 mt-2">
+            <Button variant="hero" size="lg" className="w-full shadow-lg shadow-accent/30" asChild>
               <a href="#booking" onClick={(e) => handleNavClick(e, "#booking")}>
                 <Calendar className="w-5 h-5" />
                 Book Appointment
