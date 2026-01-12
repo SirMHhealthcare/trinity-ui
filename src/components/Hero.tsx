@@ -78,6 +78,8 @@ const Hero = () => {
                   src={logoImage}
                   alt={clinic.name}
                   className="w-full h-full object-contain drop-shadow-lg"
+                  style={{ imageRendering: 'auto' }}
+                  loading="eager"
                 />
               </div>
               

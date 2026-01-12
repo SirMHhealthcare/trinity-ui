@@ -20,10 +20,10 @@ const Footer = () => {
                 className="relative h-24 md:h-28 w-auto rounded-xl shadow-xl shadow-primary/30"
               />
             </div>
-            <div className="text-center md:text-left">
-              <h3 className="font-heading text-2xl md:text-3xl font-bold text-primary-foreground">{doctor.name}</h3>
-              <p className="text-primary-foreground/80 text-lg">Trinity Homeopathy Clinic</p>
-              <p className="text-primary-foreground/60 text-sm mt-1">Natural Healing • Trusted Care • Pan-India Service</p>
+          <div className="text-center md:text-left">
+              <h3 className="font-heading text-2xl md:text-3xl font-bold text-primary-foreground">Trinity Homeopathy</h3>
+              <p className="text-primary-foreground/80 text-lg">Natural Healing, Lasting Results</p>
+              <p className="text-primary-foreground/60 text-sm mt-1">Trusted Care • Pan-India Service</p>
             </div>
           </div>
         </div>
@@ -40,8 +40,8 @@ const Footer = () => {
                 className="h-14 w-auto rounded-lg shadow-lg shadow-primary/20"
               />
               <div>
-                <p className="font-heading font-semibold">{doctor.name}</p>
-                <p className="text-xs text-primary-foreground/70">Trinity Homeopathy</p>
+                <p className="font-heading font-semibold">Trinity Homeopathy</p>
+                <p className="text-xs text-primary-foreground/70">Natural Healing Clinic</p>
               </div>
             </div>
             <p className="text-primary-foreground/80 text-sm leading-relaxed mb-4">
@@ -80,7 +80,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {servicesData.slice(0, 5).map((service) => (
                 <li key={service.id}>
-                  <a href="#services" className="text-primary-foreground/80 hover:text-primary transition-colors text-sm">
+                  <a href="#treatments" className="text-primary-foreground/80 hover:text-primary transition-colors text-sm">
                     {service.title}
                   </a>
                 </li>

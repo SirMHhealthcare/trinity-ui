@@ -7,7 +7,8 @@ export interface NavItem {
 export const mainNavigation: NavItem[] = [
   { label: "Home", href: "#home" },
   { label: "Treatments", href: "#treatments" },
-  { label: "About", href: "#about" },
+  { label: "About Us", href: "#about" },
+  { label: "Our Team", href: "#team" },
   { label: "Reviews", href: "#testimonials" },
   { label: "Contact", href: "#contact" },
 ];
@@ -15,7 +16,8 @@ export const mainNavigation: NavItem[] = [
 export const footerQuickLinks: NavItem[] = [
   { label: "Home", href: "#home" },
   { label: "Treatments", href: "#treatments" },
-  { label: "About Doctor", href: "#about" },
+  { label: "About Us", href: "#about" },
+  { label: "Our Team", href: "#team" },
   { label: "Book Appointment", href: "#booking" },
   { label: "Contact", href: "#contact" },
 ];
