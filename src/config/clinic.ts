@@ -50,8 +50,8 @@ export const clinic: ClinicInfo = {
     whatsapp: "919782301786",
   },
   hours: {
-    weekdays: "सोमवार - शनिवार: 10 AM - 7 PM",
-    sunday: "रविवार: Appointment पर",
+    weekdays: "सोमवार - शनिवार: 9 AM - 10 PM",
+    sunday: "रविवार: 9 AM - 10 PM",
   },
   socialLinks: {
     facebook: "https://www.facebook.com/profile.php?id=61583780979394#",
