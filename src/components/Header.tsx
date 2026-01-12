@@ -48,8 +48,8 @@ const Header = () => {
               />
             </div>
             <div className="block">
-              <p className="font-heading font-semibold text-primary-foreground text-sm md:text-base">Dr. Mohsin Khan</p>
-              <p className="text-xs text-primary-foreground/70">Trinity Homeopathy</p>
+              <p className="font-heading font-semibold text-primary-foreground text-sm md:text-base">Trinity Homeopathy</p>
+              <p className="text-xs text-primary-foreground/70">Natural Healing, Lasting Results</p>
             </div>
           </a>
 
@@ -111,8 +111,8 @@ const Header = () => {
               />
             </div>
             <div>
-              <p className="font-heading font-semibold text-primary-foreground text-sm">Dr. Mohsin Khan</p>
-              <p className="text-xs text-primary-foreground/70">Trinity Homeopathy</p>
+              <p className="font-heading font-semibold text-primary-foreground text-sm">Trinity Homeopathy</p>
+              <p className="text-xs text-primary-foreground/70">Natural Healing</p>
             </div>
           </div>
           {navItems.map((item) => (

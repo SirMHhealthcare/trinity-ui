@@ -3,28 +3,36 @@
 export const content = {
   // Hero Section
   hero: {
-    badge: "Natural Healing, Lasting Results",
-    headline: "Heal Naturally with",
-    headlineHighlight: "Classical Homeopathy",
-    description: "Personalized homeopathic treatment tailored to your needs. Trusted care for chronic diseases, allergies, and lifestyle disorders. Online consultations available across India.",
+    badge: "India's Trusted Homeopathy Clinic",
+    headline: "Trinity Homeopathy",
+    headlineHighlight: "Natural Healing, Lasting Results",
+    description: "Personalized homeopathic treatment by experienced practitioners. Trusted care for chronic diseases, allergies, and lifestyle disorders. Online consultations available pan-India.",
     ctaPrimary: "Book Online Consultation",
-    ctaSecondary: "View Services",
+    ctaSecondary: "View Treatments",
     stats: {
       patients: { value: "10,000+", label: "Happy Patients" },
-      experience: { value: "15+", label: "Years Experience" },
+      experience: { value: "15+", label: "Years of Trust" },
       natural: { value: "100%", label: "Natural Treatment" },
     },
     trustBadge: {
-      title: "Verified Doctor",
+      title: "Trusted Clinic",
     },
   },
 
-  // About Section
+  // About Section - Clinic focused
   about: {
-    badge: "About",
-    headline: "Trusted Care, Natural Healing",
-    subheadline: "Complete wellness through Classical Homeopathy",
-    experienceBadge: "Years of Healing",
+    badge: "About Us",
+    headline: "Our Story",
+    subheadline: "Where Tradition Meets Modern Care",
+    mission: "At Trinity Homeopathy, we believe in treating the whole person, not just symptoms. Our mission is to bring the gentle, yet powerful healing of Classical Homeopathy to every Indian household through personalized care and accessible online consultations.",
+    values: "We combine time-tested homeopathic principles with a patient-first approach. Every treatment plan is carefully crafted to address root causes, ensuring lasting wellness without side effects.",
+  },
+
+  // Team Section
+  team: {
+    badge: "Our Team",
+    headline: "Meet Our Doctors",
+    description: "Experienced practitioners dedicated to your holistic wellness journey.",
   },
 
   // Treatments Section
