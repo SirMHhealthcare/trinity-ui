@@ -73,7 +73,7 @@ const Header = () => {
               <Phone className="w-4 h-4" />
               <span className="hidden lg:inline">Call Now</span>
             </Button>
-            <Button variant="hero" size="lg" className="shadow-lg shadow-accent/40 hover:shadow-xl hover:shadow-accent/50 transition-all" asChild>
+            <Button variant="hero" size="lg" asChild>
               <a href="#booking" onClick={(e) => handleNavClick(e, "#booking")}>
                 <Calendar className="w-4 h-4" />
                 Book Appointment
