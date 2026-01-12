@@ -72,6 +72,7 @@ const SEOSchema = () => {
     image: "https://trinityhomeopathy.com/doctor-portrait.jpg",
     telephone: doctor.phone,
     email: doctor.email,
+    jobTitle: "Founder & Lead Consultant",
     address: {
       "@type": "PostalAddress",
       addressLocality: clinic.address.city,
