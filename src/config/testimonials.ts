@@ -23,6 +23,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     text: "Trinity Homeopathy has turned out to be a blessing for me. Dr. Mohsin's treatment for me was so effective that it totally eradicated this disease without any side effects. Over the online consultation, service, Dr. Mohsin took time to listen patiently and understand my concerns in detail, rather than rushing to prescribe something quickly. That itself built a lot of confidence for me.The approach felt holistic and personalised, and the treatment plan was explained clearly. I Highly recommended their service!! A big thank you to their team. 🙏",
     type: "text",
+    googleReviewUrl: "https://maps.app.goo.gl/yMyVrzh8RMP6czEN8",
   },
   {
     id: "2",
@@ -32,6 +33,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     text: "I have consulted to Dr. Mohsin khan for my headache issue he prescribed me homeopathic medicine which was very effective to me. Thanks to Dr. Mohsin khan and highly recommended.",
     type: "text",
+    googleReviewUrl: "https://share.google/JZrwwSiM1dsGttepp",
   },
   {
     id: "3",
@@ -41,6 +43,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     text: "I was suffering from severe pain abdomen with acid reflex symptoms from last few months I consulted to Dr Mohsin khan and took treatment I found homeopathy really effective for me it vanished all symptoms with out any side effect I want to thanks Dr Mohsin khan.",
     type: "text",
+    googleReviewUrl: "https://share.google/E6Igx0sTj3MJTuAP6",
   },
   {
     id: "4",
@@ -50,6 +53,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     text: "I had cystic acne on my face and I have been to many allopathic doctors but didn't get any relief finally I took my treatment from Dr. Mohsin Khan and now my face is clear and I also got improvement in my general health It's really appreciating and thanks to Dr. Mohsin khan 🙏",
     type: "text",
+    googleReviewUrl: "https://share.google/OKRC1xPbtibLWHoe4",
   },
   {
     id: "5",
@@ -59,6 +63,7 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     text: "I was suffering from eczema from many years took allopathic medicine for a long but didn't get any relief finally I approached to trinity homeopathy just in few months of treatment found relief in my skin condition now I am feeling much better I really want to thanks Dr. Mohsin khan for their kind support and treatment. 🙏",
     type: "text",
+    googleReviewUrl: "https://share.google/vV4Z5X4x9msfptha0",
   },
   {
     id: "6",
