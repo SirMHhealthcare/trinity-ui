@@ -100,16 +100,9 @@ const Testimonials = () => {
               </p>
 
               {/* Author */}
-              <div className="flex items-center gap-3 pt-4 border-t border-border">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-semibold text-foreground">{testimonial.name}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.location}</p>
-                </div>
+              <div className="pt-4 border-t border-border">
+                <p className="font-semibold text-foreground">{testimonial.name}</p>
+                <p className="text-sm text-muted-foreground">{testimonial.location}</p>
               </div>
             </div>
           ))}
@@ -185,17 +178,8 @@ const Testimonials = () => {
           )}
           {activeVideo && (
             <div className="p-4 bg-card">
-              <div className="flex items-center gap-3">
-                <img
-                  src={activeVideo.image}
-                  alt={activeVideo.name}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-semibold text-foreground">{activeVideo.name}</p>
-                  <p className="text-sm text-muted-foreground">{activeVideo.location}</p>
-                </div>
-              </div>
+              <p className="font-semibold text-foreground">{activeVideo.name}</p>
+              <p className="text-sm text-muted-foreground">{activeVideo.location}</p>
             </div>
           )}
         </DialogContent>
