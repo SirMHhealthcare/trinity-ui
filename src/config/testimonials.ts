@@ -43,7 +43,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     id: "4",
-    name: "Abhishek Gora"
+    name: "Abhishek Gora",
     location: "Jaipur, Rajasthan",
     image: "",
     rating: 5,
@@ -53,7 +53,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "5",
     name: "Vijay Kumawat",
-    location: "Jaipur, Rajasthan"
+    location: "Jaipur, Rajasthan",
     image: "",
     rating: 5,
     text: "I was suffering from eczema from many years took allopathic medicine for a long but didn't get any relief finally I approached to trinity homeopathy just in few months of treatment found relief in my skin condition now I am feeling much better I really want to thanks Dr. Mohsin khan for their kind support and treatment. 🙏",
