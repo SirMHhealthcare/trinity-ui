@@ -70,6 +70,30 @@ const Testimonials = () => {
                 </div>
               )}
 
+              {testimonial.type === "facebook-video" && testimonial.facebookEmbedUrl && (
+                <div 
+                  className="mb-4 rounded-lg overflow-hidden relative group cursor-pointer"
+                  onClick={() => setActiveVideo(testimonial)}
+                >
+                  {testimonial.thumbnailUrl ? (
+                    <img 
+                      src={testimonial.thumbnailUrl} 
+                      alt={`${testimonial.name} video testimonial`}
+                      className="w-full h-auto object-cover aspect-square"
+                    />
+                  ) : (
+                    <div className="w-full aspect-square bg-muted flex items-center justify-center">
+                      <Play className="w-12 h-12 text-muted-foreground" />
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                    <div className="w-14 h-14 bg-[#1877F2] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Play className="w-6 h-6 text-white ml-1" />
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Text */}
               <p className="text-foreground leading-relaxed mb-6">
                 "{testimonial.text}"
@@ -134,7 +158,20 @@ const Testimonials = () => {
           >
             <X className="w-5 h-5 text-white" />
           </button>
-          {activeVideo?.mediaUrl && (
+          {activeVideo?.type === "facebook-video" && activeVideo?.facebookEmbedUrl && (
+            <div className="aspect-square w-full max-w-[476px] mx-auto">
+              <iframe
+                src={activeVideo.facebookEmbedUrl}
+                className="w-full h-full rounded-lg"
+                style={{ border: "none", overflow: "hidden" }}
+                scrolling="no"
+                frameBorder="0"
+                allowFullScreen={true}
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              />
+            </div>
+          )}
+          {activeVideo?.type === "video" && activeVideo?.mediaUrl && (
             <div className="aspect-video w-full">
               <video
                 src={activeVideo.mediaUrl}

@@ -1,4 +1,4 @@
-export type TestimonialType = "text" | "image" | "video";
+export type TestimonialType = "text" | "image" | "video" | "facebook-video";
 
 export interface Testimonial {
   id: string;
@@ -10,6 +10,7 @@ export interface Testimonial {
   type: TestimonialType;
   mediaUrl?: string; // For image/video testimonials
   thumbnailUrl?: string; // For video thumbnails
+  facebookEmbedUrl?: string; // For Facebook video embeds (the src from iframe)
 }
 
 export const testimonials: Testimonial[] = [
@@ -67,6 +68,16 @@ export const testimonials: Testimonial[] = [
     text: "मेरी बेटी को बहुत कमर दर्द था। Dr. Mohsin Khan के treatment ने राहत दी!",
     type: "text",
   },
+  {
+    id: "7",
+    name: "Satisfied Patient",
+    location: "Jaipur",
+    image: "https://randomuser.me/api/portraits/men/45.jpg",
+    rating: 5,
+    text: "Watch my recovery journey with Dr. Mohsin Khan's homeopathic treatment!",
+    type: "facebook-video",
+    facebookEmbedUrl: "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1218022670281159%2F&show_text=false&width=476&t=0",
+  },
 ];
 
 // Example image testimonial structure:
@@ -92,4 +103,17 @@ export const testimonials: Testimonial[] = [
 //   type: "video",
 //   mediaUrl: "video-url.mp4",
 //   thumbnailUrl: "video-thumbnail.jpg",
+// }
+
+// Example Facebook video testimonial structure:
+// {
+//   id: "9",
+//   name: "Patient Name",
+//   location: "City",
+//   image: "avatar-url",
+//   rating: 5,
+//   text: "Short caption",
+//   type: "facebook-video",
+//   facebookEmbedUrl: "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1218022670281159%2F&show_text=false&width=476&t=0",
+//   thumbnailUrl: "optional-thumbnail.jpg", // Optional: shows as card before clicking
 // }
