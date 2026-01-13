@@ -11,6 +11,7 @@ export interface Testimonial {
   mediaUrl?: string; // For image/video testimonials
   thumbnailUrl?: string; // For video thumbnails
   facebookEmbedUrl?: string; // For Facebook video embeds (the src from iframe)
+  googleReviewUrl?: string; // Optional: link to view the review on Google
 }
 
 export const testimonials: Testimonial[] = [

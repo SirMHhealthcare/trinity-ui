@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Star, Quote, Play, X } from "lucide-react";
+import { Star, Quote, Play, X, ExternalLink } from "lucide-react";
 import { testimonials as testimonialsData, content } from "@/config";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Testimonial } from "@/config/testimonials";
+import { Button } from "@/components/ui/button";
 
 const Testimonials = () => {
   const { testimonials: testimonialsContent } = content;
@@ -101,8 +102,29 @@ const Testimonials = () => {
 
               {/* Author */}
               <div className="pt-4 border-t border-border">
-                <p className="font-semibold text-foreground">{testimonial.name}</p>
-                <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="font-semibold text-foreground">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                  </div>
+                  {testimonial.googleReviewUrl && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="shrink-0 text-xs gap-1.5"
+                      asChild
+                    >
+                      <a 
+                        href={testimonial.googleReviewUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        View on Google
+                      </a>
+                    </Button>
+                  )}
+                </div>
               </div>
             </div>
           ))}
