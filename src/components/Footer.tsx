@@ -1,6 +1,6 @@
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Youtube } from "lucide-react";
 import { getPrimaryDoctor, clinic, footerQuickLinks, services as servicesData, content } from "@/config";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const doctor = getPrimaryDoctor();
