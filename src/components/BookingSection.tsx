@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAvailableSlots } from "@/hooks/useAvailableSlots";
 import { format, addMonths, isToday, parse, isBefore } from "date-fns";
 import { bookingConfig, bookingContent } from "@/config";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 
 const BookingSection = () => {
   const { toast } = useToast();

@@ -27,7 +27,7 @@ export const doctors: Doctor[] = [
   {
     id: "101",
     name: "Dr. Mohsin Khan",
-    degree: "BHMS, MD (Homeopathy)",
+    degree: "BHMS, (Homeopathy)",
     specialization: "Classical Homeopathy",
     experience: 15,
     phone: "+919782301786",

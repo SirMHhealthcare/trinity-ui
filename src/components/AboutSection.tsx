@@ -2,7 +2,7 @@ import { Heart, Leaf, Shield, Users } from "lucide-react";
 import { content, clinic } from "@/config";
 import LogoWatermark from "./LogoWatermark";
 import TeamSection from "./TeamSection";
-import logoImage from "@/assets/logo.jpg";
+import logoImage from "@/assets/logo.png";
 
 const AboutSection = () => {
   const { about } = content;

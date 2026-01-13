@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Star, Quote, Play, X } from "lucide-react";
+import { Star, Quote, Play, X, ExternalLink } from "lucide-react";
 import { testimonials as testimonialsData, content } from "@/config";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Testimonial } from "@/config/testimonials";
+import { Button } from "@/components/ui/button";
 
 const Testimonials = () => {
   const { testimonials: testimonialsContent } = content;
@@ -70,21 +71,59 @@ const Testimonials = () => {
                 </div>
               )}
 
+              {testimonial.type === "facebook-video" && testimonial.facebookEmbedUrl && (
+                <div 
+                  className="mb-4 rounded-lg overflow-hidden relative group cursor-pointer"
+                  onClick={() => setActiveVideo(testimonial)}
+                >
+                  {testimonial.thumbnailUrl ? (
+                    <img 
+                      src={testimonial.thumbnailUrl} 
+                      alt={`${testimonial.name} video testimonial`}
+                      className="w-full h-auto object-cover aspect-square"
+                    />
+                  ) : (
+                    <div className="w-full aspect-square bg-muted flex items-center justify-center">
+                      <Play className="w-12 h-12 text-muted-foreground" />
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/50 transition-colors">
+                    <div className="w-14 h-14 bg-[#1877F2] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Play className="w-6 h-6 text-white ml-1" />
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Text */}
               <p className="text-foreground leading-relaxed mb-6">
                 "{testimonial.text}"
               </p>
 
               {/* Author */}
-              <div className="flex items-center gap-3 pt-4 border-t border-border">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-semibold text-foreground">{testimonial.name}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+              <div className="pt-4 border-t border-border">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="font-semibold text-foreground">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                  </div>
+                  {testimonial.googleReviewUrl && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="shrink-0 text-xs gap-1.5"
+                      asChild
+                    >
+                      <a 
+                        href={testimonial.googleReviewUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        View on Google
+                      </a>
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
@@ -134,7 +173,20 @@ const Testimonials = () => {
           >
             <X className="w-5 h-5 text-white" />
           </button>
-          {activeVideo?.mediaUrl && (
+          {activeVideo?.type === "facebook-video" && activeVideo?.facebookEmbedUrl && (
+            <div className="aspect-square w-full max-w-[476px] mx-auto">
+              <iframe
+                src={activeVideo.facebookEmbedUrl}
+                className="w-full h-full rounded-lg"
+                style={{ border: "none", overflow: "hidden" }}
+                scrolling="no"
+                frameBorder="0"
+                allowFullScreen={true}
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              />
+            </div>
+          )}
+          {activeVideo?.type === "video" && activeVideo?.mediaUrl && (
             <div className="aspect-video w-full">
               <video
                 src={activeVideo.mediaUrl}
@@ -148,17 +200,8 @@ const Testimonials = () => {
           )}
           {activeVideo && (
             <div className="p-4 bg-card">
-              <div className="flex items-center gap-3">
-                <img
-                  src={activeVideo.image}
-                  alt={activeVideo.name}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-semibold text-foreground">{activeVideo.name}</p>
-                  <p className="text-sm text-muted-foreground">{activeVideo.location}</p>
-                </div>
-              </div>
+              <p className="font-semibold text-foreground">{activeVideo.name}</p>
+              <p className="text-sm text-muted-foreground">{activeVideo.location}</p>
             </div>
           )}
         </DialogContent>

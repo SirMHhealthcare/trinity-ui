@@ -1,4 +1,4 @@
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 import { cn } from "@/lib/utils";
 
 interface LogoWatermarkProps {

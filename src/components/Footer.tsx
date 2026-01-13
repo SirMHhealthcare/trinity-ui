@@ -1,6 +1,6 @@
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Youtube } from "lucide-react";
 import { getPrimaryDoctor, clinic, footerQuickLinks, services as servicesData, content } from "@/config";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const doctor = getPrimaryDoctor();
@@ -118,6 +118,30 @@ const Footer = () => {
                 </div>
               </li>
             </ul>
+            
+            {/* Google Map */}
+            <div className="mt-4 rounded-lg overflow-hidden border border-primary-foreground/20">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3491.589820223908!2d75.73735111099718!3d26.95357657652535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db39aeefdc6c9%3A0xb3c77cca614f40fe!2sTrinity%20Homeopathy!5e1!3m2!1sen!2suk!4v1768347829005!5m2!1sen!2suk"
+                width="100%"
+                height="150"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Trinity Homeopathy Clinic Location"
+                className="grayscale hover:grayscale-0 transition-all duration-300"
+              />
+            </div>
+            <a 
+              href="https://maps.app.goo.gl/yMyVrzh8RMP6czEN8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 mt-3 text-sm text-primary hover:underline"
+            >
+              <MapPin className="w-4 h-4" />
+              Get Directions
+            </a>
           </div>
         </div>
 

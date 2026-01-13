@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Calendar, Shield, Award, Users, Sparkles } from "lucide-react";
 import { content, clinic } from "@/config";
-import logoImage from "@/assets/logo.jpg";
+import logoImage from "@/assets/logo.png";
 
 const Hero = () => {
   const { hero } = content;
