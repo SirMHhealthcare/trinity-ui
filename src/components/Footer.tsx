@@ -118,6 +118,30 @@ const Footer = () => {
                 </div>
               </li>
             </ul>
+            
+            {/* Google Map */}
+            <div className="mt-4 rounded-lg overflow-hidden border border-primary-foreground/20">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3556.8693!2d75.7406!3d26.9460!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db3f89ea5b555%3A0x3d7e3d13bc4e3333!2sKali%20Kothi%2C%20Jhotwara%2C%20Jaipur%2C%20Rajasthan%20302015!5e0!3m2!1sen!2sin!4v1704000000000!5m2!1sen!2sin"
+                width="100%"
+                height="150"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Trinity Homeopathy Clinic Location"
+                className="grayscale hover:grayscale-0 transition-all duration-300"
+              />
+            </div>
+            <a 
+              href="https://maps.app.goo.gl/yMyVrzh8RMP6czEN8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 mt-3 text-sm text-primary hover:underline"
+            >
+              <MapPin className="w-4 h-4" />
+              Get Directions
+            </a>
           </div>
         </div>
 
