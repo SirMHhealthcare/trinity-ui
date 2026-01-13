@@ -36,9 +36,9 @@ export const doctors: Doctor[] = [
     location: "19B, Kali Kothi, Near Darbaar School, Jhotwara, Jaipur, Rajasthan - 302015.",
     casesTreated: "10,000+",
     bio: {
-      short: "15+ साल के experience के साथ chronic diseases, allergies, और mental health में trusted specialist।",
-      detailed: "Dr. Mohsin Khan 15 से ज़्यादा सालों से Classical Homeopathy में practice कर रहे हैं। Chronic diseases, skin conditions, allergies, और mental health issues में उनका experience patients को effective और lasting relief दिलाने में मदद करता है।",
-      approach: "Dr. Khan का treatment approach हर patient की individual needs को समझकर personalized care देने पर focused है। Natural remedies के ज़रिए root cause को address करके permanent healing का लक्ष्य।",
+      short: "Trusted specialist in chronic diseases, allergies, and mental health with 15+ years of experience.",
+      detailed: "Dr. Mohsin Khan has been practicing Classical Homeopathy for over 15 years. His extensive experience in treating chronic diseases, skin conditions, allergies, and mental health issues helps patients achieve effective and lasting relief.",
+      approach: "Dr. Khan's treatment approach focuses on understanding each patient's individual needs to provide personalized care. The goal is permanent healing by addressing the root cause through natural remedies.",
     },
     socialLinks: {
       facebook: "#",

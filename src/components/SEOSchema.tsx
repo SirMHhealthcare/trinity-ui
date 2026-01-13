@@ -8,11 +8,11 @@ const SEOSchema = () => {
   
   const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "MedicalBusiness", "Physician"],
+    "@type": ["MedicalBusiness", "Physician"],
     "@id": "https://trinityhomeopathy.com/#business",
     name: clinic.name,
     alternateName: clinic.shortName,
-    description: "Trusted homeopathy doctor in Jaipur offering natural treatment for chronic diseases, allergies, skin disorders, and more. 25+ years experience.",
+    description: "India's trusted online homeopathy clinic offering natural treatment for chronic diseases, allergies, skin disorders, mental wellness, and more. 25+ years experience. Online consultations available pan-India.",
     url: "https://trinityhomeopathy.com",
     telephone: clinic.contact.phone,
     email: clinic.contact.email,
@@ -23,6 +23,10 @@ const SEOSchema = () => {
       addressRegion: clinic.address.state,
       postalCode: clinic.address.pincode,
       addressCountry: "IN"
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "India"
     },
     geo: {
       "@type": "GeoCoordinates",
@@ -45,11 +49,18 @@ const SEOSchema = () => {
       clinic.socialLinks.youtube
     ].filter(link => link !== "#"),
     medicalSpecialty: "Homeopathy",
-    availableService: services.map(service => ({
-      "@type": "MedicalProcedure",
-      name: service.title,
-      description: service.description
-    }))
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Homeopathic Treatments",
+      itemListElement: services.map(service => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "MedicalProcedure",
+          name: service.title,
+          description: service.description
+        }
+      }))
+    }
   };
 
   const physicianSchema = {
@@ -61,11 +72,16 @@ const SEOSchema = () => {
     image: "https://trinityhomeopathy.com/doctor-portrait.jpg",
     telephone: doctor.phone,
     email: doctor.email,
+    jobTitle: "Founder & Lead Consultant",
     address: {
       "@type": "PostalAddress",
       addressLocality: clinic.address.city,
       addressRegion: clinic.address.state,
       addressCountry: "IN"
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "India"
     },
     medicalSpecialty: {
       "@type": "MedicalSpecialty",
@@ -75,7 +91,7 @@ const SEOSchema = () => {
       "@id": "https://trinityhomeopathy.com/#business"
     },
     alumniOf: doctor.degree,
-    knowsAbout: ["Homeopathy", "Natural Medicine", "Chronic Disease Treatment", "Holistic Healing"]
+    knowsAbout: ["Homeopathy", "Natural Medicine", "Chronic Disease Treatment", "Holistic Healing", "Online Consultation", "Classical Homeopathy"]
   };
 
   const websiteSchema = {

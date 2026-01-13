@@ -34,8 +34,8 @@ export interface ClinicInfo {
 export const clinic: ClinicInfo = {
   name: "Trinity Homeopathy Clinic",
   shortName: "Trinity Homeopathy",
-  tagline: "प्राकृतिक उपचार, स्थायी परिणाम",
-  description: "Classical homeopathy के ज़रिए प्राकृतिक और समग्र उपचार। राजस्थान भर में मरीज़ों को personalized care।",
+  tagline: "Natural Healing, Lasting Results",
+  description: "Trusted homeopathic care through classical homeopathy. Personalized treatment for patients across India via online consultations.",
   address: {
     street: "19B, Kali Kothi, Near Darbaar School, Jhotwara",
     city: "Jaipur",
@@ -50,8 +50,8 @@ export const clinic: ClinicInfo = {
     whatsapp: "919782301786",
   },
   hours: {
-    weekdays: "सोमवार - शनिवार: 10 AM - 7 PM",
-    sunday: "रविवार: Appointment पर",
+    weekdays: "सोमवार - शनिवार: 9 AM - 10 PM",
+    sunday: "रविवार: 9 AM - 10 PM",
   },
   socialLinks: {
     facebook: "https://www.facebook.com/profile.php?id=61583780979394#",

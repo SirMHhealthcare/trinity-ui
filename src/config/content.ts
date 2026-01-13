@@ -3,35 +3,43 @@
 export const content = {
   // Hero Section
   hero: {
-    badge: "प्राकृतिक उपचार, स्थायी परिणाम",
-    headline: "प्रकृति के साथ मिलकर",
-    headlineHighlight: "सेहत बनाएँ",
-    description: "आपकी ज़रूरत के हिसाब से personalized homeopathic treatment। Chronic diseases, allergies, और lifestyle disorders में भरोसेमंद इलाज।",
-    ctaPrimary: "Online Consultation बुक करें",
-    ctaSecondary: "Services देखें",
+    badge: "India's Trusted Homeopathy Clinic",
+    headline: "Trinity Homeopathy",
+    headlineHighlight: "Natural Healing, Lasting Results",
+    description: "Personalized homeopathic treatment by experienced practitioners. Trusted care for chronic diseases, allergies, and lifestyle disorders. Online consultations available pan-India.",
+    ctaPrimary: "Book Online Consultation",
+    ctaSecondary: "View Treatments",
     stats: {
-      patients: { value: "10,000+", label: "खुश मरीज़" },
-      experience: { value: "25+", label: "साल का अनुभव" },
-      natural: { value: "100%", label: "प्राकृतिक इलाज" },
+      patients: { value: "10,000+", label: "Happy Patients" },
+      experience: { value: "15+", label: "Years of Trust" },
+      natural: { value: "100%", label: "Natural Treatment" },
     },
     trustBadge: {
-      title: "Verified Doctor",
+      title: "Trusted Clinic",
     },
   },
 
-  // About Section
+  // About Section - Clinic focused
   about: {
-    badge: "About",
-    headline: "Trusted Care, Natural Healing",
-    subheadline: "Classical Homeopathy के ज़रिए complete wellness",
-    experienceBadge: "Years of Healing",
+    badge: "About Us",
+    headline: "Our Story",
+    subheadline: "Where Tradition Meets Modern Care",
+    mission: "At Trinity Homeopathy, we believe in treating the whole person, not just symptoms. Our mission is to bring the gentle, yet powerful healing of Classical Homeopathy to every Indian household through personalized care and accessible online consultations.",
+    values: "We combine time-tested homeopathic principles with a patient-first approach. Every treatment plan is carefully crafted to address root causes, ensuring lasting wellness without side effects.",
   },
 
-  // Services Section
+  // Team Section
+  team: {
+    badge: "Our Team",
+    headline: "Meet Our Doctors",
+    description: "Experienced practitioners dedicated to your holistic wellness journey.",
+  },
+
+  // Treatments Section
   services: {
-    badge: "Our Services",
+    badge: "Our Treatments",
     headline: "Specialized Treatment Areas",
-    description: "हर patient की unique health needs के लिए personalized homeopathic care। Symptoms नहीं, root cause का treatment।",
+    description: "Personalized homeopathic care for your unique health needs. We treat the root cause, not just symptoms.",
   },
 
   // Testimonials Section
