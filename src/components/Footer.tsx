@@ -122,7 +122,7 @@ const Footer = () => {
             {/* Google Map */}
             <div className="mt-4 rounded-lg overflow-hidden border border-primary-foreground/20">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3556.8693!2d75.7406!3d26.9460!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db3f89ea5b555%3A0x3d7e3d13bc4e3333!2sKali%20Kothi%2C%20Jhotwara%2C%20Jaipur%2C%20Rajasthan%20302015!5e0!3m2!1sen!2sin!4v1704000000000!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3491.589820223908!2d75.73735111099718!3d26.95357657652535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db39aeefdc6c9%3A0xb3c77cca614f40fe!2sTrinity%20Homeopathy!5e1!3m2!1sen!2suk!4v1768347829005!5m2!1sen!2suk"
                 width="100%"
                 height="150"
                 style={{ border: 0 }}
