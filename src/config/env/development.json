@@ -1,4 +1,4 @@
 {
-  "apiBaseUrl": "online-clinic-apis.homeopathytrinity.workers.dev",
+  "apiBaseUrl": "https://online-clinic-apis.homeopathytrinity.workers.dev",
   "doctorId": "101"
 }
