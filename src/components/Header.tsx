@@ -106,7 +106,7 @@ const Header = () => {
               <div className="absolute -inset-1 bg-primary/30 rounded-lg blur-sm" />
               <img 
                 src={logo} 
-                alt="Trinity Homeopathy" 
+                alt="Trinity Homeopathy logo" 
                 className="relative h-12 w-auto rounded-lg ring-2 ring-primary/40 shadow-lg"
               />
             </div>

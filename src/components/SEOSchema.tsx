@@ -121,7 +121,12 @@ const SEOSchema = () => {
 
   return (
     <Helmet>
+      <title>Trinity Homeopathy | Online Homeopathy Consultation India</title>
+      <meta name="description" content="India's trusted online homeopathy clinic. Book a consultation for natural treatment of chronic diseases, allergies, skin, mental wellness and more. 15+ years experience." />
+      <link rel="canonical" href="https://trinityhomeopathy.com/" />
+      <meta property="og:url" content="https://trinityhomeopathy.com/" />
       <script type="application/ld+json">
+
         {JSON.stringify(localBusinessSchema)}
       </script>
       <script type="application/ld+json">
