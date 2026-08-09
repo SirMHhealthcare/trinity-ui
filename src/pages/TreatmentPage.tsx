@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
+import PageMeta from "@/components/PageMeta";
 import { ArrowLeft } from "lucide-react";
 import { services, clinic } from "@/config";
 import Header from "@/components/Header";
@@ -158,16 +158,7 @@ const TreatmentPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>{seo.title}</title>
-        <meta name="description" content={seo.description} />
-        <link rel="canonical" href={pageUrl} />
-        <meta property="og:title" content={seo.title} />
-        <meta property="og:description" content={seo.description} />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content={pageUrl} />
-        <meta name="twitter:title" content={seo.title} />
-        <meta name="twitter:description" content={seo.description} />
+      <PageMeta title={seo.title} description={seo.description} url={pageUrl} ogType="article">
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -190,7 +181,7 @@ const TreatmentPage = () => {
             ],
           })}
         </script>
-      </Helmet>
+      </PageMeta>
 
       <Header />
       
