@@ -12,7 +12,7 @@ const SEOSchema = () => {
     "@id": "https://trinityhomeopathy.com/#business",
     name: clinic.name,
     alternateName: clinic.shortName,
-    description: "India's trusted online homeopathy clinic offering natural treatment for chronic diseases, allergies, skin disorders, mental wellness, and more. 25+ years experience. Online consultations available pan-India.",
+    description: "India's trusted online homeopathy clinic offering natural treatment for chronic diseases, allergies, skin disorders, mental wellness, and more. 15+ years experience. Online consultations available pan-India.",
     url: "https://trinityhomeopathy.com",
     telephone: clinic.contact.phone,
     email: clinic.contact.email,
