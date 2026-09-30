@@ -9,6 +9,14 @@ export interface Service {
 
 export const services: Service[] = [
   {
+    id: "asthma",
+    iconName: "Wind",
+    title: "Asthma",
+    description: "Asthma is a chronic condition affecting the airways of the lungs.",
+    colorClass: "bg-sky-100 text-sky-600",
+    imagePath: "/services/asthma.jpg",
+  },
+  {
     id: "chronic",
     iconName: "Heart",
     title: "Chronic Diseases",
