@@ -31,6 +31,7 @@ import {
   PaginationEllipsis,
 } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
+import PageMeta from "@/components/PageMeta";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -265,6 +266,7 @@ const AdminPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <PageMeta title="Appointments Dashboard | Trinity Homeopathy" description="Internal dashboard for managing Trinity Homeopathy appointments." noindex />
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">

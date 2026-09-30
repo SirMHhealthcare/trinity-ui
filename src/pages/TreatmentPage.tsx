@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import PageMeta from "@/components/PageMeta";
 import { ArrowLeft } from "lucide-react";
 import { services, clinic } from "@/config";
 import Header from "@/components/Header";
@@ -6,6 +7,52 @@ import Footer from "@/components/Footer";
 import TreatmentCTA from "@/components/TreatmentCTA";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import treatmentHero from "@/assets/treatment-hero.jpg";
+
+const SITE_URL = "https://trinityhomeopathy.com";
+
+// Unique search metadata per treatment page
+const treatmentSeo: Record<string, { title: string; description: string }> = {
+  chronic: {
+    title: "Homeopathy for Chronic Diseases | Trinity Homeopathy",
+    description:
+      "Homeopathic treatment for diabetes, thyroid and arthritis. Root-cause care with 15+ years experience. Online consultation across India.",
+  },
+  allergies: {
+    title: "Homeopathy for Allergies & Skin Problems | Trinity",
+    description:
+      "Natural homeopathic care for eczema, psoriasis, urticaria and seasonal allergies. Lasting relief without suppressing symptoms. Online consultation.",
+  },
+  mental: {
+    title: "Homeopathy for Anxiety, Stress & Sleep | Trinity",
+    description:
+      "Gentle, non-addictive homeopathic treatment for anxiety, depression, stress and insomnia. Personalised care online, anywhere in India.",
+  },
+  child: {
+    title: "Child Health Homeopathy Treatment | Trinity Homeopathy",
+    description:
+      "Safe homeopathic remedies for kids: recurrent colds, tonsillitis, allergies, immunity and growth. Pleasant-tasting and side-effect free.",
+  },
+  joint: {
+    title: "Homeopathy for Joint & Muscle Pain | Trinity Homeopathy",
+    description:
+      "Treatment for arthritis, back pain, sciatica and frozen shoulder. Reduce inflammation and restore mobility without painkiller side effects.",
+  },
+  digestive: {
+    title: "Homeopathy for Acidity, IBS & Digestion | Trinity",
+    description:
+      "Homeopathic care for acidity, GERD, IBS, gastritis and constipation. Restore gut balance naturally with online consultation across India.",
+  },
+  women: {
+    title: "Women's Health Homeopathy: PCOS & Periods | Trinity",
+    description:
+      "Homeopathic treatment for PCOS, irregular or painful periods, fibroids and menopause. Hormonal balance without HRT side effects.",
+  },
+  immunity: {
+    title: "Immunity Boost Homeopathy Treatment | Trinity",
+    description:
+      "Strengthen natural immunity with constitutional homeopathy. Fewer infections, faster recovery and better energy. Online consultation in India.",
+  },
+};
 
 // Structured content blocks for richer treatment pages. Wrap text in **double asterisks** for bold.
 type ContentBlock =
@@ -77,6 +124,7 @@ const treatmentDetails: Record<string, { title: string; content: string[]; block
       { type: "p", text: "Traditionally considered in selected cases involving **breathlessness and characteristic chest or back symptoms**, according to the individual symptom picture." },
     ],
   },
+
   chronic: {
     title: "Chronic Diseases Treatment",
     content: [
@@ -169,8 +217,40 @@ const TreatmentPage = () => {
     );
   }
 
+  const seo = treatmentSeo[service.id] ?? {
+    title: `${details.title} | Trinity Homeopathy`,
+    description: service.description,
+  };
+  const pageUrl = `${SITE_URL}/treatment/${service.id}`;
+  const relatedServices = services.filter(s => s.id !== service.id).slice(0, 4);
+
   return (
     <div className="min-h-screen bg-background">
+      <PageMeta title={seo.title} description={seo.description} url={pageUrl} ogType="article">
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "MedicalWebPage",
+            name: details.title,
+            description: seo.description,
+            url: pageUrl,
+            about: { "@type": "MedicalProcedure", name: details.title },
+            provider: { "@id": `${SITE_URL}/#business` },
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+              { "@type": "ListItem", position: 2, name: "Treatments", item: `${SITE_URL}/#treatments` },
+              { "@type": "ListItem", position: 3, name: details.title, item: pageUrl },
+            ],
+          })}
+        </script>
+      </PageMeta>
+
       <Header />
       
       <main className="pt-20 pb-24">
@@ -178,19 +258,28 @@ const TreatmentPage = () => {
         <div className="relative h-64 md:h-80 overflow-hidden">
           <img
             src={treatmentHero}
-            alt={service.title}
+            alt={`Homeopathic ${service.title.toLowerCase()} treatment at Trinity Homeopathy`}
             className="w-full h-full object-cover object-center"
           />
         </div>
         
         {/* Title Section */}
         <div className="container mx-auto px-4 py-8">
+          <nav aria-label="Breadcrumb" className="mb-4">
+            <ol className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+              <li><Link to="/" className="hover:text-primary transition-colors">Home</Link></li>
+              <li aria-hidden="true">/</li>
+              <li><Link to="/#treatments" className="hover:text-primary transition-colors">Treatments</Link></li>
+              <li aria-hidden="true">/</li>
+              <li className="text-foreground">{details.title}</li>
+            </ol>
+          </nav>
           <Link 
-            to="/#services" 
+            to="/#treatments" 
             className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Services
+            Back to Treatments
           </Link>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground">
             {details.title}
@@ -241,7 +330,41 @@ const TreatmentPage = () => {
                 ))}
           </div>
         </div>
+
+        {/* Related treatments - internal linking */}
+        <div className="container mx-auto px-4 pb-8">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl font-heading font-bold text-foreground mb-4">
+              Other Treatments We Offer
+            </h2>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {relatedServices.map(s => (
+                <li key={s.id}>
+                  <Link
+                    to={`/treatment/${s.id}`}
+                    className="block rounded-lg border border-border bg-card p-4 hover:border-primary transition-colors"
+                  >
+                    <span className="font-medium text-foreground">{s.title}</span>
+                    <span className="block text-sm text-muted-foreground mt-1">{s.description}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-muted-foreground">
+              Ready to start?{" "}
+              <Link to="/#booking" className="text-primary underline underline-offset-4">
+                Book a free online consultation
+              </Link>{" "}
+              or{" "}
+              <Link to="/#about" className="text-primary underline underline-offset-4">
+                learn more about Trinity Homeopathy
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
       </main>
+
 
       <Footer />
       <TreatmentCTA />

@@ -94,7 +94,7 @@ export const useRazorpay = (): UseRazorpayReturn => {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
-  const pollingRef = useRef<NodeJS.Timeout | null>(null);
+  const pollingRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Load Razorpay script dynamically
   useEffect(() => {

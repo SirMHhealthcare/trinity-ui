@@ -76,7 +76,7 @@ const Hero = () => {
               <div className="w-64 sm:w-80 md:w-96 h-64 sm:h-80 md:h-96 rounded-3xl bg-gradient-to-br from-card to-secondary shadow-elevated flex items-center justify-center p-8 border border-border">
                 <img
                   src={logoImage}
-                  alt={clinic.name}
+                  alt={`${clinic.name} logo — natural homeopathic treatment online`}
                   className="w-full h-full object-contain drop-shadow-lg"
                   style={{ imageRendering: 'auto' }}
                   loading="eager"

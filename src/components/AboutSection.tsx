@@ -30,7 +30,7 @@ const AboutSection = () => {
                 <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden border-4 border-primary/20">
                   <img
                     src={logoImage}
-                    alt={clinic.name}
+                    alt={`${clinic.name} logo — 15+ years of homeopathic care`}
                     className="w-3/4 h-3/4 object-contain"
                   />
                 </div>

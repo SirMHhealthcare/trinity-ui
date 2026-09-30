@@ -494,7 +494,7 @@ const BookingSection = () => {
                     <div className="absolute inset-0 bg-green-100 rounded-full" />
                     <img 
                       src={logo} 
-                      alt="Trinity Homeopathy" 
+                      alt="Trinity Homeopathy logo — appointment confirmed" 
                       className="absolute inset-2 w-20 h-20 rounded-full object-cover shadow-lg"
                     />
                     <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
