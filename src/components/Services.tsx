@@ -57,7 +57,7 @@ const Services = () => {
                 onClick={() => toggleExpand(service.id)}
               >
                 {/* Image */}
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative aspect-[3/2] overflow-hidden">
                   <img
                     src={`${service.imagePath}?v=3`}
                     alt={`${service.title} — homeopathic treatment at Trinity Homeopathy`}
