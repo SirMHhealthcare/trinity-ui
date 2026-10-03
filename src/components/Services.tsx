@@ -6,6 +6,7 @@ import LogoWatermark from "./LogoWatermark";
 
 // Placeholder expanded descriptions for each service
 const expandedDescriptions: Record<string, string> = {
+  asthma: "In people with asthma, the airways can become inflamed and narrowed, making it difficult for air to move in and out of the lungs. Common symptoms include coughing, wheezing, chest tightness and shortness of breath.",
   chronic: "Chronic diseases require a holistic approach that addresses root causes. Our classical homeopathy treatment helps manage conditions like diabetes, thyroid disorders, and arthritis naturally, reducing dependence on conventional medications while improving quality of life.",
   allergies: "Skin conditions and allergies often indicate internal imbalances. Our treatment strengthens your immune system and reduces hypersensitivity, providing lasting relief from eczema, psoriasis, urticaria, and seasonal allergies without harsh topical treatments.",
   mental: "Mental wellness is crucial for overall health. Our gentle remedies address anxiety, depression, stress, and sleep disorders by restoring emotional balance. Experience improved mood and mental clarity without the side effects of conventional medications.",
@@ -44,7 +45,7 @@ const Services = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-start">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 items-start">
           {servicesData.map((service, index) => {
             const isExpanded = expandedId === service.id;
             
@@ -56,7 +57,7 @@ const Services = () => {
                 onClick={() => toggleExpand(service.id)}
               >
                 {/* Image */}
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative aspect-[3/2] overflow-hidden">
                   <img
                     src={`${service.imagePath}?v=3`}
                     alt={`${service.title} — homeopathic treatment at Trinity Homeopathy`}

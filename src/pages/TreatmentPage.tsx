@@ -54,8 +54,76 @@ const treatmentSeo: Record<string, { title: string; description: string }> = {
   },
 };
 
+// Structured content blocks for richer treatment pages. Wrap text in **double asterisks** for bold.
+type ContentBlock =
+  | { type: "h2"; text: string }
+  | { type: "h3"; text: string }
+  | { type: "p"; text: string }
+  | { type: "ul"; items: string[] };
+
+const renderInline = (text: string) =>
+  text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") ? (
+      <strong key={i} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>
+    ) : (
+      part
+    )
+  );
+
 // Placeholder detailed content for each service (Hinglish)
-const treatmentDetails: Record<string, { title: string; content: string[] }> = {
+const treatmentDetails: Record<string, { title: string; content: string[]; blocks?: ContentBlock[] }> = {
+  asthma: {
+    title: "Asthma: Causes, Symptoms and Homeopathic Management",
+    content: [],
+    blocks: [
+      { type: "h2", text: "What is Asthma?" },
+      { type: "p", text: "Asthma is a **chronic condition affecting the airways of the lungs**. In people with asthma, the airways can become inflamed and narrowed, making it difficult for air to move in and out of the lungs." },
+      { type: "p", text: "Asthma symptoms may come and go and can vary from mild to severe. Common symptoms include **coughing, wheezing, chest tightness and shortness of breath**. Symptoms may be triggered by allergens, respiratory infections, exercise, cold air, smoke, air pollution and other factors." },
+      { type: "h2", text: "Common Symptoms of Asthma" },
+      { type: "ul", items: [
+        "Recurrent cough",
+        "Wheezing or whistling sound while breathing",
+        "Shortness of breath",
+        "Chest tightness",
+        "Difficulty breathing",
+        "Cough that is worse at night or early morning",
+        "Breathlessness during exercise",
+        "Recurrent symptoms after exposure to dust, smoke or allergens",
+      ] },
+      { type: "h2", text: "Common Triggers of Asthma" },
+      { type: "p", text: "Asthma triggers are different for different individuals. Common triggers include:" },
+      { type: "ul", items: [
+        "House dust and dust mites",
+        "Pollen",
+        "Animal allergens",
+        "Smoke and tobacco smoke",
+        "Air pollution",
+        "Strong perfumes and chemical fumes",
+        "Cold air",
+        "Respiratory infections",
+        "Exercise",
+        "Stress and strong emotions",
+        "Occupational dust or chemicals",
+      ] },
+      { type: "h2", text: "Homeopathic Management of Asthma" },
+      { type: "p", text: "At **Trinity Homeopathy**, we believe in an individualized approach to patients with respiratory complaints. The patient's symptoms, triggers, frequency of attacks, type of cough, character of mucus, breathing pattern and associated complaints are considered during consultation." },
+      { type: "p", text: "In traditional homeopathic practice, remedies such as **Arsenicum album, Ipecacuanha, Antimonium tartaricum, Spongia tosta, Blatta orientalis, Natrum sulphuricum and Kali carbonicum** may be considered depending on the individual's symptom pattern." },
+      { type: "h3", text: "Arsenicum Album" },
+      { type: "p", text: "Traditionally considered in cases where there is breathlessness accompanied by **restlessness, anxiety and a feeling of weakness**, particularly when symptoms have a characteristic pattern of aggravation." },
+      { type: "h3", text: "Ipecacuanha" },
+      { type: "p", text: "Traditionally considered when asthma is associated with **persistent coughing, wheezing and nausea**, especially when there is difficulty bringing up mucus." },
+      { type: "h3", text: "Antimonium Tartaricum" },
+      { type: "p", text: "Traditionally considered in certain respiratory cases with **noisy breathing, chest congestion and difficulty expectorating mucus**." },
+      { type: "h3", text: "Spongia Tosta" },
+      { type: "p", text: "Traditionally considered when there is a **dry, barking or irritating cough** with characteristic breathing symptoms." },
+      { type: "h3", text: "Blatta Orientalis" },
+      { type: "p", text: "Traditionally discussed in homeopathic practice for some cases of **allergic or bronchial respiratory complaints**, particularly when symptoms have a clear relationship with allergens." },
+      { type: "h3", text: "Natrum Sulphuricum" },
+      { type: "p", text: "Traditionally considered when respiratory symptoms appear to have a relationship with **damp weather or environmental changes**." },
+      { type: "h3", text: "Kali Carbonicum" },
+      { type: "p", text: "Traditionally considered in selected cases involving **breathlessness and characteristic chest or back symptoms**, according to the individual symptom picture." },
+    ],
+  },
 
   chronic: {
     title: "Chronic Diseases Treatment",
@@ -221,14 +289,45 @@ const TreatmentPage = () => {
         {/* Content Section */}
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-3xl mx-auto space-y-6">
-            {details.content.map((paragraph, index) => (
-              <p 
-                key={index} 
-                className="text-muted-foreground text-lg leading-relaxed"
-              >
-                {paragraph}
-              </p>
-            ))}
+            {details.blocks
+              ? details.blocks.map((block, index) => {
+                  switch (block.type) {
+                    case "h2":
+                      return (
+                        <h2 key={index} className="text-2xl md:text-3xl font-heading font-bold text-foreground pt-4">
+                          {block.text}
+                        </h2>
+                      );
+                    case "h3":
+                      return (
+                        <h3 key={index} className="text-xl font-heading font-semibold text-foreground pt-2">
+                          {block.text}
+                        </h3>
+                      );
+                    case "ul":
+                      return (
+                        <ul key={index} className="list-disc pl-6 space-y-2 text-muted-foreground text-lg leading-relaxed">
+                          {block.items.map((item, i) => (
+                            <li key={i}>{renderInline(item)}</li>
+                          ))}
+                        </ul>
+                      );
+                    default:
+                      return (
+                        <p key={index} className="text-muted-foreground text-lg leading-relaxed">
+                          {renderInline(block.text)}
+                        </p>
+                      );
+                  }
+                })
+              : details.content.map((paragraph, index) => (
+                  <p 
+                    key={index} 
+                    className="text-muted-foreground text-lg leading-relaxed"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
           </div>
         </div>
 
