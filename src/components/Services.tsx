@@ -1,21 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import { services as servicesData, content } from "@/config";
+import { content } from "@/config";
+import { treatments } from "@/lib/treatments";
 import LogoWatermark from "./LogoWatermark";
-
-// Placeholder expanded descriptions for each service
-const expandedDescriptions: Record<string, string> = {
-  asthma: "In people with asthma, the airways can become inflamed and narrowed, making it difficult for air to move in and out of the lungs. Common symptoms include coughing, wheezing, chest tightness and shortness of breath.",
-  chronic: "Chronic diseases require a holistic approach that addresses root causes. Our classical homeopathy treatment helps manage conditions like diabetes, thyroid disorders, and arthritis naturally, reducing dependence on conventional medications while improving quality of life.",
-  allergies: "Skin conditions and allergies often indicate internal imbalances. Our treatment strengthens your immune system and reduces hypersensitivity, providing lasting relief from eczema, psoriasis, urticaria, and seasonal allergies without harsh topical treatments.",
-  mental: "Mental wellness is crucial for overall health. Our gentle remedies address anxiety, depression, stress, and sleep disorders by restoring emotional balance. Experience improved mood and mental clarity without the side effects of conventional medications.",
-  child: "Children respond exceptionally well to homeopathy. We treat recurrent infections, growth issues, and behavioral problems with safe, pleasant-tasting remedies that build natural immunity and support healthy development.",
-  joint: "Joint and muscle pain can limit your daily life. Our constitutional remedies reduce inflammation, repair tissues, and restore mobility naturally. Experience relief from arthritis, back pain, and sports injuries without relying on painkillers.",
-  digestive: "Digestive health is fundamental to well-being. We treat acidity, IBS, constipation, and bloating by addressing underlying causes and restoring gut balance. Many patients find relief from issues that persisted for years.",
-  women: "Women's health requires specialized care. We effectively treat PCOS, irregular periods, menstrual pain, and menopausal symptoms through individualized treatment that addresses hormonal and emotional factors safely.",
-  immunity: "A strong immune system is your best defense. Our treatment enhances your body's vital force, making you more resistant to infections. Experience fewer illnesses and faster recovery times naturally."
-};
 
 const Services = () => {
   const { services: servicesContent } = content;
@@ -46,7 +34,7 @@ const Services = () => {
 
         {/* Services Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 items-start">
-          {servicesData.map((service, index) => {
+          {treatments.map((service, index) => {
             const isExpanded = expandedId === service.id;
             
             return (
@@ -59,7 +47,7 @@ const Services = () => {
                 {/* Image */}
                 <div className="relative aspect-[3/2] overflow-hidden">
                   <img
-                    src={`${service.imagePath}?v=3`}
+                    src={service.image}
                     alt={`${service.title} — homeopathic treatment at Trinity Homeopathy`}
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                   />
@@ -78,7 +66,7 @@ const Services = () => {
                     />
                   </div>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    {service.description}
+                    {service.summary}
                   </p>
                   
                   {/* Expanded Content */}
@@ -89,7 +77,7 @@ const Services = () => {
                   >
                     <div className="overflow-hidden">
                       <p className="text-muted-foreground text-sm leading-relaxed mb-3">
-                        {expandedDescriptions[service.id]}
+                        {service.cardDetail}
                       </p>
                       <Link
                         to={`/treatment/${service.id}`}
