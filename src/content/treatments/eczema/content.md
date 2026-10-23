@@ -1,6 +1,6 @@
 ---
 title: "Eczema"
-order: 1
+order: 2
 summary: "Eczema is a common inflammatory skin condition that causes dryness, itching, redness, irritation and sometimes cracking or oozing of the skin."
 cardDetail: "Eczema often follows a pattern of flare-ups and periods of improvement. The symptoms and appearance can vary depending on the type of eczema, age of the patient and individual triggers. Eczema is not contagious. It cannot spread from one person to another through touching or sharing household items."
 pageTitle: "Eczema: Causes, Symptoms and Homeopathic Management"
