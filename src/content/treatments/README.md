@@ -49,11 +49,15 @@ A paragraph of text with **bold words** and a [link](/#booking).
 | ---------------- | -------- | ---------------------------------------------- | --------------------- |
 | `title`          | yes      | Card, breadcrumb, footer, related links        | –                     |
 | `order`          | no       | Position on the homepage (lower comes first)   | Placed last           |
-| `summary`        | no       | One-liner on the homepage card                 | Empty                 |
+| `summary`        | no       | Homepage card text (shows 2 lines, then "…")   | Empty                 |
 | `cardDetail`     | no       | Text when the card is expanded                 | `summary`             |
 | `pageTitle`      | no       | Main heading on the treatment page             | `title`               |
 | `seoTitle`       | no       | Browser tab and Google title                   | `pageTitle \| Trinity Homeopathy` |
 | `seoDescription` | no       | Google and social preview description          | `summary`             |
+
+The homepage card shows the first 2 lines of `summary` (roughly 90–110
+characters) and cuts the rest with "…"; the full text appears when the card is
+expanded. Keep the key message at the start.
 
 Put values in double quotes, especially if they contain a colon (`:`).
 Hindi / Hinglish text works as-is.

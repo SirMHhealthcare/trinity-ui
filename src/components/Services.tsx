@@ -56,7 +56,10 @@ const Services = () => {
                 {/* Content */}
                 <div className="p-5">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-heading font-semibold text-lg text-foreground mb-2">
+                    <h3
+                      className="font-heading font-semibold text-lg text-foreground mb-2 line-clamp-1"
+                      title={service.title}
+                    >
                       {service.title}
                     </h3>
                     <ChevronDown 
@@ -65,7 +68,12 @@ const Services = () => {
                       }`}
                     />
                   </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  {/* Summary: fixed at 2 lines (…) so every card is the same height; full text when expanded */}
+                  <p
+                    className={`text-muted-foreground text-sm leading-relaxed min-h-[calc(2*1.625*0.875rem)] ${
+                      isExpanded ? "" : "line-clamp-2"
+                    }`}
+                  >
                     {service.summary}
                   </p>
                   
